@@ -6,6 +6,7 @@
 - Postgresql 🐘
 - TypeORM 
 - VueJS 2 💚
+- Chakra UI
 - Vercel ▲ & Heroku ? 
 
 ## Pré-requis
