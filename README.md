@@ -6,6 +6,7 @@
 - Postgresql 🐘
 - TypeORM 
 - VueJS 2 💚
+- Vercel ▲ & Heroku ? 
 
 ## Pré-requis
 - Postgresql 12
