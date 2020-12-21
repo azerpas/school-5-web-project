@@ -15,6 +15,7 @@
 ## Set-up
 - Opt: `git clone https://github.com/azerpas/school-5-web-project.git`
 - `npm i`
+- `npm run express`
 - `npm run serve`
 
 ## ORM
