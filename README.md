@@ -23,6 +23,11 @@
 **Prisma**     
 Plus simple d'utilisation avec Vanilla JS que TypeORM.
 - [Add to existing project](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project-node-postgres)
+- Schema is inside `./prisma/schema.prisma`
+- Create a schema from the current DB: `npx prisma introspect`
+**OR**
+- Modify `./prisma/schema.prisma` manually
+Use: `npx prisma generate` to regenerate the client API each time there's a modification on the schema
 - ~~TypeORM doc~~
 - ~~TypeORM sur Vanilla JavaScript~~
 - ~~Exemple avec Express~~

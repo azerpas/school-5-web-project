@@ -16,14 +16,15 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@prisma/client": "^2.13.1",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
-    "typeorm": "^0.2.29",
     "vue": "^2.6.12"
   },
   "devDependencies": {
+    "@prisma/cli": "^2.13.1",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
