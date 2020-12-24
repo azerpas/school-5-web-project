@@ -4,7 +4,7 @@
 - NodeJS
 - ExpressJS
 - Postgresql 🐘
-- TypeORM 
+- Prisma ⧩ ~~TypeOrm~~
 - VueJS 2 💚
 - Chakra UI
 - Vercel ▲ & Heroku ? 
@@ -20,9 +20,12 @@
 - `npm run serve`
 
 ## ORM
-- [TypeORM doc](https://typeorm.io/#/)
-- [TypeORM sur Vanilla JavaScript](https://github.com/typeorm/typeorm/blob/master/docs/usage-with-javascript.md)
-- [Exemple avec Express](https://typeorm.io/#/example-with-express)
+**Prisma**     
+Plus simple d'utilisation avec Vanilla JS que TypeORM.
+- [Add to existing project](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project-node-postgres)
+- ~~TypeORM doc~~
+- ~~TypeORM sur Vanilla JavaScript~~
+- ~~Exemple avec Express~~
 
 ## VUE
 - [Vue-Cli](https://cli.vuejs.org/guide/)
