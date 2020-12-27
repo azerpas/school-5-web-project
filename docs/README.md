@@ -1,5 +1,5 @@
  ### projet.loo
-Fichier mcd créé avec [___Looping.exe___](https://www.looping-mcd.fr/ "link to looping") (Exclusivement Windows)
+Fichier mcd créé avec [___Looping___](https://www.looping-mcd.fr/ "link to looping") (Exclusivement sous Windows)
 - Sous mac : 
     - avec [__Wine__](https://www.winehq.org/ "link to wine")
     - avec [__Crossover__](https://www.codeweavers.com/crossover "link to crossover")
