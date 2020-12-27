@@ -1,10 +1,8 @@
  ### projet.loo
-Fichier mcd créé avec ___Looping.exe___
-
-- https://www.looping-mcd.fr/ (Exclusivement Windows)
+Fichier mcd créé avec [___Looping.exe___](https://www.looping-mcd.fr/ "link to looping") (Exclusivement Windows)
 - Sous mac : 
-    - avec Wine : https://www.winehq.org/
-    - avec wrossOver : https://www.codeweavers.com/crossover
+    - avec [__Wine__](https://www.winehq.org/ "link to wine")
+    - avec [__Crossover__](https://www.codeweavers.com/crossover "link to crossover")
 
 * * * 
 ### eido.sql
