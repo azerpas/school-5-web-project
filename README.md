@@ -10,7 +10,7 @@
 - Postgresql 🐘
 - Prisma ⧩ ~~TypeOrm~~
 - VueJS 2 💚
-- Chakra UI
+- [Chakra UI](https://vue.chakra-ui.com/box)
 - Vercel ▲ & Heroku ? 
 
 ## Pré-requis
