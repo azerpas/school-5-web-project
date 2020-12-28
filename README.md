@@ -1,5 +1,9 @@
 # school-5-web-project
 
+## Todo
+
+- [ ] Divide the project in two repos, "server" and "front"
+
 ## Stack
 - NodeJS
 - ExpressJS
