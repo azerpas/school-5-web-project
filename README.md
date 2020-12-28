@@ -23,6 +23,9 @@
 - `npm run express`
 - `npm run serve`
 
+## Deployment
+- https://router.vuejs.org/guide/essentials/history-mode.html#example-server-configurations
+
 ## ORM
 **Prisma**     
 Plus simple d'utilisation avec Vanilla JS que TypeORM.
