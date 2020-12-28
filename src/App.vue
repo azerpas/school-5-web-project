@@ -1,25 +1,27 @@
 <template>
     <div id="app">
-        
+        <CBox v-bind="mainStyles[colorMode]">
             <div id="nav">
                 <c-heading as="h1"> Eido </c-heading>
-                <h1>{{colorMode}}</h1>
-                <router-link to="/">Home</router-link> |
-                <router-link to="/about">About</router-link>
+                <CText><router-link to="/">Home</router-link></CText> |
+                <CText><router-link to="/about">About</router-link></CText>
+                <CIconButton type="button" @click="$toggleColorMode" :icon="colorMode === 'light' ? 'moon' : 'sun'"></CIconButton>
             </div>
-            
             <router-view/>
-        
+        </CBox>
     </div>
 </template>
 
 <script>
-    import { CHeading } from '@chakra-ui/vue';
+    import { CHeading, CIconButton, CBox, CText } from '@chakra-ui/vue';
     export default {
         components: {
             //CThemeProvider,
             //CReset,
-            CHeading
+            CHeading,
+            CIconButton, 
+            CBox,
+            CText
         },
         inject: ['$chakraColorMode', '$toggleColorMode'],
         computed: {
@@ -27,6 +29,21 @@
                 return this.$chakraColorMode()
             }
         },
+        data(){
+            return{
+                mainStyles: {
+                    dark: {
+                        bg: "gray.700",
+                        color: "whiteAlpha.900"
+                    },
+                    light: {
+                        bg: "white",
+                        color: "gray.900"
+                    }
+                }
+            }
+            
+        }
     }
 </script>
 
@@ -36,16 +53,6 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
 }
 
 #nav a.router-link-exact-active {
