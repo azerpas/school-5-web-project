@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <CBox v-bind="mainStyles[colorMode]">
+        <CBox v-bind="mainStyles[colorMode]" class="app">
             <div id="nav">
                 <c-heading as="h1"> Eido </c-heading>
                 <CText><router-link to="/">Home</router-link></CText> |
@@ -48,11 +48,12 @@
 </script>
 
 <style>
-#app {
+#app, .app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  min-height: 100vh;
 }
 
 #nav a.router-link-exact-active {
