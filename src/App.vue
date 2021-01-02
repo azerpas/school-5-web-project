@@ -1,27 +1,19 @@
 <template>
     <div id="app">
         <CBox v-bind="mainStyles[colorMode]" class="app">
-            <div id="nav">
-                <c-heading as="h1"> Eido </c-heading>
-                <CText><router-link to="/">Home</router-link></CText> |
-                <CText><router-link to="/about">About</router-link></CText>
-                <CIconButton type="button" @click="$toggleColorMode" :icon="colorMode === 'light' ? 'moon' : 'sun'"></CIconButton>
-            </div>
+            <AppNavbar/>
             <router-view/>
         </CBox>
     </div>
 </template>
 
 <script>
-    import { CHeading, CIconButton, CBox, CText } from '@chakra-ui/vue';
+    import { CBox } from '@chakra-ui/vue';
+    import AppNavbar from "./components/layout/AppNavbar";
     export default {
         components: {
-            //CThemeProvider,
-            //CReset,
-            CHeading,
-            CIconButton, 
             CBox,
-            CText
+            AppNavbar
         },
         inject: ['$chakraColorMode', '$toggleColorMode'],
         computed: {
