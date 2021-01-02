@@ -8,6 +8,7 @@
 </template>
 
 <script>
+    import './assets/css/main.css'
     import { CBox } from '@chakra-ui/vue';
     import AppNavbar from "./components/layout/AppNavbar";
     export default {
