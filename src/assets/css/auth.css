@@ -1,0 +1,18 @@
+.form-head{
+    text-shadow: 3px 3px white;
+    font-weight: 900;
+}
+.form-auth{
+    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url("../svg/pattern.svg");
+    padding: 3rem;
+}
+.form-auth label{
+    text-shadow: 1px 1px white;
+    font-weight: 700;
+}
+.form-auth button{
+    box-shadow:2px 2px 5px #4c4c4c;
+}
+.form-auth a{
+    font-weight: 700;
+}

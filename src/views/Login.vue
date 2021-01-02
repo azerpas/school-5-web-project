@@ -1,8 +1,9 @@
 <template>
     <div class="login">
         <CFlex align="center" justify="center">
-            <form>
+            <form class="form-auth">
                 <CStack spacing="5">
+                    <CHeading class="form-head">LOG IN</CHeading>
                     <CFormControl is-required>
                         <CFormLabel for="username">Email</CFormLabel>
                         <CInputGroup>
@@ -14,7 +15,8 @@
                         <CFormLabel for="password">Password</CFormLabel>
                         <CInput v-model="password" type="password" id="password"/>
                     </CFormControl>
-                    <CButton variantColor="indigo" :click="()=>{}" width="100%">Login</CButton>
+                    <c-button variantColor="indigo" variant="solid" :click="()=>{}" width="100%">Login</c-button>
+                    <p>Don't have an account yet? <router-link to="/register">Register here!</router-link></p>
                 </CStack>
             </form>
         </CFlex>
@@ -22,10 +24,11 @@
 </template>
 
 <script>
-import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton } from "@chakra-ui/vue"
+import '../assets/css/auth.css';
+import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading } from "@chakra-ui/vue"
 export default {
     components:{
-        CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton
+        CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading
     },
     data (){
         return {
@@ -37,5 +40,5 @@ export default {
 </script>
 
 <style>
-
+    
 </style>
