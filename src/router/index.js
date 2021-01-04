@@ -34,6 +34,24 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/Register.vue'),
     props: (route) => ({ type: route.query.type })
+  },
+  {
+    path: '/brands',
+    name: 'Brands',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/brands/Index.vue'),
+    props: (route) => ({ type: route.query.type })
+  },
+  {
+    path: '/influencers',
+    name: 'Influencers',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/influencers/Index.vue'),
+    props: (route) => ({ type: route.query.type })
   }
 ]
 
