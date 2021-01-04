@@ -1,5 +1,6 @@
 CREATE TYPE t_role AS ENUM ('ROLE_ADMIN','ROLE_USER','ROLE_INFLUENCER','ROLE_BRAND');
 CREATE TYPE t_unite AS ENUM ('video','minute','hour','photo','month','publication');
+CREATE TYPE t_status AS ENUM ('proposed','done','canceled','refused','accepted');
 
 CREATE TABLE Users(
     Id_Users int,
@@ -15,7 +16,7 @@ CREATE TABLE Users(
 
 CREATE TABLE Work(
     Id_Work int,
-    url VARCHAR(50),
+    url text,
     name VARCHAR(50),
     Id_Users INT NOT NULL,
     thumbnail text,
