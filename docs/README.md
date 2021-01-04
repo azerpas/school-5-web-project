@@ -13,7 +13,7 @@ Fichier généré avec ___Looping___
 
 * * *
 ## MCD 
-<img src="/docs/eido_MCD.jpg">
+<img src="/docs/eido_MCD.png">
 
 * * *
 

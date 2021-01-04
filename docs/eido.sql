@@ -1,87 +1,73 @@
 CREATE TABLE Users(
-   Id_Users COUNTER,
-   name VARCHAR(50),
-   firstName VARCHAR(50),
-   password VARCHAR(50),
-   login VARCHAR(50),
-   PRIMARY KEY(Id_Users)
-);
-
-CREATE TABLE Ad(
-   Id_Ad COUNTER,
-   price DECIMAL(15,2),
-   unit VARCHAR(50),
-   Id_Users INT NOT NULL,
-   PRIMARY KEY(Id_Ad),
-   FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users)
-);
-
-CREATE TABLE Role(
-   Id_Role COUNTER,
-   name VARCHAR(50),
-   PRIMARY KEY(Id_Role)
-);
-
-CREATE TABLE Platform(
-   Id_Platform COUNTER,
-   name VARCHAR(50),
-   PRIMARY KEY(Id_Platform)
+                      Id_Users COUNTER,
+                      name VARCHAR(50),
+                      firstName VARCHAR(50),
+                      password VARCHAR(50),
+                      email VARCHAR(50),
+                      bio VARCHAR(50),
+                      role VARCHAR(50),
+                      PRIMARY KEY(Id_Users),
+                      UNIQUE(email)
 );
 
 CREATE TABLE Work(
-   Id_Work COUNTER,
-   link VARCHAR(50),
-   name VARCHAR(50),
-   release_date VARCHAR(50),
-   PRIMARY KEY(Id_Work)
+                     Id_Work COUNTER,
+                     url VARCHAR(50),
+                     name VARCHAR(50),
+                     release_date VARCHAR(50),
+                     Id_Users INT NOT NULL,
+                     PRIMARY KEY(Id_Work),
+                     FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users)
 );
 
 CREATE TABLE Keyword(
-   Id_Keyword COUNTER,
-   name VARCHAR(50),
-   PRIMARY KEY(Id_Keyword)
+                        Id_Keyword COUNTER,
+                        name VARCHAR(50),
+                        PRIMARY KEY(Id_Keyword)
 );
 
-CREATE TABLE Role_Users(
-   Id_Users INT,
-   Id_Role INT,
-   PRIMARY KEY(Id_Users, Id_Role),
-   FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
-   FOREIGN KEY(Id_Role) REFERENCES Role(Id_Role)
+CREATE TABLE Offer(
+                      Id_Offer COUNTER,
+                      price DECIMAL(15,2),
+                      unit VARCHAR(50),
+                      custom LOGICAL,
+                      Id_Users INT NOT NULL,
+                      PRIMARY KEY(Id_Offer),
+                      FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users)
 );
 
-CREATE TABLE Answer(
-   Id_Users INT,
-   Id_Ad INT,
-   Accept LOGICAL,
-   PRIMARY KEY(Id_Users, Id_Ad),
-   FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
-   FOREIGN KEY(Id_Ad) REFERENCES Ad(Id_Ad)
+CREATE TABLE Proposal(
+                         Id_Proposal COUNTER,
+                         release_date DATETIME,
+                         statut VARCHAR(50),
+                         Id_Users INT NOT NULL,
+                         Id_Offer INT NOT NULL,
+                         Id_Users_1 INT NOT NULL,
+                         PRIMARY KEY(Id_Proposal),
+                         UNIQUE(Id_Offer),
+                         FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
+                         FOREIGN KEY(Id_Offer) REFERENCES Offer(Id_Offer),
+                         FOREIGN KEY(Id_Users_1) REFERENCES Users(Id_Users)
 );
 
-CREATE TABLE Link(
-   Id_Ad INT,
-   Id_Platform INT,
-   PRIMARY KEY(Id_Ad, Id_Platform),
-   FOREIGN KEY(Id_Ad) REFERENCES Ad(Id_Ad),
-   FOREIGN KEY(Id_Platform) REFERENCES Platform(Id_Platform)
-);
-
-CREATE TABLE Platform_Users_Work(
-   Id_Users INT,
-   Id_Platform INT,
-   Id_Work INT,
-   link_profil VARCHAR(50),
-   PRIMARY KEY(Id_Users, Id_Platform, Id_Work),
-   FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
-   FOREIGN KEY(Id_Platform) REFERENCES Platform(Id_Platform),
-   FOREIGN KEY(Id_Work) REFERENCES Work(Id_Work)
+CREATE TABLE Platform(
+                         Id_Platform COUNTER,
+                         name VARCHAR(50),
+                         PRIMARY KEY(Id_Platform)
 );
 
 CREATE TABLE Users_Keyword(
-   Id_Users INT,
-   Id_Keyword INT,
-   PRIMARY KEY(Id_Users, Id_Keyword),
-   FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
-   FOREIGN KEY(Id_Keyword) REFERENCES Keyword(Id_Keyword)
+                              Id_Users INT,
+                              Id_Keyword INT,
+                              PRIMARY KEY(Id_Users, Id_Keyword),
+                              FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
+                              FOREIGN KEY(Id_Keyword) REFERENCES Keyword(Id_Keyword)
+);
+
+CREATE TABLE platform_user(
+                              Id_Users INT,
+                              Id_Platform INT,
+                              PRIMARY KEY(Id_Users, Id_Platform),
+                              FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
+                              FOREIGN KEY(Id_Platform) REFERENCES Platform(Id_Platform)
 );
