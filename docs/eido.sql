@@ -2,7 +2,7 @@ CREATE TYPE t_role AS ENUM ('ROLE_ADMIN','ROLE_USER','ROLE_INFLUENCER','ROLE_BRA
 CREATE TYPE t_unite AS ENUM ('video','minute','hour','photo','month','publication');
 CREATE TYPE t_status AS ENUM ('proposed','done','canceled','refused','accepted');
 
-CREATE TABLE Users(
+CREATE TABLE IF NOT EXISTS Users(
     Id_Users int,
     name VARCHAR(50),
     firstName VARCHAR(50),
@@ -14,7 +14,7 @@ CREATE TABLE Users(
     UNIQUE(email)
 );
 
-CREATE TABLE Work(
+CREATE TABLE IF NOT EXISTS Work(
     Id_Work int,
     url text,
     name VARCHAR(50),
@@ -24,13 +24,13 @@ CREATE TABLE Work(
     FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users)
 );
 
-CREATE TABLE Keyword(
+CREATE TABLE IF NOT EXISTS Keyword(
     Id_Keyword int,
     name VARCHAR(50),
     PRIMARY KEY(Id_Keyword)
 );
 
-CREATE TABLE Offer(
+CREATE TABLE IF NOT EXISTS Offer(
     Id_Offer int,
     price DECIMAL(15,2),
     unit t_unite,
@@ -40,27 +40,27 @@ CREATE TABLE Offer(
     FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users)
 );
 
-CREATE TABLE Proposal(
+CREATE TABLE IF NOT EXISTS Proposal(
     Id_Proposal int,
     release_date DATE,
-    statut VARCHAR(50),
-    Id_Users INT NOT NULL,
+    statut t_status,
+    Id_Influencer INT NOT NULL,
     Id_Offer INT NOT NULL,
-    Id_Users_1 INT NOT NULL,
+    Id_Brand INT NOT NULL,
     PRIMARY KEY(Id_Proposal),
     UNIQUE(Id_Offer),
-    FOREIGN KEY(Id_Users) REFERENCES Users(Id_Users),
+    FOREIGN KEY(Id_Influencer) REFERENCES Users(Id_Users),
     FOREIGN KEY(Id_Offer) REFERENCES Offer(Id_Offer),
-    FOREIGN KEY(Id_Users_1) REFERENCES Users(Id_Users)
+    FOREIGN KEY(Id_Brand) REFERENCES Users(Id_Users)
 );
 
-CREATE TABLE Platform(
+CREATE TABLE IF NOT EXISTS Platform(
     Id_Platform int,
     name VARCHAR(50),
     PRIMARY KEY(Id_Platform)
 );
 
-CREATE TABLE Users_Keyword(
+CREATE TABLE IF NOT EXISTS Users_Keyword(
     Id_Users INT,
     Id_Keyword INT,
     PRIMARY KEY(Id_Users, Id_Keyword),
@@ -68,7 +68,7 @@ CREATE TABLE Users_Keyword(
     FOREIGN KEY(Id_Keyword) REFERENCES Keyword(Id_Keyword)
 );
 
-CREATE TABLE platform_user(
+CREATE TABLE IF NOT EXISTS platform_user(
     Id_Users INT,
     Id_Platform INT,
     PRIMARY KEY(Id_Users, Id_Platform),
