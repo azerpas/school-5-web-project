@@ -1,16 +1,13 @@
 import express from 'express';
 // import socketIO from "socket.io";
-
 import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
+const apiRouter = require('./routes/index.js')
+
 export default (app, http) => {
     app.use(express.json());
-    //
-    app.get('/foo', (req, res) => {
-        res.json({msg: 'foo'});
-    });
-    
+    app.use('/api/', apiRouter)
     //
     // app.post('/bar', (req, res) => {
     //   res.json(req.body);
