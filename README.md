@@ -42,3 +42,9 @@ Use: `npx prisma generate` to regenerate the client API each time there's a modi
 ## VUE
 - [Vue-Cli](https://cli.vuejs.org/guide/)
 - Best Pratices [1](https://012.vuejs.org/guide/best-practices.html) & [2](https://learnvue.co/2020/01/12-vuejs-best-practices-for-pro-developers/)
+
+### Set-up: Database
+- [Install Postgresql](https://www.postgresqltutorial.com/install-postgresql/) if it's not installed     
+- Once Postgresql is running and set-up, `cd` to the this repository in your terminal and type `psql`      
+- `CREATE DATABASE eido;`
+- `\c eido` & `\i ./docs/eido.sql`      
