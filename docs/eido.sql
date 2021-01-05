@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS Users(
     Id_Users serial,
     name VARCHAR(50),
     firstName VARCHAR(50),
-    password VARCHAR(50),
+    password VARCHAR(256),
     email text,
     bio text,
     roles t_role,
