@@ -8,13 +8,13 @@ datasource db {
 }
 
 model keyword {
-  id_keyword    Int             @id
+  id_keyword    Int             @id @default(autoincrement())
   name          String?
   users_keyword users_keyword[]
 }
 
 model offer {
-  id_offer Int       @id
+  id_offer Int       @id @default(autoincrement())
   price    Float?
   unit     t_unite?
   custom   Boolean?
@@ -24,7 +24,7 @@ model offer {
 }
 
 model platform {
-  id_platform   Int             @id
+  id_platform   Int             @id @default(autoincrement())
   name          String?
   platform_user platform_user[]
 }
@@ -39,7 +39,7 @@ model platform_user {
 }
 
 model proposal {
-  id_proposal                         Int       @id
+  id_proposal                         Int       @id @default(autoincrement())
   release_date                        DateTime?
   statut                              t_status?
   id_influencer                       Int
@@ -51,7 +51,7 @@ model proposal {
 }
 
 model users {
-  id_users                               Int             @id
+  id_users                               Int             @id @default(autoincrement())
   name                                   String?
   firstname                              String?
   password                               String?
@@ -76,7 +76,7 @@ model users_keyword {
 }
 
 model work {
-  id_work   Int     @id
+  id_work   Int     @id @default(autoincrement())
   url       String?
   name      String?
   id_users  Int
