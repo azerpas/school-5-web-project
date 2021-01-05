@@ -7,81 +7,81 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model keyword {
-  id_keyword    Int             @id @default(autoincrement())
-  name          String?
-  users_keyword users_keyword[]
+model Keyword {
+  id           Int            @id @default(autoincrement())
+  name         String?
+  User_Keyword User_Keyword[]
 }
 
-model offer {
-  id_offer Int       @id @default(autoincrement())
+model Offer {
+  id       Int       @id @default(autoincrement())
   price    Float?
   unit     t_unite?
   custom   Boolean?
-  id_users Int
-  users    users     @relation(fields: [id_users], references: [id_users])
-  proposal proposal?
+  id_user  Int
+  User     User      @relation(fields: [id_user], references: [id])
+  Proposal Proposal?
 }
 
-model platform {
-  id_platform   Int             @id @default(autoincrement())
+model Platform {
+  id            Int             @id @default(autoincrement())
   name          String?
-  platform_user platform_user[]
+  Platform_User Platform_User[]
 }
 
-model platform_user {
-  id_users    Int
+model Platform_User {
+  id_user     Int
   id_platform Int
-  platform    platform @relation(fields: [id_platform], references: [id_platform])
-  users       users    @relation(fields: [id_users], references: [id_users])
+  Platform    Platform @relation(fields: [id_platform], references: [id])
+  User        User     @relation(fields: [id_user], references: [id])
 
-  @@id([id_users, id_platform])
+  @@id([id_user, id_platform])
 }
 
-model proposal {
-  id_proposal                         Int       @id @default(autoincrement())
-  release_date                        DateTime?
-  statut                              t_status?
-  id_influencer                       Int
-  id_offer                            Int       @unique
-  id_brand                            Int
-  users_proposal_id_brandTousers      users     @relation("proposal_id_brandTousers", fields: [id_brand], references: [id_users])
-  users_proposal_id_influencerTousers users     @relation("proposal_id_influencerTousers", fields: [id_influencer], references: [id_users])
-  offer                               offer     @relation(fields: [id_offer], references: [id_offer])
+model Proposal {
+  id                                Int       @id @default(autoincrement())
+  release_date                      DateTime?
+  statut                            t_status?
+  id_influencer                     Int
+  id_offer                          Int       @unique
+  id_brand                          Int
+  User_Proposal_id_brandToUser      User      @relation("Proposal_id_brandToUser", fields: [id_brand], references: [id])
+  User_Proposal_id_influencerToUser User      @relation("Proposal_id_influencerToUser", fields: [id_influencer], references: [id])
+  Offer                             Offer     @relation(fields: [id_offer], references: [id])
 }
 
-model users {
-  id_users                               Int             @id @default(autoincrement())
-  name                                   String?
-  firstname                              String?
-  password                               String?
-  email                                  String?         @unique
-  bio                                    String?
-  roles                                  t_role?
-  offer                                  offer[]
-  platform_user                          platform_user[]
-  proposal_proposal_id_brandTousers      proposal[]      @relation("proposal_id_brandTousers")
-  proposal_proposal_id_influencerTousers proposal[]      @relation("proposal_id_influencerTousers")
-  users_keyword                          users_keyword[]
-  work                                   work[]
+model User {
+  id                                    Int             @id @default(autoincrement())
+  name                                  String?
+  firstname                             String?
+  password                              String?
+  email                                 String?         @unique
+  bio                                   String?
+  roles                                 t_role?
+  Offer                                 Offer[]
+  Platform_User                         Platform_User[]
+  Proposal_Proposal_id_brandToUser      Proposal[]      @relation("Proposal_id_brandToUser")
+  Proposal_Proposal_id_influencerToUser Proposal[]      @relation("Proposal_id_influencerToUser")
+  User_Keyword                          User_Keyword[]
+  Work                                  Work[]
 }
 
-model users_keyword {
-  id_users   Int
+model User_Keyword {
+  id_user    Int
   id_keyword Int
-  keyword    keyword @relation(fields: [id_keyword], references: [id_keyword])
-  users      users   @relation(fields: [id_users], references: [id_users])
+  Keyword    Keyword @relation(fields: [id_keyword], references: [id])
+  User       User    @relation(fields: [id_user], references: [id])
 
-  @@id([id_users, id_keyword])
+  @@id([id_user, id_keyword])
 }
 
-model work {
-  id_work   Int     @id @default(autoincrement())
+model Work {
+  id        Int     @id @default(autoincrement())
   url       String?
   name      String?
-  id_users  Int
+  id_user   Int
   thumbnail String?
-  users     users   @relation(fields: [id_users], references: [id_users])
+  User      User    @relation(fields: [id_user], references: [id])
 }
 
 enum t_role {
