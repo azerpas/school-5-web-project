@@ -3,19 +3,19 @@ CREATE TYPE t_unite AS ENUM ('video','minute','hour','photo','month','publicatio
 CREATE TYPE t_status AS ENUM ('proposed','done','canceled','refused','accepted');
 
 CREATE TABLE IF NOT EXISTS Users(
-    Id_Users int,
+    Id_Users serial,
     name VARCHAR(50),
     firstName VARCHAR(50),
     password VARCHAR(50),
     email text,
     bio text,
     roles t_role,
-    PRIMARY KEY(Id_Users),
+    PRIMARY KEY(Id_Users) ,
     UNIQUE(email)
 );
 
 CREATE TABLE IF NOT EXISTS Work(
-    Id_Work int,
+    Id_Work serial,
     url text,
     name VARCHAR(50),
     Id_Users INT NOT NULL,
@@ -25,13 +25,13 @@ CREATE TABLE IF NOT EXISTS Work(
 );
 
 CREATE TABLE IF NOT EXISTS Keyword(
-    Id_Keyword int,
+    Id_Keyword serial,
     name VARCHAR(50),
     PRIMARY KEY(Id_Keyword)
 );
 
 CREATE TABLE IF NOT EXISTS Offer(
-    Id_Offer int,
+    Id_Offer serial,
     price DECIMAL(15,2),
     unit t_unite,
     custom BOOLEAN,
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Offer(
 );
 
 CREATE TABLE IF NOT EXISTS Proposal(
-    Id_Proposal int,
+    Id_Proposal serial,
     release_date DATE,
     statut t_status,
     Id_Influencer INT NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS Proposal(
 );
 
 CREATE TABLE IF NOT EXISTS Platform(
-    Id_Platform int,
+    Id_Platform serial,
     name VARCHAR(50),
     PRIMARY KEY(Id_Platform)
 );

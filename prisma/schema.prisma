@@ -1,19 +1,109 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model keyword {
+  id_keyword    Int             @id
+  name          String?
+  users_keyword users_keyword[]
 }
 
-model User {
-  id Int @default(autoincrement()) @id
-  email String @unique
-  password String 
-  name String
-  bio String?
+model offer {
+  id_offer Int       @id
+  price    Float?
+  unit     t_unite?
+  custom   Boolean?
+  id_users Int
+  users    users     @relation(fields: [id_users], references: [id_users])
+  proposal proposal?
+}
+
+model platform {
+  id_platform   Int             @id
+  name          String?
+  platform_user platform_user[]
+}
+
+model platform_user {
+  id_users    Int
+  id_platform Int
+  platform    platform @relation(fields: [id_platform], references: [id_platform])
+  users       users    @relation(fields: [id_users], references: [id_users])
+
+  @@id([id_users, id_platform])
+}
+
+model proposal {
+  id_proposal                         Int       @id
+  release_date                        DateTime?
+  statut                              t_status?
+  id_influencer                       Int
+  id_offer                            Int       @unique
+  id_brand                            Int
+  users_proposal_id_brandTousers      users     @relation("proposal_id_brandTousers", fields: [id_brand], references: [id_users])
+  users_proposal_id_influencerTousers users     @relation("proposal_id_influencerTousers", fields: [id_influencer], references: [id_users])
+  offer                               offer     @relation(fields: [id_offer], references: [id_offer])
+}
+
+model users {
+  id_users                               Int             @id
+  name                                   String?
+  firstname                              String?
+  password                               String?
+  email                                  String?         @unique
+  bio                                    String?
+  roles                                  t_role?
+  offer                                  offer[]
+  platform_user                          platform_user[]
+  proposal_proposal_id_brandTousers      proposal[]      @relation("proposal_id_brandTousers")
+  proposal_proposal_id_influencerTousers proposal[]      @relation("proposal_id_influencerTousers")
+  users_keyword                          users_keyword[]
+  work                                   work[]
+}
+
+model users_keyword {
+  id_users   Int
+  id_keyword Int
+  keyword    keyword @relation(fields: [id_keyword], references: [id_keyword])
+  users      users   @relation(fields: [id_users], references: [id_users])
+
+  @@id([id_users, id_keyword])
+}
+
+model work {
+  id_work   Int     @id
+  url       String?
+  name      String?
+  id_users  Int
+  thumbnail String?
+  users     users   @relation(fields: [id_users], references: [id_users])
+}
+
+enum t_role {
+  ROLE_ADMIN
+  ROLE_USER
+  ROLE_INFLUENCER
+  ROLE_BRAND
+}
+
+enum t_status {
+  proposed
+  done
+  canceled
+  refused
+  accepted
+}
+
+enum t_unite {
+  video
+  minute
+  hour
+  photo
+  month
+  publication
 }
