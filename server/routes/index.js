@@ -1,6 +1,7 @@
 import express from 'express';
 import {PrismaClient} from "@prisma/client"
-
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 const prisma = new PrismaClient()
 const router = express.Router()
 
@@ -16,11 +17,18 @@ router.get('/login',async (req,res)=>{
             email:email
         }
     });
-    console.log(result);
-    if(result!=null && password == result.password){
-        delete result.password;
-        //req.session.user = result;
-        res.status(200).send(result);
+    if(result!=null){
+        console.log(password,result.password)
+        bcrypt.compare(password, result.password, function(err, resultHash) {
+            console.log(resultHash);
+            if(resultHash){
+                delete result.password;
+                //req.session.user = result;
+                res.status(200).send(result);
+            }else{
+                res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
+            }
+        });
     }else{
         res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
     }
@@ -49,5 +57,28 @@ router.get("/platform",async (req,res)=>{
 
     res.send(resReq);
     //const result = await prisma.user.findMany({});
+});
+
+router.put("/user", async (req,res)=>{
+   console.log(req.body);
+   bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+       var results = await prisma.user.create({
+           data:{
+               email:req.body.email,
+               password:hash,
+               bio : req.body.bio,
+               role:req.body.role,
+               name:req.body.name,
+               firstName:req.body.firstName
+           }
+       });
+       res.send(results);
+   });
+});
+
+router.get("/get_password", async (req,res)=>{
+    bcrypt.hash(req.query.password, saltRounds, async function(err, hash) {
+        res.send(hash);
+    });
 });
 module.exports = router
