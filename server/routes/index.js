@@ -60,25 +60,36 @@ router.get("/platform",async (req,res)=>{
 });
 
 router.put("/user", async (req,res)=>{
-   console.log(req.body);
-   bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
-       var results = await prisma.user.create({
-           data:{
-               email:req.body.email,
-               password:hash,
-               bio : req.body.bio,
-               role:req.body.role,
-               name:req.body.name,
-               firstName:req.body.firstName
-           }
-       });
-       res.send(results);
-   });
+   var email = req.query.email;
+    var password = req.query.password;
+    var bio = req.query.bio == undefined ? "" : req.query.bio;
+    var role = req.query.role;
+    var name = req.query.name;
+    var firstName = req.query.firstName;
+    if(email == undefined || password == undefined || role == undefined || name == undefined || firstName == undefined){
+        res.status(403).send()
+    }else{
+        bcrypt.hash(password, saltRounds, async function(err, hash) {
+            console.log(err)
+            var results = await prisma.user.create({
+                data:{
+                    email:email,
+                    password:hash,
+                    bio : bio,
+                    roles:role,
+                    name:name,
+                    firstname:firstName
+                }
+            });
+            res.send(results);
+        });
+    }
+
 });
 
-router.get("/get_password", async (req,res)=>{
+/*router.get("/get_password", async (req,res)=>{
     bcrypt.hash(req.query.password, saltRounds, async function(err, hash) {
         res.send(hash);
     });
-});
+});*/
 module.exports = router
