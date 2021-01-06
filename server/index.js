@@ -13,6 +13,7 @@ export default (app, http) => {
     app.use(express.json());
     app.use(cors({credentials: true, origin: `http://${process.env.VUE_APP_URL}`}));
     app.use(session({ secret: process.env.SECRET_SESSION, saveUninitialized: true, resave: false, cookie: { secure: false } }));
+    app.use(express.urlencoded({ extended: false }))
     app.use('/api/', apiRouter)
     //
     // app.post('/bar', (req, res) => {
