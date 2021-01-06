@@ -79,17 +79,12 @@ router.get("/proposal",async (req,res)=>{
  * Route enregistrant un nouvel utilisateur
  */
 router.put("/user", async (req,res)=>{
-   var email = req.query.email;
-    var password = req.query.password;
-    var bio = req.query.bio == undefined ? "" : req.query.bio;
-    var role = req.query.role;
-    var name = req.query.name;
-    var firstName = req.query.firstName;
-    if(email == undefined || password == undefined || role == undefined || name == undefined || firstName == undefined){
-        res.status(403).send()
-    }else{
-        bcrypt.hash(password, saltRounds, async function(err, hash) {
-            console.log(err)
+   var {email,password,role,name,firstname,bio} = req.body;
+    bio = req.query.bio == undefined ? "" : req.query.bio;
+    if(email == undefined || password == undefined || role == undefined || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
+    bcrypt.hash(password, saltRounds, async function(err, hash) {
+        if(err != undefined) return res.status(400).send({message:"error password"})
+        try {
             var results = await prisma.user.create({
                 data:{
                     email:email,
@@ -97,15 +92,31 @@ router.put("/user", async (req,res)=>{
                     bio : bio,
                     roles:role,
                     name:name,
-                    firstname:firstName
+                    firstname:firstname
                 }
             });
             res.send(results);
-        });
-    }
-
+        }catch (error){
+            res.status(400).send({message:"error insert user"})
+            console.log("Error :  : " ,error.code);
+            console.log("error fields : " ,error.meta.target);
+        }
+    });
 });
 
+
+router.post("/user/:userId",async (req,res)=>{
+    var params = req.body;
+    var id = req.params.userId;
+    if(Object.keys(params).length == 0 || !id)return res.status(400).send({message:"give id and data to update"})
+    var result = await prisma.user.update({
+        where:{
+            id:parseInt(id)
+        },
+        data:params
+    });
+    res.status(200).send(result);
+});
 
 /**
  *
