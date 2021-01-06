@@ -37,25 +37,13 @@ router.get('/login',async (req,res)=>{
 
 router.get("/platform",async (req,res)=>{
     var idUser = parseInt(req.query.user_id);
-    console.log(req.body)
     const result = await prisma.user.findUnique({
        where:{
            id:idUser
        }
-    }).Platform_User();
-    var resReq = {};
-    for(var i = 0 ; i < result.length ; i ++){
-        var p_u = result[i];
-        console.log(p_u);
-        resReq[i] = await prisma.platform.findUnique({
-            where: {
-                id: p_u.id_platform
-            }
-        });
-    }
-    console.log(resReq);
+    }).Platform();
 
-    res.send(resReq);
+    res.send(result);
     //const result = await prisma.user.findMany({});
 });
 
