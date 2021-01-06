@@ -43,8 +43,7 @@
         },
         methods:{
             async login(username,password){
-                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password});
-                console.log(res);
+                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password}, { withCredentials: true });
                 if(res.status === 200){
                     this.user = res.data;
                 }
