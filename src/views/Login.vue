@@ -2,7 +2,7 @@
     <main>
         <div class="login">
             <CFlex align="center" justify="center">
-                <form class="form-auth">
+                <form class="form-auth" @submit="login($event)">
                     <CStack spacing="5">
                         <CHeading class="form-head">LOG IN</CHeading>
                         <CFormControl is-required>
@@ -16,7 +16,7 @@
                             <CFormLabel for="password">Password</CFormLabel>
                             <CInput v-model="password" type="password" id="password"/>
                         </CFormControl>
-                        <c-button variantColor="indigo" variant="solid" :click="()=>{}" width="100%">Login</c-button>
+                        <c-button variantColor="indigo" variant="solid" type="submit" width="100%">Login</c-button>
                         <p>Don't have an account yet? <router-link to="/register">Register here!</router-link></p>
                     </CStack>
                 </form>
@@ -36,6 +36,12 @@ export default {
         return {
             username: "",
             password: ""
+        }
+    },
+    methods: {
+        login(event){
+            event.preventDefault();
+            this.$emit('login', this.username, this.password);
         }
     }
 }
