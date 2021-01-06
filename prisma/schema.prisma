@@ -36,8 +36,8 @@ model Proposal {
   id_influencer                     Int
   id_offer                          Int       @unique
   id_brand                          Int
-  User_Proposal_id_brandToUser      User      @relation("Proposal_id_brandToUser", fields: [id_brand], references: [id])
-  User_Proposal_id_influencerToUser User      @relation("Proposal_id_influencerToUser", fields: [id_influencer], references: [id])
+  Brand                             User      @relation("Proposal_id_brandToUser", fields: [id_brand], references: [id])
+  Influencer                        User      @relation("Proposal_id_influencerToUser", fields: [id_influencer], references: [id])
   Offer                             Offer     @relation(fields: [id_offer], references: [id])
 }
 
@@ -50,8 +50,8 @@ model User {
   bio                                   String?
   roles                                 t_role?
   Offer                                 Offer[]
-  Proposal_Proposal_id_brandToUser      Proposal[] @relation("Proposal_id_brandToUser")
-  Proposal_Proposal_id_influencerToUser Proposal[] @relation("Proposal_id_influencerToUser")
+  Proposal_brand                        Proposal[] @relation("Proposal_id_brandToUser")
+  Proposal_influencer                   Proposal[] @relation("Proposal_id_influencerToUser")
   Work                                  Work[]
   Keyword                               Keyword[]
   Platform                              Platform[]
