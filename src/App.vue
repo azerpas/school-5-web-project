@@ -2,7 +2,9 @@
     <div id="app">
         <CBox v-bind="mainStyles[colorMode]" class="app">
             <AppNavbar/>
-            <router-view/>
+            <router-view
+                @login="login"
+            />
         </CBox>
     </div>
 </template>
@@ -11,6 +13,8 @@
     import './assets/css/main.css'
     import { CBox } from '@chakra-ui/vue';
     import AppNavbar from "./components/layout/AppNavbar";
+    import axios from 'axios';
+    require('dotenv').config()
     export default {
         components: {
             CBox,
@@ -33,9 +37,18 @@
                         bg: "white",
                         color: "gray.900"
                     }
+                },
+                user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null}
+            }
+        },
+        methods:{
+            async login(username,password){
+                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password});
+                console.log(res);
+                if(res.status === 200){
+                    this.user = res.data;
                 }
             }
-            
         }
     }
 </script>

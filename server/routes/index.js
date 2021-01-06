@@ -9,21 +9,19 @@ router.get('/', async (req, res) => {
     res.status(200).send({});
 });
 
-router.get('/login',async (req,res)=>{
-    var email = req.query.email;
-    var password = req.query.password;
-    var result = await prisma.user.findUnique({
-        where:{
-            email:email
+router.post('/login',async (req,res)=>{
+    const email = req.body.username;
+    const password = req.body.password;
+    const result = await prisma.user.findUnique({
+        where: {
+            email
         }
     });
     if(result!=null){
-        console.log(password,result.password)
         bcrypt.compare(password, result.password, function(err, resultHash) {
-            console.log(resultHash);
             if(resultHash){
                 delete result.password;
-                //req.session.user = result;
+                //req.session.user = result; TODO:
                 res.status(200).send(result);
             }else{
                 res.status(403).send({error:"Forbidden",message:"Invalid email or password"})

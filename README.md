@@ -1,9 +1,5 @@
 # school-5-web-project
 
-## Todo
-
-- [ ] Divide the project in two repos, "server" and "front"
-
 ## Stack
 - NodeJS
 - ExpressJS
@@ -17,9 +13,15 @@
 - Postgresql 12
 - NPM
 
-## Set-up
+## Set-up: Dev
 - Opt: `git clone https://github.com/azerpas/school-5-web-project.git`
+- `cd school-5-web-project`
+- [Set-up the database](#Set-up:-Database)
 - `npm i`
+- `cp .env.example .env.local`
+- Modifier `.env.local`
+    - `DATABASE_URL`: Remplacer seulement l'username (johndoe) et le password (randompassword)
+    - `VUE_APP_API_URL`: Par défaut "localhost:3000". Remplacez si vous changez le port de l'API
 - `npm run express`
 - `npm run serve`
 
@@ -30,11 +32,11 @@
 **Prisma**     
 Plus simple d'utilisation avec Vanilla JS que TypeORM.
 - [Add to existing project](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project-node-postgres)
-- Schema is inside `./prisma/schema.prisma`
-- Create a schema from the current DB: `npx prisma introspect`
+- Le schéma est dans `./prisma/schema.prisma`
+- Créer un schéma à partir d'une base de données: `npx prisma introspect`
 **OR**
-- Modify `./prisma/schema.prisma` manually
-Use: `npx prisma generate` to regenerate the client API each time there's a modification on the schema
+- Modifier `./prisma/schema.prisma` manuellement    
+Utilisez: `npx prisma generate` pour regénérer l'API client ~_**à chaque fois**_~ qu'il y a une modification sur le schéma de la BD
 - ~~TypeORM doc~~
 - ~~TypeORM sur Vanilla JavaScript~~
 - ~~Exemple avec Express~~

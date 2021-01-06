@@ -24,7 +24,7 @@ export default {
         },
         keywords: {
             type: Array,
-            default: ["Gaming", "Tech"]
+            default: () => ["Gaming", "Tech"]
         },
         image: {
             type: String,
