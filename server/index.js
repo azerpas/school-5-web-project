@@ -10,6 +10,7 @@ const apiRouter = require('./routes/index.js')
 
 export default (app, http) => {
     app.use(express.json());
+    app.use(express.urlencoded({ extended: false }))
     app.use(cors());
     app.use('/api/', apiRouter)
     //

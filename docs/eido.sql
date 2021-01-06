@@ -61,21 +61,19 @@ CREATE TABLE IF NOT EXISTS "Platform"(
     PRIMARY KEY(id)
 );
 
-CREATE TABLE IF NOT EXISTS "User_Keyword"(
-    id_User INT,
-    id_Keyword INT,
-    PRIMARY KEY(id_User, id_Keyword),
-    FOREIGN KEY(id_User) REFERENCES "User" (id),
-    FOREIGN KEY(id_Keyword) REFERENCES "Keyword"(id)
+CREATE TABLE IF NOT EXISTS "_KeywordToUser"(
+    "A" INT NOT NULL REFERENCES "Keyword"(id),
+    "B" INT NOT NULL REFERENCES "User"(id)
 );
+CREATE UNIQUE INDEX "_KeywordToUser_AB_unique" ON "_KeywordToUser"("A" int4_ops,"B" int4_ops);
+CREATE INDEX "_KeywordToUser_B_index" ON "_KeywordToUser"("B" int4_ops);
 
-CREATE TABLE IF NOT EXISTS "Platform_User"(
-    id_User INT,
-    id_Platform INT,
-    PRIMARY KEY(id_User, id_Platform),
-    FOREIGN KEY(id_User) REFERENCES "User" (id),
-    FOREIGN KEY(id_Platform) REFERENCES "Platform"(id)
+CREATE TABLE IF NOT EXISTS "_PlatformToUser"(
+    "A" INT NOT NULL REFERENCES "Platform"(id),
+    "B" INT NOT NULL REFERENCES "User"(id)
 );
+CREATE UNIQUE INDEX "_PlatformToUser_AB_unique" ON "_PlatformToUser"("A" int4_ops,"B" int4_ops);
+CREATE INDEX "_PlatformToUser_B_index" ON "_PlatformToUser"("B" int4_ops);
 
 INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('influenceur','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','influenceur@influenceur.fr','influenceur','ROLE_INFLUENCER');
 INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('marque','marque','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','marque@marque.fr','marque','ROLE_BRAND');
