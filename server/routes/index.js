@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-    res.status(200).send({});
+    res.status(200).send();
 });
 
 
@@ -27,7 +27,7 @@ router.post('/login',async (req,res)=>{
         bcrypt.compare(password, result.password, function(err, resultHash) {
             if(resultHash){
                 delete result.password;
-                //req.session.user = result; TODO:
+                req.session.user = result;
                 res.status(200).send(result);
             }else{
                 res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
@@ -35,6 +35,16 @@ router.post('/login',async (req,res)=>{
         });
     }else{
         res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
+    }
+});
+
+
+router.get("/logout", async (req, res) => {
+    if (req.session.user != null){
+        req.session.destroy();
+        res.status(200).json({});
+    }else{
+        res.status(400).json({message : "Please login first"});
     }
 });
 
@@ -74,6 +84,10 @@ router.get("/proposal",async (req,res)=>{
     res.send(result);
 });
 
+router.get("/user", async (req, res) => {
+    if(req.session.user) res.status(200).send(req.session.user);
+    else res.status(403).send({message: "Please login first"})
+});
 
 /**
  * Route enregistrant un nouvel utilisateur
