@@ -9,16 +9,18 @@ router.get('/', async (req, res) => {
     res.status(200).send({});
 });
 
+
 /**
  * Route permettant de se connecter
  * TODO : Ajout du user dans la session
  */
-router.get('/login',async (req,res)=>{
-    var email = req.query.email;
-    var password = req.query.password;
-    var result = await prisma.user.findUnique({
-        where:{
-            email:email
+
+router.post('/login',async (req,res)=>{
+    const email = req.body.username;
+    const password = req.body.password;
+    const result = await prisma.user.findUnique({
+        where: {
+            email
         }
     });
     if(result!=null){
