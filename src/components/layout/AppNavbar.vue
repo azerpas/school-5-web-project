@@ -2,15 +2,15 @@
     <div id="nav">
         <CHeading as="h1"><router-link to="/"> E<i>i</i>do </router-link></CHeading>
         <CBox display="inline" ml="auto">
-            <template v-if="user.id">
+            <template v-if="user && user.id">
                 <template v-if="user.roles === 'ROLE_BRAND'">
-                    {{user.roles}}
                     <router-link to="/influencers">Influencers</router-link> |
                 </template>
                 <template v-else>
                     <router-link to="/brands">Brands</router-link> |
                 </template>
-                <router-link to="/account">My Account</router-link>
+                <router-link to="/account">My Account</router-link> |
+                <button type="button" @click="logout">Logout</button>
             </template>
             <template v-else>
                 <router-link to="/">I am an influencer</router-link> |
@@ -40,6 +40,11 @@
                 return this.$chakraColorMode()
             }
         },
+        methods: {
+            logout(){
+                this.$emit('logout');
+            }
+        }
     }
 </script>
 
