@@ -2,9 +2,21 @@
     <div id="nav">
         <CHeading as="h1"><router-link to="/"> E<i>i</i>do </router-link></CHeading>
         <CBox display="inline" ml="auto">
-            <router-link to="/">I am an influencer</router-link> |
-            <router-link to="/login">Get Started</router-link> | 
-            <router-link to="/login">LogIn</router-link>
+            <template v-if="user.id">
+                <template v-if="user.roles === 'ROLE_BRAND'">
+                    {{user.roles}}
+                    <router-link to="/influencers">Influencers</router-link> |
+                </template>
+                <template v-else>
+                    <router-link to="/brands">Brands</router-link> |
+                </template>
+                <router-link to="/account">My Account</router-link>
+            </template>
+            <template v-else>
+                <router-link to="/">I am an influencer</router-link> |
+                <router-link to="/login">Get Started</router-link> | 
+                <router-link to="/login">LogIn</router-link>
+            </template>
             <CIconButton type="button" @click="$toggleColorMode" :icon="colorMode === 'light' ? 'moon' : 'sun'"></CIconButton>
         </CBox>
     </div>
@@ -16,6 +28,11 @@
     export default {
         components:{
             CIconButton, CHeading, CBox
+        },
+        props: {
+            user: {
+                id: Number, email: String, bio: String, firstname: String, name: String, roles: String
+            }
         },
         inject: ['$chakraColorMode', '$toggleColorMode'],
         computed: {
