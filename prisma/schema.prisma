@@ -8,9 +8,9 @@ datasource db {
 }
 
 model Keyword {
-  id           Int            @id @default(autoincrement())
-  name         String?
-  User_Keyword User_Keyword[]
+  id   Int     @id @default(autoincrement())
+  name String?
+  User User[]
 }
 
 model Offer {
@@ -24,18 +24,9 @@ model Offer {
 }
 
 model Platform {
-  id            Int             @id @default(autoincrement())
-  name          String?
-  Platform_User Platform_User[]
-}
-
-model Platform_User {
-  id_user     Int
-  id_platform Int
-  Platform    Platform @relation(fields: [id_platform], references: [id])
-  User        User     @relation(fields: [id_user], references: [id])
-
-  @@id([id_user, id_platform])
+  id   Int     @id @default(autoincrement())
+  name String?
+  User User[]
 }
 
 model Proposal {
@@ -45,34 +36,25 @@ model Proposal {
   id_influencer                     Int
   id_offer                          Int       @unique
   id_brand                          Int
-  User_Proposal_id_brandToUser      User      @relation("Proposal_id_brandToUser", fields: [id_brand], references: [id])
-  User_Proposal_id_influencerToUser User      @relation("Proposal_id_influencerToUser", fields: [id_influencer], references: [id])
+  Brand                             User      @relation("Proposal_id_brandToUser", fields: [id_brand], references: [id])
+  Influencer                        User      @relation("Proposal_id_influencerToUser", fields: [id_influencer], references: [id])
   Offer                             Offer     @relation(fields: [id_offer], references: [id])
 }
 
 model User {
-  id                                    Int             @id @default(autoincrement())
+  id                                    Int        @id @default(autoincrement())
   name                                  String?
   firstname                             String?
   password                              String?
-  email                                 String?         @unique
+  email                                 String?    @unique
   bio                                   String?
   roles                                 t_role?
   Offer                                 Offer[]
-  Platform_User                         Platform_User[]
-  Proposal_Proposal_id_brandToUser      Proposal[]      @relation("Proposal_id_brandToUser")
-  Proposal_Proposal_id_influencerToUser Proposal[]      @relation("Proposal_id_influencerToUser")
-  User_Keyword                          User_Keyword[]
+  Proposal_brand                        Proposal[] @relation("Proposal_id_brandToUser")
+  Proposal_influencer                   Proposal[] @relation("Proposal_id_influencerToUser")
   Work                                  Work[]
-}
-
-model User_Keyword {
-  id_user    Int
-  id_keyword Int
-  Keyword    Keyword @relation(fields: [id_keyword], references: [id])
-  User       User    @relation(fields: [id_user], references: [id])
-
-  @@id([id_user, id_keyword])
+  Keyword                               Keyword[]
+  Platform                              Platform[]
 }
 
 model Work {
