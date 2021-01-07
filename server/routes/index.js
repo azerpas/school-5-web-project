@@ -46,43 +46,6 @@ router.get("/logout", async (req, res) => {
     }
 });
 
-/**
- * Route recuperant les platformes d'un utilisateur (donné en parametre)
- * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
- */
-router.get("/platform",async (req,res)=>{
-    var idUser = req.query.user_id;
-    console.log(idUser)
-    if(idUser != undefined){
-        var result = await prisma.user.findUnique({
-            where:{
-                id:parseInt(idUser)
-            }
-        }).Platform();
-        console.log(result);
-    }else{
-        result = await prisma.platform.findMany({});
-    }
-    res.send(result);
-});
-
-/**
- * Route affichant les proposition d'un utilisateur en fonction de son role
- *
- * TODO recup l'user dans la session et non dans la requete + select les propositions en fonction du role
- */
-router.get("/proposal",async (req,res)=>{
-    if(req.session.user) var idUser = req.session.user;
-    else res.status(403).send({message: "Please login first"})
-
-    var result = await prisma.user.findUnique({
-        where:{
-            id:parseInt(idUser)
-        }
-    }).Proposal_influencer();
-    console.log(result);
-    res.send(result);
-});
 
 router.get("/user", async (req, res) => {
     if(req.session.user) res.status(200).send(req.session.user);
@@ -120,9 +83,10 @@ router.put("/user", async (req,res)=>{
 });
 
 
-router.post("/user/:userId",async (req,res)=>{
+router.post("/user",async (req,res)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
     var params = req.body;
-    var id = req.params.userId;
+    var id = req.session.user.id;
     if(Object.keys(params).length == 0 || !id)return res.status(400).send({message:"give id and data to update"})
     if(params.role != undefined && params.role == "ROLE_ADMIN") return res.status(400).send({message:"error"});
     var result = await prisma.user.update({
@@ -133,6 +97,71 @@ router.post("/user/:userId",async (req,res)=>{
     });
     res.status(200).send(result);
 });
+
+
+/**
+ * Route recuperant les platformes d'un utilisateur (donné en parametre)
+ * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
+ */
+router.get("/platform",async (req,res)=>{
+    var idUser = req.query.userId;
+    if(idUser != undefined){
+        var result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Platform();
+        console.log(result);
+    }else{
+        result = await prisma.platform.findMany({});
+    }
+    res.send(result);
+});
+
+/**
+ * Route affichant les proposition d'un utilisateur en fonction de son role
+ *
+ */
+router.get("/proposal",async (req,res)=>{
+    if(!req.session.user)return  res.status(403).send({message: "Please login first"})
+    var idUser = req.session.user;
+    var result;
+    if(req.session.user.roles == "ROLE_BRAND"){
+        result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Proposal_influencer();
+    }else if(req.session.user.roles == "ROLE_INFLUENCER"){
+        result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Proposal_brand();
+    }
+    console.log(result);
+    res.send(result);
+});
+
+
+/**
+ * Route recuperant les mots-clefs d'un utilisateur (donné en parametre)
+ * Si il n'y a pas d'utilisateur : renvoi de tous les mots clefs
+ */
+router.get("/keyword",async (req,res)=>{
+    var idUser = req.query.userId;
+    if(idUser != undefined){
+        var result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Keyword();
+    }else{
+        result = await prisma.keyword.findMany({});
+    }
+    res.status(200).send(result);
+});
+
 
 /**
  *
@@ -151,7 +180,6 @@ router.post("/user/:userId",async (req,res)=>{
  *        - POST /user
  *        -
  *        --KEYWORD--
- *        - GET /keyword (par user)
  *        - PUT /keyword (sauf si on decide que les keyword sont prédéfinis)
  *        - DELETE /keyword (sauf si on decide que les keyword sont prédéfinis)
  */

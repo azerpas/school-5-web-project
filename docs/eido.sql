@@ -75,7 +75,16 @@ CREATE TABLE IF NOT EXISTS "_PlatformToUser"(
 CREATE UNIQUE INDEX "_PlatformToUser_AB_unique" ON "_PlatformToUser"("A" int4_ops,"B" int4_ops);
 CREATE INDEX "_PlatformToUser_B_index" ON "_PlatformToUser"("B" int4_ops);
 
-INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('influenceur','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','influenceur@influenceur.fr','influenceur','ROLE_INFLUENCER');
-INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('marque','marque','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','marque@marque.fr','marque','ROLE_BRAND');
-INSERT INTO "Platform" (name) VALUES ('youtube');
-INSERT INTO "Platform" (name) VALUES ('instagram');
+INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('influenceur','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','influenceur@influenceur.fr','influenceur','ROLE_INFLUENCER') ,
+                                                                         ('marque','marque','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','marque@marque.fr','marque','ROLE_BRAND');
+INSERT INTO "Platform" (name) VALUES ('youtube'),
+                                     ('instagram'),
+                                     ('tiktok');
+INSERT INTO "_PlatformToUser" VALUES (1,1),
+                                     (2,1);
+INSERT INTO "Keyword" (name) VALUES ('Actu'),
+                                    ('Tech'),
+                                    ('Dance'),
+                                    ('Lifestyle');
+INSERT INTO "_KeywordToUser" VALUES (1,1),
+                                    (2,1);
