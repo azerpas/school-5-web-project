@@ -18,24 +18,22 @@ router.get('/', async (req, res) => {
 router.post('/login',async (req,res)=>{
     const email = req.body.username;
     const password = req.body.password;
+    if(email == undefined|| password ==  undefined )return res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
     const result = await prisma.user.findUnique({
         where: {
             email
         }
     });
-    if(result!=null){
-        bcrypt.compare(password, result.password, function(err, resultHash) {
-            if(resultHash){
-                delete result.password;
-                req.session.user = result;
-                res.status(200).send(result);
-            }else{
-                res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
-            }
-        });
-    }else{
-        res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
-    }
+    if(result==null) return res.status(403).send({error:"Forbidden",message:"Invalid email or password"});
+    bcrypt.compare(password, result.password, function(err, resultHash) {
+        if(resultHash){
+            delete result.password;
+            req.session.user = result;
+            res.status(200).send(result);
+        }else{
+            res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
+        }
+    });
 });
 
 
@@ -74,7 +72,9 @@ router.get("/platform",async (req,res)=>{
  * TODO recup l'user dans la session et non dans la requete + select les propositions en fonction du role
  */
 router.get("/proposal",async (req,res)=>{
-    var idUser = req.query.user_id;
+    if(req.session.user) var idUser = req.session.user;
+    else res.status(403).send({message: "Please login first"})
+
     var result = await prisma.user.findUnique({
         where:{
             id:parseInt(idUser)
@@ -95,7 +95,8 @@ router.get("/user", async (req, res) => {
 router.put("/user", async (req,res)=>{
    var {email,password,role,name,firstname,bio} = req.body;
     bio = req.query.bio == undefined ? "" : req.query.bio;
-    if(email == undefined || password == undefined || role == undefined || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
+    if(email == undefined || password == undefined || role == undefined  || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
+    if(role == "ROLE_ADMIN") return res.status(400).send({message:"error"});
     bcrypt.hash(password, saltRounds, async function(err, hash) {
         if(err != undefined) return res.status(400).send({message:"error password"})
         try {
@@ -113,7 +114,7 @@ router.put("/user", async (req,res)=>{
         }catch (error){
             res.status(400).send({message:"error insert user"})
             console.log("Error :  : " ,error.code);
-            console.log("error fields : " ,error.meta.target);
+            console.log("Error fields : " ,error.meta.target);
         }
     });
 });
@@ -123,6 +124,7 @@ router.post("/user/:userId",async (req,res)=>{
     var params = req.body;
     var id = req.params.userId;
     if(Object.keys(params).length == 0 || !id)return res.status(400).send({message:"give id and data to update"})
+    if(params.role != undefined && params.role == "ROLE_ADMIN") return res.status(400).send({message:"error"});
     var result = await prisma.user.update({
         where:{
             id:parseInt(id)
