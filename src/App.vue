@@ -1,8 +1,9 @@
 <template>
     <div id="app">
         <CBox v-bind="mainStyles[colorMode]" class="app">
-            <AppNavbar/>
+            <AppNavbar :user="user" @logout="logout"/>
             <router-view
+                :user="user"
                 @login="login"
             />
         </CBox>
@@ -21,6 +22,11 @@
             AppNavbar
         },
         inject: ['$chakraColorMode', '$toggleColorMode'],
+        async mounted(){
+            const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
+            if(user.status === 200) this.user = user.data;
+            else this.user = null;
+        },
         computed: {
             colorMode () {
                 return this.$chakraColorMode()
@@ -46,6 +52,14 @@
                 const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password}, { withCredentials: true });
                 if(res.status === 200){
                     this.user = res.data;
+                    if(this.user.roles === "ROLE_BRAND") window.location.href = "/influencers";
+                    if(this.user.roles === "ROLE_INFLUENCER") window.location.href = "/brands";
+                }
+            },
+            async logout(){
+                const res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/logout`, { withCredentials: true });
+                if(res.status === 200){
+                    this.user = null;
                 }
             }
         }
