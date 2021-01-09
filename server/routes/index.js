@@ -226,7 +226,11 @@ router.put("/offer", async(req,res)=>{
 
 /**
  *
- * TODO : --OFFER--
+ * TODO : 
+ *        -- WORK -- 
+ *        Route pour récupérer les différents work de l'influenceur
+ *        - GET /work
+ *        --OFFER--
  *        - DELETE /offer
  *        - POST /offer
  *        -
