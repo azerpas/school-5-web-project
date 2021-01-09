@@ -30,7 +30,10 @@
         computed: {
             colorMode () {
                 return this.$chakraColorMode()
-            }
+            },
+            theme() {
+                return this.$chakraTheme();
+            },
         },
         data(){
             return{
