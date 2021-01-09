@@ -227,6 +227,10 @@ router.put("/offer", async(req,res)=>{
 /**
  *
  * TODO : 
+ *        -- SEARCH (ou un nom bidon comme ça) --
+ *        Route qui permet la recherche en fonction de queries (optionnels): plateforme & categorie (tech, etc...)
+ *        Essentiel pour la page d'accueil
+ *        - GET '/search' ou encore '/search?platform=tik-tok' ou encore '/search?platform=youtube&category=tech'
  *        -- WORK -- 
  *        Route pour récupérer les différents work de l'influenceur
  *        - GET /work
