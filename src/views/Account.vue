@@ -13,7 +13,11 @@
                     :gap="{base: '5', sm: '3'}"
                     mt="1"
                 >
-                    <CardWork :work="{image: 'https://i.ytimg.com/vi/hxp07UVZs7o/hq720.jpg', name: 'On appelle des gens au hasard avec Pierre Niney'}"/>
+                    <CardWork :work="{
+                        image: 'https://i.ytimg.com/vi/hxp07UVZs7o/hq720.jpg', 
+                        name: 'On appelle des gens au hasard avec Pierre Niney',
+                        url: 'https://www.youtube.com/watch?v=hxp07UVZs7o'
+                        }"/>
                     <!-- TODO: condition if work < 3 -->
                     <CButton><CIcon name="add"/></CButton>
                 </CGrid>
