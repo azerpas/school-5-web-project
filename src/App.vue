@@ -110,6 +110,9 @@
                     headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' }, withCredentials: true
                 });
                 return res;
+            },
+            async getUserWorks(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}/work`, { withCredentials: true })
             }
         }
     }
