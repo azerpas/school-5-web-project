@@ -263,7 +263,7 @@ router.get("/work",async(req,res)=>{
    if(req.session.user == undefined) return res.status(403).send({message:"Please login first"});
    var result =  await prisma.work.findMany({
        where:{
-           id_user:req.session.user.id
+           id_user: req.session.user.id
        }
    });
    res.status(200).send(result);

@@ -31,9 +31,12 @@
                     </c-stack>
                 </c-modal-body>
                 <c-modal-footer>
-                <c-button variant-color="blue" mr="3" @click="submit()">
-                    Add it
-                </c-button>
+                <template v-if="!submitted">
+                    <c-button variant-color="blue" mr="3" @click="submit()">Add it</c-button>
+                </template>
+                <template v-else>
+                    <c-button variant-color="blue" mr="3" is-loading loading-text="Submitting"></c-button>
+                </template>
                 <c-button @click="close">Cancel</c-button>
                 </c-modal-footer>
             </c-modal-content>
@@ -85,7 +88,8 @@ export default {
             isOpen: false,
             title: null,
             thumbnail: null,
-            url: null
+            url: null,
+            submitted: false
         }
     },
     methods: {
@@ -99,6 +103,7 @@ export default {
             this.thumbnail = this.$refs.file.files[0];
         },
         async submit(){
+            this.submitted = true;
             this.$emit('addWork', this.thumbnail, this.url, this.title);
         }
     }

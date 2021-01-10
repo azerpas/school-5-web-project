@@ -12,12 +12,10 @@
                     :template-columns="{base: 'repeat(1, 1fr)'}" 
                     :gap="{base: '5', sm: '3'}"
                     mt="1"
-                >
-                    <CardWork :work="{
-                        image: 'https://i.ytimg.com/vi/hxp07UVZs7o/hq720.jpg', 
-                        name: 'On appelle des gens au hasard avec Pierre Niney',
-                        url: 'https://www.youtube.com/watch?v=hxp07UVZs7o'
-                        }"/>
+                >   
+                    <template v-for="work in works">
+                        <card-work :work="work" :key="work.id"/>
+                    </template>
                     <!-- TODO: condition if work < 3 -->
                     <ModalWork @addWork="addWork"/>
                 </CGrid>
@@ -37,14 +35,18 @@ export default {
         CardAccount, CardWork, ModalWork,
         CBox, CHeading, CGrid
     },
-    computed: {
-        getWork(){
-            return 1;
-            // TODO: Request to get works of user, req.session will fetch his id etc... no need to send it
+    data(){
+        return{
+            works: null
         }
-    }, 
+    },
+    async mounted(){
+        const res = await this.getWorks();
+        this.works = res.data;
+    },
     props:{
-        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null}
+        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
+        getWorks: Function
     },
     methods: {
         async addWork(thumbnail, url, title){

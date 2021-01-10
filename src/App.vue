@@ -6,6 +6,7 @@
                 :user="user"
                 @login="login"
                 @addWork="addWork"
+                :getWorks="getWorks"
             />
         </CBox>
     </div>
@@ -82,7 +83,18 @@
                     },
                     withCredentials: true
                 });
+                if(res.status === 200){
+                    // TODO: callback on emit
+                    // document.querySelector(valid) = true
+                    // refresh /works
+                    window.location.reload();
+                }else{
+                    alert(res.data);
+                }
                 return res;
+            },
+            async getWorks(){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/work`, { withCredentials: true });
             }
         }
     }
