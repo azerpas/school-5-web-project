@@ -235,6 +235,21 @@ router.get("/work",async(req,res)=>{
 });
 
 /**
+ * Route qui permet la recherche en fonction de queries (optionnels): plateforme & categorie (tech, etc...)
+ * si il n'y a pas ces parametres : retourne tous les users
+ */
+router.get("/search",async(req,res)=>{
+    var {platform,category} = req.query;
+    var where = {};
+    if(platform != undefined)where.Platform = { some : {name: platform }};
+    if(category != undefined)where.Keyword = { some : {name: category }};
+    var result = await prisma.user.findMany({
+        where : where
+    });
+    res.status(200).send(result);
+});
+
+/**
  *
  * TODO : 
  *        -- SEARCH (ou un nom bidon comme ça) --
