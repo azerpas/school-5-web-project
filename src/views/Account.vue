@@ -5,25 +5,27 @@
             :gap="{base: '5', sm: '3'}"
             mt="3"
         >
-            <CardAccount :user="user"/>
-            <CBox>
-                <CHeading fontWeight="900">MY WORK ⬇️</CHeading>
-                <CGrid 
-                    :template-columns="{base: 'repeat(1, 1fr)'}" 
-                    :gap="{base: '5', sm: '3'}"
-                    mt="1"
-                >   
-                    <template v-for="work in works">
-                        <card-work 
-                            :work="work" :key="work.id" :id="'work-'+work.id" 
-                            @deleteAWork="deleteAWork"
-                            />
-                    </template>
-                    <template v-if="works.length < 3">
-                        <ModalWork :addWork="addWork" @addCard="addCard"/>
-                    </template>
-                </CGrid>
-            </CBox>
+            <CardAccount :user="user" :modifyUser="modifyUser"/>
+            <template v-if="user.roles === 'ROLE_INFLUENCER'">
+                <CBox>
+                    <CHeading fontWeight="900">MY WORK ⬇️</CHeading>
+                    <CGrid 
+                        :template-columns="{base: 'repeat(1, 1fr)'}" 
+                        :gap="{base: '5', sm: '3'}"
+                        mt="1"
+                    >   
+                        <template v-for="work in works">
+                            <card-work 
+                                :work="work" :key="work.id" :id="'work-'+work.id" 
+                                @deleteAWork="deleteAWork"
+                                />
+                        </template>
+                        <template v-if="works.length < 3">
+                            <ModalWork :addWork="addWork" @addCard="addCard"/>
+                        </template>
+                    </CGrid>
+                </CBox>
+            </template>
         </CGrid>
         
     </main>
@@ -53,7 +55,8 @@ export default {
         getWorks: Function,
         deleteWork: Function, 
         addWork: Function,
-        modifyWork: Function
+        modifyWork: Function,
+        modifyUser: Function
     },
     methods: {
         async deleteAWork(id){

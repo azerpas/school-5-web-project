@@ -4,10 +4,10 @@
         <CBox display="inline" ml="auto">
             <template v-if="user && user.id">
                 <template v-if="user.roles === 'ROLE_BRAND'">
-                    <router-link to="/influencers">Influencers</router-link> |
+                    <router-link to="/search">Influencers</router-link> |
                 </template>
                 <template v-else>
-                    <router-link to="/brands">Brands</router-link> |
+                    <router-link to="/search">Brands</router-link> |
                 </template>
                 <router-link to="/account">My Account</router-link> |
                 <button type="button" @click="logout">Logout</button>

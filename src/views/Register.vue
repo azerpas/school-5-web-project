@@ -2,14 +2,21 @@
     <main>
         <div class="register">
             <CFlex align="center" justify="center">
-                <form class="form-auth">
+                <form class="form-auth" @submit="submit($event)">
                     <CStack spacing="5">
                         <CHeading class="form-head">REGISTER</CHeading>
                         <CFormControl is-required>
-                            <CFormLabel for="username">Email</CFormLabel>
+                            <CFormLabel for="email">Email</CFormLabel>
                             <CInputGroup>
                                 <CInputLeftElement><CIcon name="email" color="gray"/></CInputLeftElement>
-                                <CInput v-model="username" type="email" placeholder="youremail@gmail.com" id="username"/>
+                                <CInput v-model="email" type="email" placeholder="youremail@gmail.com" id="email"/>
+                            </CInputGroup>
+                        </CFormControl>
+                        <CFormControl is-required>
+                            <CFormLabel for="username">Username</CFormLabel>
+                            <CInputGroup>
+                                <CInputLeftElement><CIcon name="star" color="gray"/></CInputLeftElement>
+                                <CInput v-model="username" type="text" id="username"/>
                             </CInputGroup>
                         </CFormControl>
                         <CFormControl is-required>
@@ -23,11 +30,11 @@
                         <CFormControl is-required>
                             <CFormLabel for="category">Category</CFormLabel>
                             <c-select v-model="category" placeholder="Choose your category" id="category">
-                                <option value="influencer">Influencer</option>
-                                <option value="business">Business</option>
+                                <option value="ROLE_INFLUENCER">Influencer</option>
+                                <option value="ROLE_BRAND">Business</option>
                             </c-select>
                         </CFormControl>
-                        <CButton variantColor="indigo" :click="()=>{}" width="100%">Login</CButton>
+                        <CButton variantColor="indigo" type="submit" width="100%">Login</CButton>
                         <p>Are you already registered? <router-link to="/login">Log In here!</router-link></p>
                     </CStack>
                 </form>
@@ -38,13 +45,15 @@
 
 <script>
 import '../assets/css/auth.css';
-import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading, CSelect } from "@chakra-ui/vue"
+import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading, CSelect } from "@chakra-ui/vue";
+import * as ROUTES from "../constants/index";
 export default {
     components:{
         CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading, CSelect
     },
     data (){
         return {
+            email: "",
             username: "",
             password: "",
             repeatPassword: "",
@@ -55,6 +64,21 @@ export default {
         type: {
             type: String,
             default: "Influencer"
+        },
+        register: Function
+    },
+    methods: {
+        async submit(event){
+            event.preventDefault();
+            if(this.password !== this.repeatPassword){
+                alert("Passwords doesn't match");
+                return;
+            }
+            const res = await this.register(this.email, this.username, this.password, this.category);
+            if(res.status === 200){
+                if(res.data.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
+                if(res.data.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
+            }
         }
     }
 }

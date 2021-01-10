@@ -57,6 +57,12 @@ const routes = [
     props: (route) => ({ type: route.query.type })
   },
   {
+    path: '/search',
+    name: 'Search',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Search.vue'),
+    props: (route) => ({ type: route.query.type })
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import(/* webpackChunkName: "about" */ '../views/404.vue'),
