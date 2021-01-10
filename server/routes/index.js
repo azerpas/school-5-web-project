@@ -307,6 +307,29 @@ router.delete("/work/:identifier", async(req, res) => {
     return res.status(200).send();
 });
 
+router.put("/work/:identifier", async(req, res) => {
+    if(req.session.user === undefined) return res.status(403).send({message:"Please login first"});
+    const id = parseInt(req.params.identifier);
+    if(!id) return res.status(400).send({message: "Please input a work"});
+    // TODO: Security to delete work only if it belongs to the user
+    const result = await prisma.work.findUnique({
+        where: {
+            id
+        }
+    });
+    if(result.id_user !== req.session.user.id) return res.status(403).send({message:"Not authorized to modify this ressource"});
+    let work = result;
+    work.name = req.body.name;
+    work.url = req.body.url;
+    const update = await prisma.work.update({
+        where: {
+            id
+        },
+        data: work
+    });
+    return res.status(200).send(update);
+});
+
 /**
  * Route qui permet la recherche en fonction de queries (optionnels): plateforme & categorie (tech, etc...)
  * si il n'y a pas ces parametres : retourne tous les users

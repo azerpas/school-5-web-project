@@ -52,7 +52,8 @@ export default {
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
         getWorks: Function,
         deleteWork: Function, 
-        addWork: Function
+        addWork: Function,
+        modifyWork: Function
     },
     methods: {
         async deleteAWork(id){

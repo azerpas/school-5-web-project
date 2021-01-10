@@ -18,10 +18,12 @@
                                         It will be shared on your profile
                                     </c-form-helper-text>
                                 </c-form-control>
-                                <c-form-control>
-                                    <c-form-label for="thumbnail">A thumbnail for your work</c-form-label>
-                                    <input required type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-                                </c-form-control>
+                                <template v-if="modifying">
+                                    <c-form-control>
+                                        <c-form-label for="thumbnail">A thumbnail for your work</c-form-label>
+                                        <input required type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                                    </c-form-control>
+                                </template>
                                 <c-form-control>
                                     <c-form-label for="url">A direct link to your work</c-form-label>
                                     <c-input required type="url" id="url" aria-describedby="url-helper-text" v-model="url" placeholder="https://www.youtube.com/watch?v=FRmQDItWXEc" />
@@ -119,7 +121,8 @@ export default {
         }
     },
     props: {
-        addWork: Function
+        addWork: Function,
+        modifying: Boolean
     }
 }
 </script>

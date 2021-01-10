@@ -6,6 +6,7 @@
                 :user="user"
                 @login="login"
                 :addWork="addWork"
+                :modifyWork="modifyWork"
                 :getWorks="getWorks"
                 :deleteWork="deleteWork"
             />
@@ -82,6 +83,9 @@
             },
             async deleteWork(id){
                 return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, { withCredentials: true })
+            },
+            async modifyWork(id, url, title){
+                return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, {url, name: title}, { withCredentials: true });
             }
         }
     }

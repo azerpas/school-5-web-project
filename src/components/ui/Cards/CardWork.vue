@@ -4,6 +4,7 @@
             <CImage :src="work.thumbnail" :alt="work.name+' work screenshot'" maxWidth="30%" mx="auto" my="3" borderRadius="lg"/>
             <CHeading as="h4" fontSize="lg" textAlign="center" color="white" mb="3">{{ work.name }}</CHeading>
         </a>
+        <c-icon-button aria-label="Modify work" icon="info" size="sm" variant="ghost" @click="modify()" />
         <c-icon-button aria-label="Delete work" icon="close" size="sm" variant="ghost" @click="remove()" />
     </CBox>
 </template>
