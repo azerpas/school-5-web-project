@@ -2,7 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import Chakra, { CBox } from '@chakra-ui/vue'
 import router from './router';
-import { CThemeProvider, CColorModeProvider, CReset } from '@chakra-ui/vue'
+import { CThemeProvider, CColorModeProvider, CReset } from '@chakra-ui/vue';
+import theme from "./theme";
 
 require('dotenv').config()
 
@@ -10,7 +11,7 @@ require('dotenv').config()
 
 Vue.config.productionTip = false
 
-Vue.use(Chakra);
+Vue.use(Chakra, { extendTheme: theme });
 
 new Vue({
     router,
