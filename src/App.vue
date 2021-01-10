@@ -7,6 +7,7 @@
                 @login="login"
                 @addWork="addWork"
                 :getWorks="getWorks"
+                :deleteWork="deleteWork"
             />
         </CBox>
     </div>
@@ -95,6 +96,9 @@
             },
             async getWorks(){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/work`, { withCredentials: true });
+            },
+            async deleteWork(id){
+                return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, { withCredentials: true })
             }
         }
     }

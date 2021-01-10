@@ -14,7 +14,7 @@
                     mt="1"
                 >   
                     <template v-for="work in works">
-                        <card-work :work="work" :key="work.id"/>
+                        <card-work :work="work" :key="work.id" :id="'work-'+work.id" @deleteAWork="deleteAWork"/>
                     </template>
                     <!-- TODO: condition if work < 3 -->
                     <ModalWork @addWork="addWork"/>
@@ -46,12 +46,18 @@ export default {
     },
     props:{
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
-        getWorks: Function
+        getWorks: Function,
+        deleteWork: Function
     },
     methods: {
         async addWork(thumbnail, url, title){
-            console.log("SUBMITTED")
             this.$emit('addWork', thumbnail, url, title);
+        },
+        async deleteAWork(id){
+            const res = await this.deleteWork(id);
+            if(res.status === 200){
+                document.querySelector(`#work-${id}`).remove();
+            }
         }
     }
 }
