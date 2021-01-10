@@ -60,6 +60,21 @@ router.get("/user", async (req, res) => {
     else res.status(403).send({message: "Please login first"})
 });
 
+router.get("/user/:identifier/work", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const id_user = parseInt(req.params.identifier);
+    try {
+        const result = await prisma.work.findMany({
+            where: {
+                id_user
+            }
+        });
+        return res.status(200).send(result);
+    } catch (error) {
+        return res.status(500).send(error);   
+    }
+})
+
 /**
  * Route enregistrant un nouvel utilisateur
  */

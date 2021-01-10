@@ -86,6 +86,9 @@
             },
             async modifyWork(id, url, title){
                 return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, {url, name: title}, { withCredentials: true });
+            },
+            async getUserWorks(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}/work`, { withCredentials: true })
             }
         }
     }
