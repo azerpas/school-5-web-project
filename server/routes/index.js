@@ -135,6 +135,7 @@ router.put("/user",async (req,res,next)=>{
         },
         data:params
     });
+    delete result.password;
     message.result = result;
     res.status(200).send(message);
 });

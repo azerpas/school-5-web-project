@@ -100,9 +100,11 @@
             async getUsers(){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search`, { withCredentials: true });
             },
-            async modifyUser(file){
+            async modifyUser(file, username, bio){
                 let formData = new FormData();
-                formData.append('file', file);
+                if(file) formData.append('file', file);
+                if(bio) formData.append('bio', bio);
+                if(username) formData.append('name', username);
                 const res = await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user`, formData, {
                     headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' }, withCredentials: true
                 });
