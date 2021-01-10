@@ -111,19 +111,35 @@ router.post("/user", async (req,res)=>{
 /**
  * Modification de l'utilisateur connecté
  */
-router.put("/user",async (req,res)=>{
+router.put("/user",async (req,res,next)=>{
     if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
     var params = req.body;
     var id = req.session.user.id;
-    if(Object.keys(params).length == 0 || !id)return res.status(400).send({message:"give id and data to update"})
+    if((Object.keys(params).length == 0 && req.file == undefined) || !id)return res.status(400).send({message:"give id and data to update"})
     if(params.role != undefined && params.role == "ROLE_ADMIN") return res.status(400).send({message:"error"});
+    var message = {};
+    if(req.file != undefined){
+        try {
+            const myFile = req.file;
+            const extension = path.extname(myFile.originalname).split(".")[1];
+            const imageUrl = await uploadFile(myFile, extension);
+            message.push({
+                message: "Upload was successful",
+                data: imageUrl
+            });
+            params.url = imageUrl;
+        }catch(error){
+            next(error);
+        }
+    }
     var result = await prisma.user.update({
         where:{
             id:parseInt(id)
         },
         data:params
     });
-    res.status(200).send(result);
+    message.push(result);
+    res.status(200).send(message);
 });
 
 /**
