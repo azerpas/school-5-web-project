@@ -263,10 +263,71 @@ router.get("/work",async(req,res)=>{
    if(req.session.user == undefined) return res.status(403).send({message:"Please login first"});
    var result =  await prisma.work.findMany({
        where:{
-           id_user:req.session.user.id
+           id_user: req.session.user.id
        }
    });
    res.status(200).send(result);
+});
+
+router.post("/work", async (req, res) => {
+    if(req.session.user === undefined) return res.status(403).send({message:"Please login first"});
+    const { url, title } = req.body;
+    const file = req.file;
+    if(!file) return res.status(400).send({message: "Please send a correct thumbnail"});
+    if(!url || url.trim() === "" || typeof url !== "string") return res.status(400).send({message: "Please send a correct url"});
+    if(!title || title.trim() === "" || typeof title !== "string") return res.status(400).send({message: "Please send a correct title"});
+    try {
+        const extension = path.extname(file.originalname).split(".")[1];
+        const thumbnail = await uploadFile(file, extension);
+        const result = await prisma.work.create({
+            data: {
+                thumbnail,
+                url,
+                name: title,
+                User: { connect: { id: req.session.user.id }}
+            }
+        });
+        res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+});
+
+router.delete("/work/:identifier", async(req, res) => {
+    if(req.session.user === undefined) return res.status(403).send({message:"Please login first"});
+    const id = parseInt(req.params.identifier);
+    if(!id) return res.status(400).send({message: "Please input a work"});
+    // TODO: Security to delete work only if it belongs to the user
+    const result = await prisma.work.delete({
+        where: {
+            id
+        }
+    });
+    return res.status(200).send();
+});
+
+router.put("/work/:identifier", async(req, res) => {
+    if(req.session.user === undefined) return res.status(403).send({message:"Please login first"});
+    const id = parseInt(req.params.identifier);
+    if(!id) return res.status(400).send({message: "Please input a work"});
+    // TODO: Security to delete work only if it belongs to the user
+    const result = await prisma.work.findUnique({
+        where: {
+            id
+        }
+    });
+    if(result.id_user !== req.session.user.id) return res.status(403).send({message:"Not authorized to modify this ressource"});
+    let work = result;
+    work.name = req.body.name;
+    work.url = req.body.url;
+    const update = await prisma.work.update({
+        where: {
+            id
+        },
+        data: work
+    });
+    return res.status(200).send(update);
 });
 
 /**

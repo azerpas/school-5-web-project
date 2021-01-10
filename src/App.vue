@@ -5,6 +5,10 @@
             <router-view
                 :user="user"
                 @login="login"
+                :addWork="addWork"
+                :modifyWork="modifyWork"
+                :getWorks="getWorks"
+                :deleteWork="deleteWork"
             />
         </CBox>
     </div>
@@ -64,6 +68,24 @@
                 if(res.status === 200){
                     this.user = null;
                 }
+                return res;
+            },
+            async addWork(thumbnail, url, title){
+                let formData = new FormData();
+                formData.append('file', thumbnail); formData.append('url', url); formData.append('title', title);
+                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/work`, formData, {
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' }, withCredentials: true
+                });
+                return res;
+            },
+            async getWorks(){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/work`, { withCredentials: true });
+            },
+            async deleteWork(id){
+                return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, { withCredentials: true })
+            },
+            async modifyWork(id, url, title){
+                return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, {url, name: title}, { withCredentials: true });
             }
         }
     }

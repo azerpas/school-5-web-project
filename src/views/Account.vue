@@ -12,14 +12,16 @@
                     :template-columns="{base: 'repeat(1, 1fr)'}" 
                     :gap="{base: '5', sm: '3'}"
                     mt="1"
-                >
-                    <CardWork :work="{
-                        image: 'https://i.ytimg.com/vi/hxp07UVZs7o/hq720.jpg', 
-                        name: 'On appelle des gens au hasard avec Pierre Niney',
-                        url: 'https://www.youtube.com/watch?v=hxp07UVZs7o'
-                        }"/>
-                    <!-- TODO: condition if work < 3 -->
-                    <CButton><CIcon name="add"/></CButton>
+                >   
+                    <template v-for="work in works">
+                        <card-work 
+                            :work="work" :key="work.id" :id="'work-'+work.id" 
+                            @deleteAWork="deleteAWork"
+                            />
+                    </template>
+                    <template v-if="works.length < 3">
+                        <ModalWork :addWork="addWork" @addCard="addCard"/>
+                    </template>
                 </CGrid>
             </CBox>
         </CGrid>
@@ -29,21 +31,40 @@
 
 <script>
 import CardAccount from "../components/ui/Cards/CardAccount";
-import {CBox, CHeading, CGrid, CButton, CIcon} from "@chakra-ui/vue";
+import {CBox, CHeading, CGrid} from "@chakra-ui/vue";
 import CardWork from '../components/ui/Cards/CardWork.vue';
+import ModalWork from '../components/ui/Modals/ModalWork.vue';
 export default {
     components: {
-        CardAccount, CardWork,
-        CBox, CHeading, CGrid, CButton, CIcon
+        CardAccount, CardWork, ModalWork,
+        CBox, CHeading, CGrid
     },
-    computed: {
-        getWork(){
-            return 1;
-            // TODO: Request to get works of user, req.session will fetch his id etc... no need to send it
+    data(){
+        return{
+            works: null
         }
-    }, 
+    },
+    async mounted(){
+        const res = await this.getWorks();
+        this.works = res.data;
+    },
     props:{
-        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null}
+        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
+        getWorks: Function,
+        deleteWork: Function, 
+        addWork: Function,
+        modifyWork: Function
+    },
+    methods: {
+        async deleteAWork(id){
+            const res = await this.deleteWork(id);
+            if(res.status === 200){
+                document.querySelector(`#work-${id}`).remove();
+            }
+        },
+        async addCard(work){
+            this.works.push(work);
+        }
     }
 }
 </script>
