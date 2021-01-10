@@ -122,10 +122,8 @@ router.put("/user",async (req,res,next)=>{
             const myFile = req.file;
             const extension = path.extname(myFile.originalname).split(".")[1];
             const imageUrl = await uploadFile(myFile, extension);
-            message.push({
-                message: "Upload was successful",
-                data: imageUrl
-            });
+            message.message = "Upload was successful"
+            message.url = imageUrl
             params.url = imageUrl;
         }catch(error){
             next(error);
@@ -137,7 +135,7 @@ router.put("/user",async (req,res,next)=>{
         },
         data:params
     });
-    message.push(result);
+    message.result = result;
     res.status(200).send(message);
 });
 

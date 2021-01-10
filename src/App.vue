@@ -11,6 +11,7 @@
                 :getWorks="getWorks"
                 :deleteWork="deleteWork"
                 :getUsers="getUsers"
+                :modifyUser="modifyUser"
             />
         </CBox>
     </div>
@@ -98,6 +99,14 @@
             },
             async getUsers(){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search`, { withCredentials: true });
+            },
+            async modifyUser(file){
+                let formData = new FormData();
+                formData.append('file', file);
+                const res = await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user`, formData, {
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' }, withCredentials: true
+                });
+                return res;
             }
         }
     }
