@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS "User"
     email text,
     bio text,
     roles t_role,
+    url text,
     PRIMARY KEY(id) ,
     UNIQUE(email)
 );

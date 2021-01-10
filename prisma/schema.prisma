@@ -48,6 +48,7 @@ model User {
   password                              String?
   email                                 String?    @unique
   bio                                   String?
+  url                                   String?
   roles                                 t_role?
   Offer                                 Offer[]
   Proposal_brand                        Proposal[] @relation("Proposal_id_brandToUser")
