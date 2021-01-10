@@ -14,10 +14,14 @@
                     mt="1"
                 >   
                     <template v-for="work in works">
-                        <card-work :work="work" :key="work.id" :id="'work-'+work.id" @deleteAWork="deleteAWork"/>
+                        <card-work 
+                            :work="work" :key="work.id" :id="'work-'+work.id" 
+                            @deleteAWork="deleteAWork"
+                            />
                     </template>
-                    <!-- TODO: condition if work < 3 -->
-                    <ModalWork @addWork="addWork"/>
+                    <template v-if="works.length < 3">
+                        <ModalWork :addWork="addWork" @addCard="addCard"/>
+                    </template>
                 </CGrid>
             </CBox>
         </CGrid>
@@ -47,17 +51,18 @@ export default {
     props:{
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
         getWorks: Function,
-        deleteWork: Function
+        deleteWork: Function, 
+        addWork: Function
     },
     methods: {
-        async addWork(thumbnail, url, title){
-            this.$emit('addWork', thumbnail, url, title);
-        },
         async deleteAWork(id){
             const res = await this.deleteWork(id);
             if(res.status === 200){
                 document.querySelector(`#work-${id}`).remove();
             }
+        },
+        async addCard(work){
+            this.works.push(work);
         }
     }
 }

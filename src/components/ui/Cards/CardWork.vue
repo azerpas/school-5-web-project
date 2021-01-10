@@ -18,7 +18,6 @@ export default {
     methods: {
         async remove(){
             this.$emit("deleteAWork" ,this.work.id);
-            
         }
     }
 }

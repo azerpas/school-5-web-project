@@ -5,7 +5,7 @@
             <router-view
                 :user="user"
                 @login="login"
-                @addWork="addWork"
+                :addWork="addWork"
                 :getWorks="getWorks"
                 :deleteWork="deleteWork"
             />
@@ -70,28 +70,11 @@
                 return res;
             },
             async addWork(thumbnail, url, title){
-                if(!thumbnail) return;
-                if(!url || url.trim() === "") return;
-                if(!title || title.trim() === "") return;
                 let formData = new FormData();
-                formData.append('file', thumbnail);
-                formData.append('url', url);
-                formData.append('title', title);
+                formData.append('file', thumbnail); formData.append('url', url); formData.append('title', title);
                 const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/work`, formData, {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    withCredentials: true
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' }, withCredentials: true
                 });
-                if(res.status === 200){
-                    // TODO: callback on emit
-                    // document.querySelector(valid) = true
-                    // refresh /works
-                    window.location.reload();
-                }else{
-                    alert(res.data);
-                }
                 return res;
             },
             async getWorks(){
