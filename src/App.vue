@@ -5,6 +5,7 @@
             <router-view
                 :user="user"
                 @login="login"
+                :register="register"
                 :addWork="addWork"
                 :modifyWork="modifyWork"
                 :getWorks="getWorks"
@@ -68,6 +69,13 @@
                 const res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/logout`, { withCredentials: true });
                 if(res.status === 200){
                     this.user = null;
+                }
+                return res;
+            },
+            async register(email, username, password, role){
+                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/user`, {email, username, password, role}, { withCredentials: true });
+                if(res.status === 200){
+                    this.user = res.data;
                 }
                 return res;
             },

@@ -64,19 +64,18 @@ router.get("/user", async (req, res) => {
  * Route enregistrant un nouvel utilisateur
  */
 router.post("/user", async (req,res)=>{
-    var {email,password,role,name,firstname,bio,keywords,platforms} = req.body;
-    bio = req.query.bio == undefined ? "" : req.query.bio;
-    if(email == undefined || password == undefined || role == undefined  || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
+    var {email,password,role,username,firstname,bio,keywords,platforms} = req.body;
+    if(email == undefined || password == undefined || role == undefined  || username == undefined) return res.status(400).send({message:"no data received"})
     if(role == "ROLE_ADMIN") return res.status(403).send({message:"Forbidden to add an admin user"});
     bcrypt.hash(password, saltRounds, async function(err, hash) {
         if(err != undefined) return res.status(400).send({message:"error password"});
         var data = {
             email:email,
             password:hash,
-            bio : bio,
-            roles:role,
-            name:name,
-            firstname:firstname
+            bio: bio ? bio : "",
+            roles: role,
+            name: username,
+            firstname: firstname ? firstname : ""
         };
         var ids = [];
         var i;
@@ -95,15 +94,15 @@ router.post("/user", async (req,res)=>{
             data.Platform = {connect:ids};
         }
         try {
-            var results = await prisma.user.create({
+            const result = await prisma.user.create({
                 data:data
             });
-            res.send(results);
+            delete result.password;
+            req.session.user = result;
+            return res.status(200).send(result);
         }catch (error){
             res.status(400).send({message:"error insert user"});
-            //console.log(error);
-            console.log("Error :  : " ,error.code);
-            console.log("Error fields : " ,error.meta.target);
+            console.log(error)
         }
     });
 });
