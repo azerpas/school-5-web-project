@@ -9,6 +9,8 @@
                 :modifyWork="modifyWork"
                 :getWorks="getWorks"
                 :deleteWork="deleteWork"
+                :getOffer="getOffer"
+                :getUser="getUser"
             />
         </CBox>
     </div>
@@ -86,6 +88,12 @@
             },
             async modifyWork(id, url, title){
                 return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, {url, name: title}, { withCredentials: true });
+            },
+            async getOffer(userId){
+              return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/offer?userId=${userId}`, { withCredentials: true })
+            },
+            async getUser(id){
+              return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}`, { withCredentials: true })
             }
         }
     }

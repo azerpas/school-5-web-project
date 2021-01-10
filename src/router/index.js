@@ -57,6 +57,12 @@ const routes = [
     props: (route) => ({ type: route.query.type })
   },
   {
+    path: '/user/:identifier/offers',
+    name: 'Offer',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Offer.vue'),
+    props: (route) => ({ type: route.query.type })
+  },
+  {
     path: '*',
     name: 'NotFound',
     component: () => import(/* webpackChunkName: "about" */ '../views/404.vue'),

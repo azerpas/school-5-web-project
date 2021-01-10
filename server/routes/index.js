@@ -61,6 +61,20 @@ router.get("/user", async (req, res) => {
 });
 
 /**
+ * Récupere l'utilisateur connecté
+ */
+router.get("/user/:identifier", async (req, res) => {
+    var id = parseInt(req.params.identifier);
+    if(!id)return res.status(400).send({message:"please input an user"});
+    var result = await prisma.user.findUnique({
+        where:{id:id}
+    });
+    delete result.password;
+    delete result.email;
+    res.status(200).send(result);
+});
+
+/**
  * Route enregistrant un nouvel utilisateur
  */
 router.post("/user", async (req,res)=>{
@@ -274,7 +288,7 @@ router.get("/offer",async (req,res)=>{
     if(userId == undefined) return res.status("403").send({message:"give user id "});
     var result = await prisma.offer.findMany({
         where:{
-            id_user:userId
+            id_user:parseInt(userId)
         }
     });
     res.status(200).send(result);
