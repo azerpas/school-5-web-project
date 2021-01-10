@@ -79,7 +79,6 @@ export default {
                 if(res.data.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
                 if(res.data.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
             }
-            
         }
     }
 }

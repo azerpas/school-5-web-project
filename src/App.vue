@@ -98,8 +98,8 @@
             async modifyWork(id, url, title){
                 return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, {url, name: title}, { withCredentials: true });
             },
-            async getUsers(){
-                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search`, { withCredentials: true });
+            async getUsers(platform, category){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search${platform || category ? '?' : ''}${platform && platform !== 'all' ? '&platform='+platform : ''}${category && category !== 'all' ? '&category='+category : ''}`, { withCredentials: true });
             },
             async modifyUser(file, username, bio){
                 let formData = new FormData();

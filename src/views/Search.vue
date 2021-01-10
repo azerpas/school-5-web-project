@@ -2,10 +2,10 @@
     <main>
         <CBox :mx="{base: 2}">
             <template v-if="user.roles === 'ROLE_INFLUENCER'">
-                <app-heading-partners/>
+                <app-heading-partners @search="search"/>
             </template>
             <template v-else>
-                <app-heading-influencers/>
+                <app-heading-influencers @search="search"/>
             </template>
             <CGrid 
                     :template-columns="{base: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)'}" 
@@ -38,8 +38,14 @@ export default {
         }
     },
     async mounted(){
-        const res = await this.getUsers();
+        const res = await this.getUsers(null,null);
         this.users = res.data;
+    },
+    methods: {
+        async search(platform, category){
+            const res = await this.getUsers(platform, category);
+            this.users = res.data;
+        }
     }
 }
 </script>
