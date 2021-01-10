@@ -212,17 +212,26 @@ router.delete("/user",async (req,res)=>{
  * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
  */
 router.get("/platform",async (req,res)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
     var idUser = req.query.userId;
     if(idUser != undefined){
-        var result = await prisma.user.findUnique({
+        let result = await prisma.user.findUnique({
             where:{
                 id:parseInt(idUser)
             }
         }).Platform();
+        res.status(200).send({platforms: result});
     }else{
-        result = await prisma.platform.findMany({});
+        let result = await prisma.platform.findMany({});
+        let platforms = await prisma.user.findUnique({
+            where:{
+                id: req.session.user.id
+            }
+        }).Platform();
+        let difference = result.filter(x => !platforms.includes(x));
+        res.status(200).send({platforms: {related: platforms, unrelated: difference}});
     }
-    res.send(result);
+    
 });
 
 /**

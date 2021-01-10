@@ -57,7 +57,7 @@ export default {
             const res = await this.getUserWorks(user.id);
             const res_p = await this.getPlatforms(user.id);
             this.focusedUser.works = res.data;
-            this.focusedUser.platforms = res_p.data;
+            this.focusedUser.platforms = res_p.data.platforms;
             this.$refs.discoverModal.isOpen = true;
         }
     }

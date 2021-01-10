@@ -103,7 +103,7 @@ export default {
     },
     async mounted(){
         const res = await this.getPlatforms();
-        this.platforms = res.data;
+        this.platforms = res.data.platforms.unrelated;
     },
 }
 </script>
