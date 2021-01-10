@@ -269,6 +269,31 @@ router.get("/work",async(req,res)=>{
    res.status(200).send(result);
 });
 
+router.post("/work", async (req, res) => {
+    if(req.session.user === undefined) return res.status(403).send({message:"Please login first"});
+    const { url, title } = req.body;
+    const file = req.file;
+    if(!file) return res.status(400).send({message: "Please send a correct thumbnail"});
+    if(!url || url.trim() === "" || typeof url !== "string") return res.status(400).send({message: "Please send a correct url"});
+    if(!title || title.trim() === "" || typeof title !== "string") return res.status(400).send({message: "Please send a correct title"});
+    try {
+        const extension = path.extname(file.originalname).split(".")[1];
+        const thumbnail = await uploadFile(file, extension);
+        const result = await prisma.work.create({
+            data: {
+                thumbnail,
+                url,
+                name: title,
+                User: { connect: { id: req.session.user.id }}
+            }
+        });
+        res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send(error);
+    }
+});
+
 /**
  * Route qui permet la recherche en fonction de queries (optionnels): plateforme & categorie (tech, etc...)
  * si il n'y a pas ces parametres : retourne tous les users

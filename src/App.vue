@@ -5,6 +5,7 @@
             <router-view
                 :user="user"
                 @login="login"
+                @addWork="addWork"
             />
         </CBox>
     </div>
@@ -64,6 +65,24 @@
                 if(res.status === 200){
                     this.user = null;
                 }
+                return res;
+            },
+            async addWork(thumbnail, url, title){
+                if(!thumbnail) return;
+                if(!url || url.trim() === "") return;
+                if(!title || title.trim() === "") return;
+                let formData = new FormData();
+                formData.append('file', thumbnail);
+                formData.append('url', url);
+                formData.append('title', title);
+                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/work`, formData, {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    withCredentials: true
+                });
+                return res;
             }
         }
     }

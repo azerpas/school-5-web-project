@@ -1,0 +1,106 @@
+<template>
+    <CBox>
+        <CButton @click="open" width="100%"><CIcon name="add"/></CButton>
+        <c-modal
+        :is-open="isOpen"
+        :on-close="close"
+        >
+            <c-modal-content ref="content">
+                <c-modal-header>Add a work</c-modal-header>
+                <c-modal-close-button />
+                <c-modal-body>
+                    <c-stack spacing="3">
+                        <c-form-control>
+                            <c-form-label for="title">Your work's title</c-form-label>
+                            <c-input type="title" id="title" aria-describedby="title-helper-text" v-model="title" placeholder="Hello - Music Video" />
+                            <c-form-helper-text id="title-helper-text">
+                                It will be shared on your profile
+                            </c-form-helper-text>
+                        </c-form-control>
+                        <c-form-control>
+                            <c-form-label for="thumbnail">A thumbnail for your work</c-form-label>
+                            <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+                        </c-form-control>
+                        <c-form-control>
+                            <c-form-label for="url">A direct link to your work</c-form-label>
+                            <c-input type="url" id="url" aria-describedby="url-helper-text" v-model="url" placeholder="https://www.youtube.com/watch?v=FRmQDItWXEc" />
+                            <c-form-helper-text id="title-helper-text">
+                                A YouTube video, a picture, an Instagram post
+                            </c-form-helper-text>
+                        </c-form-control>
+                    </c-stack>
+                </c-modal-body>
+                <c-modal-footer>
+                <c-button variant-color="blue" mr="3" @click="submit()">
+                    Add it
+                </c-button>
+                <c-button @click="close">Cancel</c-button>
+                </c-modal-footer>
+            </c-modal-content>
+            <c-modal-overlay />
+        </c-modal>
+    </CBox>
+</template>
+
+<script>
+import {
+  CModal,
+  CModalOverlay,
+  CModalContent,
+  CModalHeader,
+  CModalFooter,
+  CModalBody,
+  CModalCloseButton,
+  CIcon,
+  CBox,
+  CButton,
+  CInput,
+  CFormControl,
+  CFormLabel,
+  //CFormErrorMessage,
+  CFormHelperText,
+  CStack
+} from "@chakra-ui/vue";
+export default {
+    components: {
+        CModal,
+        CModalOverlay,
+        CModalContent,
+        CModalHeader,
+        CModalFooter,
+        CModalBody,
+        CModalCloseButton,
+        CIcon,
+        CBox,
+        CButton,
+        CInput,
+        CFormControl,
+        CFormLabel,
+        //CFormErrorMessage,
+        CFormHelperText,
+        CStack
+    },
+    data () {
+        return {
+            isOpen: false,
+            title: null,
+            thumbnail: null,
+            url: null
+        }
+    },
+    methods: {
+        open() {
+            this.isOpen = true
+        },
+        close() {
+            this.isOpen = false
+        },
+        handleFileUpload(){
+            this.thumbnail = this.$refs.file.files[0];
+        },
+        async submit(){
+            this.$emit('addWork', this.thumbnail, this.url, this.title);
+        }
+    }
+}
+</script>
