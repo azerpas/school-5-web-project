@@ -1,0 +1,5 @@
+export const LOGIN = "/login"
+export const REGISTER = "/register"
+export const SEARCH = "/register"
+export const ACCOUNT = "/account"
+export const HOME = "/"

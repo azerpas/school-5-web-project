@@ -22,6 +22,7 @@
     import { CBox } from '@chakra-ui/vue';
     import AppNavbar from "./components/layout/AppNavbar";
     import axios from 'axios';
+    import * as ROUTES from "./constants/index";
     require('dotenv').config()
     export default {
         components: {
@@ -62,8 +63,8 @@
                 const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password}, { withCredentials: true });
                 if(res.status === 200){
                     this.user = res.data;
-                    if(this.user.roles === "ROLE_BRAND") window.location.href = "/influencers";
-                    if(this.user.roles === "ROLE_INFLUENCER") window.location.href = "/brands";
+                    if(this.user.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
+                    if(this.user.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
                 }
             },
             async logout(){

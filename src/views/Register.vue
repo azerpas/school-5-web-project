@@ -45,7 +45,8 @@
 
 <script>
 import '../assets/css/auth.css';
-import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading, CSelect } from "@chakra-ui/vue"
+import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading, CSelect } from "@chakra-ui/vue";
+import * as ROUTES from "../constants/index";
 export default {
     components:{
         CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading, CSelect
@@ -75,8 +76,8 @@ export default {
             }
             const res = await this.register(this.email, this.username, this.password, this.category);
             if(res.status === 200){
-                if(res.data.roles === "ROLE_BRAND") window.location.href = "/influencers";
-                if(res.data.roles === "ROLE_INFLUENCER") window.location.href = "/brands";
+                if(res.data.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
+                if(res.data.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
             }
             
         }
