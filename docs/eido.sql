@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS "User"
 CREATE TABLE IF NOT EXISTS "Work"(
     id serial,
     url text,
-    name VARCHAR(50),
+    name text,
     id_User INT NOT NULL,
     thumbnail text,
     PRIMARY KEY(id),
