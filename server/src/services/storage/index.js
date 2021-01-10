@@ -1,7 +1,12 @@
 import {Storage} from "@google-cloud/storage";
 import { v4 as uuidv4 } from 'uuid';
 
-export const uploadFile = async (filename) => {
+/**
+ * Upload file to Google Storage
+ * @param {*} file : File type
+ * @param {*} fileExtension : file extension (png, jpeg, etc...)
+ */
+export const uploadFile = async (file, fileExtension) => {
     const storage = new Storage({
         credentials: {
             private_key: process.env.PRIVATE_KEY,
@@ -11,11 +16,18 @@ export const uploadFile = async (filename) => {
     });
     const bucket = storage.bucket(process.env.BUCKET_NAME);
     const fileUuid = uuidv4();
-    const res = await bucket.upload(filename, {
-        destination: fileUuid,
-        metadata: {
-            cacheControl: 'public, max-age=31536000',
-        }
+    const blob = await bucket.file(fileUuid+"."+fileExtension);
+    const stream = await blob.createWriteStream();
+    const res = await new Promise((resolve, reject) => {
+        stream.on('error', err => {
+            reject(err);
+        });
+        stream.on('finish', () => {
+            const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+            resolve(publicUrl);
+        });
+        stream.end(file.buffer);
     });
-    return res[0].name;
+    await blob.makePublic();
+    return res;
 }
