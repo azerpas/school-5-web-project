@@ -1,5 +1,7 @@
 import express from 'express';
 import {PrismaClient} from "@prisma/client"
+import {uploadFile} from "../src/services/storage/index";
+import path from "path";
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const prisma = new PrismaClient()
@@ -11,7 +13,6 @@ router.get('/', async (req, res) => {
         version:"1.0"
     });
 });
-
 
 /**
  * Route permettant de se connecter
