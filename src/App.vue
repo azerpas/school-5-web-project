@@ -12,6 +12,8 @@
                 :deleteWork="deleteWork"
                 :getUsers="getUsers"
                 :modifyUser="modifyUser"
+                :getUserWorks="getUserWorks"
+                :getPlatforms="getPlatforms"
             />
         </CBox>
     </div>
@@ -113,6 +115,9 @@
             },
             async getUserWorks(id){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}/work`, { withCredentials: true })
+            },
+            async getPlatforms(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/platform${id && id !== '' ? '?userId='+id : ''}`, { withCredentials: true })
             }
         }
     }

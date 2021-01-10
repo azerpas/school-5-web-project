@@ -181,7 +181,6 @@ router.get("/platform",async (req,res)=>{
                 id:parseInt(idUser)
             }
         }).Platform();
-        console.log(result);
     }else{
         result = await prisma.platform.findMany({});
     }
