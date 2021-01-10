@@ -21,7 +21,7 @@
                                 />
                         </template>
                         <template v-if="works.length < 3">
-                            <ModalWork :addWork="addWork" @addCard="addCard"/>
+                            <ModalWork :addWork="addWork" @addCard="addCard" :modifying="false"/>
                         </template>
                     </CGrid>
                 </CBox>

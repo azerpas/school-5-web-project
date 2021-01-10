@@ -34,7 +34,8 @@ export default {
     },
     data(){
         return{
-            users: null
+            users: null,
+            focusedUser: null
         }
     },
     async mounted(){

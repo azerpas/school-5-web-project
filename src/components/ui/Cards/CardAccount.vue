@@ -1,6 +1,6 @@
 <template>
     <CBox bg="#7425F3" textAlign="center" borderRadius="lg" boxShadow="1px 1px 6px 0px" py="3">
-        <template v-if="user.url !== undefined">
+        <template v-if="user.url">
             <CAvatar :src="user.url" :alt="user.firstname+' profile picture'" size="2xl"/>
         </template>
         <template v-else>
@@ -38,7 +38,7 @@ import { CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CForm
 export default {
     components: { CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider },
     props:{
-        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
+        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},
         modifyUser: Function
     },
     data(){
@@ -51,7 +51,7 @@ export default {
             this.file = this.$refs.file.files[0];
             const res = await this.modifyUser(this.file);
             if(res.status === 200){
-                this.user.image = res.data.url;
+                this.user.url = res.data.url;
             }
         },
         async modify(event){

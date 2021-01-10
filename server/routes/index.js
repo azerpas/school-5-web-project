@@ -148,7 +148,7 @@ router.put("/user",async (req,res,next)=>{
         where:{
             id:parseInt(id)
         },
-        data:params
+        data: params
     });
     delete result.password;
     message.result = result;
