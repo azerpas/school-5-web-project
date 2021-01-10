@@ -16,12 +16,12 @@
                 <c-stack spacing="3">
                     <CHeading size="xl" as="h3" textAlign="center">WORK</CHeading>
                     <template v-for="work in user.works">
-                        <CLink :key="work.id" :to="work.url"><CImage :src="work.thumbnail"/></CLink>
+                        <CLink :key="work.id" :href="work.url" is-external><CImage :src="work.thumbnail"/></CLink>
                     </template>
                 </c-stack>
             </c-modal-body>
             <c-modal-footer>
-            <CLink><CButton mr="2" variant-color="indigo">Get in touch ! ✨</CButton></CLink>
+            <CLink as="router-link" :to="'/user/'+user.id+'/offers'"><CButton mr="2" variant-color="indigo">Get in touch ! ✨</CButton></CLink>
             <c-button @click="close">Cancel</c-button>
             </c-modal-footer>
         </c-modal-content>
