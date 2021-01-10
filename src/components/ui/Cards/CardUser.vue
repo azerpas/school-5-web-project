@@ -1,6 +1,20 @@
 <template>
     <CBox bg="#7425F3" textAlign="center" borderRadius="lg" boxShadow="1px 1px 6px 0px">
-        <CImage :src="image" :alt="name+' profile picture'" m="auto" width="100%" roundedTop="lg"/>
+        <template v-if="image">
+            <CImage :src="image" :alt="name+' profile picture'" m="auto" width="100%" roundedTop="lg"/>
+        </template>
+        <template v-else>
+            <template v-if="discover">
+                <CImage 
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/pleading-face_1f97a.png" 
+                    alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg"/>
+            </template>
+            <template v-else>
+                <CImage 
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/office-building_1f3e2.png" 
+                    alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg"/>
+            </template>
+        </template>
         <CHeading as="h3" textAlign="center" color="white">{{ name }}</CHeading>
         <span v-for="keyword in keywords" :key="keyword">
             <CText fontSize="xl" color="gray.200">{{ keyword }}</CText>
