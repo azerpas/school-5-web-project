@@ -6,7 +6,10 @@ const prisma = new PrismaClient()
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-    res.status(200).send();
+    res.status(200).send({
+        name: "EIDO api",
+        version:"1.0"
+    });
 });
 
 
@@ -18,27 +21,27 @@ router.get('/', async (req, res) => {
 router.post('/login',async (req,res)=>{
     const email = req.body.username;
     const password = req.body.password;
+    if(email == undefined|| password ==  undefined )return res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
     const result = await prisma.user.findUnique({
         where: {
             email
         }
     });
-    if(result!=null){
-        bcrypt.compare(password, result.password, function(err, resultHash) {
-            if(resultHash){
-                delete result.password;
-                req.session.user = result;
-                res.status(200).send(result);
-            }else{
-                res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
-            }
-        });
-    }else{
-        res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
-    }
+    if(result==null) return res.status(403).send({error:"Forbidden",message:"Invalid email or password"});
+    bcrypt.compare(password, result.password, function(err, resultHash) {
+        if(resultHash){
+            delete result.password;
+            req.session.user = result;
+            res.status(200).send(result);
+        }else{
+            res.status(403).send({error:"Forbidden",message:"Invalid email or password"})
+        }
+    });
 });
 
-
+/**
+ * Deconnecte l'utlisateur connecté (le supprime de la session)
+ */
 router.get("/logout", async (req, res) => {
     if (req.session.user != null){
         req.session.destroy();
@@ -49,41 +52,8 @@ router.get("/logout", async (req, res) => {
 });
 
 /**
- * Route recuperant les platformes d'un utilisateur (donné en parametre)
- * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
+ * Récupere l'utilisateur connecté
  */
-router.get("/platform",async (req,res)=>{
-    var idUser = req.query.user_id;
-    console.log(idUser)
-    if(idUser != undefined){
-        var result = await prisma.user.findUnique({
-            where:{
-                id:parseInt(idUser)
-            }
-        }).Platform();
-        console.log(result);
-    }else{
-        result = await prisma.platform.findMany({});
-    }
-    res.send(result);
-});
-
-/**
- * Route affichant les proposition d'un utilisateur en fonction de son role
- *
- * TODO recup l'user dans la session et non dans la requete + select les propositions en fonction du role
- */
-router.get("/proposal",async (req,res)=>{
-    var idUser = req.query.user_id;
-    var result = await prisma.user.findUnique({
-        where:{
-            id:parseInt(idUser)
-        }
-    }).Proposal_influencer();
-    console.log(result);
-    res.send(result);
-});
-
 router.get("/user", async (req, res) => {
     if(req.session.user) res.status(200).send(req.session.user);
     else res.status(403).send({message: "Please login first"})
@@ -95,7 +65,8 @@ router.get("/user", async (req, res) => {
 router.put("/user", async (req,res)=>{
    var {email,password,role,name,firstname,bio} = req.body;
     bio = req.query.bio == undefined ? "" : req.query.bio;
-    if(email == undefined || password == undefined || role == undefined || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
+    if(email == undefined || password == undefined || role == undefined  || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
+    if(role == "ROLE_ADMIN") return res.status(403).send({message:"Forbidden to add an admin user"});
     bcrypt.hash(password, saltRounds, async function(err, hash) {
         if(err != undefined) return res.status(400).send({message:"error password"})
         try {
@@ -113,16 +84,20 @@ router.put("/user", async (req,res)=>{
         }catch (error){
             res.status(400).send({message:"error insert user"})
             console.log("Error :  : " ,error.code);
-            console.log("error fields : " ,error.meta.target);
+            console.log("Error fields : " ,error.meta.target);
         }
     });
 });
 
-
-router.post("/user/:userId",async (req,res)=>{
+/**
+ * Modification de l'utilisateur connecté
+ */
+router.post("/user",async (req,res)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
     var params = req.body;
-    var id = req.params.userId;
+    var id = req.session.user.id;
     if(Object.keys(params).length == 0 || !id)return res.status(400).send({message:"give id and data to update"})
+    if(params.role != undefined && params.role == "ROLE_ADMIN") return res.status(400).send({message:"error"});
     var result = await prisma.user.update({
         where:{
             id:parseInt(id)
@@ -133,10 +108,133 @@ router.post("/user/:userId",async (req,res)=>{
 });
 
 /**
+ * Suppression de l'utilisateur connecté
+ */
+router.delete("/user",async (req,res)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    var id = req.session.user.id;
+    var result = await prisma.user.delete({
+        where:{
+            id:parseInt(id)
+        }
+    });
+    res.status(200).send(result);
+});
+
+/**
+ * Route recuperant les platformes d'un utilisateur (donné en parametre)
+ * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
+ */
+router.get("/platform",async (req,res)=>{
+    var idUser = req.query.userId;
+    if(idUser != undefined){
+        var result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Platform();
+        console.log(result);
+    }else{
+        result = await prisma.platform.findMany({});
+    }
+    res.send(result);
+});
+
+/**
+ * Route affichant les proposition d'un utilisateur en fonction de son role
  *
- * TODO : --OFFER--
- *        - GET /offer (par user)
- *        - PUT /offer
+ */
+router.get("/proposal",async (req,res)=>{
+    if(!req.session.user)return  res.status(403).send({message: "Please login first"})
+    var idUser = req.session.user;
+    var result;
+    if(req.session.user.roles == "ROLE_BRAND"){
+        result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Proposal_influencer();
+    }else if(req.session.user.roles == "ROLE_INFLUENCER"){
+        result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Proposal_brand();
+    }
+    console.log(result);
+    res.send(result);
+});
+
+
+/**
+ * Route recuperant les mots-clefs d'un utilisateur (donné en parametre)
+ * Si il n'y a pas d'utilisateur : renvoi tous les mots clefs
+ */
+router.get("/keyword",async (req,res)=>{
+    var idUser = req.query.userId;
+    if(idUser != undefined){
+        var result = await prisma.user.findUnique({
+            where:{
+                id:parseInt(idUser)
+            }
+        }).Keyword();
+    }else{
+        result = await prisma.keyword.findMany({});
+    }
+    res.status(200).send(result);
+});
+
+/**
+ * Récupere les offres d'utilisteur (id donné en parametre)
+ */
+router.get("/offer",async (req,res)=>{
+    var userId = req.query.userId;
+    if(userId == undefined) return res.status("403").send({message:"give user id "});
+    var result = await prisma.offer.findMany({
+        where:{
+            id_user:userId
+        }
+    });
+    res.status(200).send(result);
+});
+
+/**
+ * Creation d'une offre :
+ * @param price (obligatoire)
+ * @param unit (obligatoire)
+ *
+ * l'offre est associée à l'utlisateur connecté : donc la colonne "custom" est à FALSE
+ * Les offres "Custom" sont créées lorsqu'une proposition est créée (put('/proposal',...))
+ */
+router.put("/offer", async(req,res)=>{
+   var {price,unit} = req.body;
+   if(req.session.user == undefined) return res.status(403).send({message:"Please login first"})
+   if(price == undefined || unit == undefined) return res.status(403).send({message:"wrong data"});
+   var result = await prisma.offer.create({
+       data:{
+           price:price,
+           unit:unit,
+           custom:false,
+           id_user:req.session.user
+       }
+   });
+   res.status(200).send(result);
+});
+
+
+
+
+/**
+ *
+ * TODO : 
+ *        -- SEARCH (ou un nom bidon comme ça) --
+ *        Route qui permet la recherche en fonction de queries (optionnels): plateforme & categorie (tech, etc...)
+ *        Essentiel pour la page d'accueil
+ *        - GET '/search' ou encore '/search?platform=tik-tok' ou encore '/search?platform=youtube&category=tech'
+ *        -- WORK -- 
+ *        Route pour récupérer les différents work de l'influenceur
+ *        - GET /work
+ *        --OFFER--
  *        - DELETE /offer
  *        - POST /offer
  *        -
@@ -144,13 +242,10 @@ router.post("/user/:userId",async (req,res)=>{
  *        - PUT /proposal
  *        - DELETE /proposal
  *        -
- *        --USER--
- *        - DELETE /user
- *        - POST /user
  *        -
  *        --KEYWORD--
- *        - GET /keyword (par user)
  *        - PUT /keyword (sauf si on decide que les keyword sont prédéfinis)
  *        - DELETE /keyword (sauf si on decide que les keyword sont prédéfinis)
+ *        - POST /keyword (sauf si on decide que les keyword sont prédéfinis)
  */
 module.exports = router
