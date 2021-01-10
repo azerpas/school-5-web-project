@@ -202,10 +202,48 @@ router.get("/proposal",async (req,res)=>{
 
 
 /**
- * Creation d'une proposition
+ * Creation d'une proposition : deux parametres :
+ *  - id d'un user
+ *  - id d'une offre OU une offre à creer
+ *  si c'est l'id d'une offre ==> association de la nouvelle proposition avec l'offre correspondant
+ *  si c'est un objet ==> creation d'une nouvelle offre et association avec la nouvelle proposition
  *
  */
 router.post("/proposal",async(req,res)=>{
+    if(!req.session.user)return  res.status(403).send({message: "Please login first"})
+    var currentUser = req.session.user;
+    var {userId,offer} = req.body;
+    var data = {};
+    var currentUserId = parseInt(currentUser.id);
+    userId = parseInt(userId);
+    if(currentUser.roles == "ROLE_BRAND"){
+        data.Influencer = {connect : {id:userId}};
+        data.Brand = {connect : {id:currentUserId}};
+    }else if(currentUser.roles == "ROLE_INFLUENCER"){
+        data.Influencer = {connect : {id:currentUserId}};
+        data.Brand = {connect : {id:userId}};
+    }
+    if(isNaN(parseInt(offer))){
+        data.Offer = {
+            create : {
+                price:parseInt(offer.price),
+                unit:offer.unit,
+                custom:true,
+                id_user:userId
+            }
+        };
+    }else{
+        data.Offer = {connect : {id:offer}};
+    }
+    try{
+        var result =  await prisma.proposal.create({
+            data:data
+        });
+        res.status(200).send(result);
+    }catch(error){
+        res.status(400).send({message:"error to insert proposal"})
+        console.log(error);
+    }
 
 });
 
