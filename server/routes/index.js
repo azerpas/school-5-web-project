@@ -202,6 +202,15 @@ router.get("/proposal",async (req,res)=>{
 
 
 /**
+ * Creation d'une proposition
+ *
+ */
+router.post("/proposal",async(req,res)=>{
+
+});
+
+
+/**
  * Route recuperant les mots-clefs d'un utilisateur (donné en parametre)
  * Si il n'y a pas d'utilisateur : renvoi tous les mots clefs
  */
@@ -257,6 +266,48 @@ router.post("/offer", async(req,res)=>{
 });
 
 /**
+ * Supprime une offre (id en parametre):
+ *  l'offre doit appartenir à l'utilisateur connecté
+ */
+router.delete('/offer', async(req,res)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    var offerId = req.body.id;
+    if(offerId == undefined)return res.status(403).send({message: "give offer id"});
+    var userId = req.session.user.id;
+    var result = await prisma.offer.deleteMany({
+        where:{
+            id:parseInt(offerId),
+            User:{
+                id:parseInt(userId)
+            }
+        }
+    });
+    res.status(200).send(result);
+});
+
+/**
+ * Modification d'une offre
+ */
+router.put("/offer",async (req,res,next)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    var {price, unit,id} = req.body;
+    //var userId = req.session.user.id;
+    if((!price && !unit) || !id)return res.status(400).send({message:"give id and data to update"});
+    var data = {}
+    if(price != undefined)data.price = parseInt(price);
+    if(unit != undefined)data.unit = unit;
+    var result = await prisma.offer.update({
+        where:{
+            id:parseInt(id),
+        },
+        data:data
+    });
+    res.status(200).send(result);
+});
+
+
+
+/**
  * Recuperation des différents work de l'utlisateur connecté
  */
 router.get("/work",async(req,res)=>{
@@ -274,8 +325,12 @@ router.get("/work",async(req,res)=>{
  * si il n'y a pas ces parametres : retourne tous les users
  */
 router.get("/search",async(req,res)=>{
+    if(req.session.user == undefined) return res.status(403).send({message:"Please login first"});
+    var role = req.session.user.roles;
     var {platform,category} = req.query;
     var where = {};
+    if(role == "ROLE_BRAND")where.roles = "ROLE_INFLUENCER";
+    if(role == "ROLE_INFLUENCER")where.roles = "ROLE_BRAND";
     if(platform != undefined)where.Platform = { some : {name: platform }};
     if(category != undefined)where.Keyword = { some : {name: category }};
     var result = await prisma.user.findMany({
@@ -286,18 +341,7 @@ router.get("/search",async(req,res)=>{
 
 /**
  *
- * TODO : 
- *        -- SEARCH (ou un nom bidon comme ça) --
- *        Route qui permet la recherche en fonction de queries (optionnels): plateforme & categorie (tech, etc...)
- *        Essentiel pour la page d'accueil
- *        - GET '/search' ou encore '/search?platform=tik-tok' ou encore '/search?platform=youtube&category=tech'
- *        -- WORK -- 
- *        Route pour récupérer les différents work de l'influenceur
- *        - GET /work
- *        --OFFER--
- *        - DELETE /offer
- *        - POST /offer
- *        -
+ * TODO :
  *        --PROPOSAL--
  *        - PUT /proposal
  *        - DELETE /proposal
