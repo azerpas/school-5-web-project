@@ -63,27 +63,45 @@ router.get("/user", async (req, res) => {
 /**
  * Route enregistrant un nouvel utilisateur
  */
-router.put("/user", async (req,res)=>{
-   var {email,password,role,name,firstname,bio} = req.body;
+router.post("/user", async (req,res)=>{
+    var {email,password,role,name,firstname,bio,keywords,platforms} = req.body;
     bio = req.query.bio == undefined ? "" : req.query.bio;
     if(email == undefined || password == undefined || role == undefined  || name == undefined || firstname == undefined) return res.status(400).send({message:"no data received"})
     if(role == "ROLE_ADMIN") return res.status(403).send({message:"Forbidden to add an admin user"});
     bcrypt.hash(password, saltRounds, async function(err, hash) {
-        if(err != undefined) return res.status(400).send({message:"error password"})
+        if(err != undefined) return res.status(400).send({message:"error password"});
+        var data = {
+            email:email,
+            password:hash,
+            bio : bio,
+            roles:role,
+            name:name,
+            firstname:firstname
+        };
+        var ids = [];
+        var i;
+        if(keywords != undefined){
+            ids = [];
+            for(i in keywords){
+                ids.push({id :parseInt(keywords[i])});
+            }
+            data.Keyword = {connect:ids};
+        }
+        if(platforms != undefined){
+            ids = [];
+            for(i in platforms){
+                ids.push({id :parseInt(platforms[i])});
+            }
+            data.Platform = {connect:ids};
+        }
         try {
             var results = await prisma.user.create({
-                data:{
-                    email:email,
-                    password:hash,
-                    bio : bio,
-                    roles:role,
-                    name:name,
-                    firstname:firstname
-                }
+                data:data
             });
             res.send(results);
         }catch (error){
-            res.status(400).send({message:"error insert user"})
+            res.status(400).send({message:"error insert user"});
+            //console.log(error);
             console.log("Error :  : " ,error.code);
             console.log("Error fields : " ,error.meta.target);
         }
@@ -93,7 +111,7 @@ router.put("/user", async (req,res)=>{
 /**
  * Modification de l'utilisateur connecté
  */
-router.post("/user",async (req,res)=>{
+router.put("/user",async (req,res)=>{
     if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
     var params = req.body;
     var id = req.session.user.id;
@@ -207,7 +225,7 @@ router.get("/offer",async (req,res)=>{
  * l'offre est associée à l'utlisateur connecté : donc la colonne "custom" est à FALSE
  * Les offres "Custom" sont créées lorsqu'une proposition est créée (put('/proposal',...))
  */
-router.put("/offer", async(req,res)=>{
+router.post("/offer", async(req,res)=>{
    var {price,unit} = req.body;
    if(req.session.user == undefined) return res.status(403).send({message:"Please login first"})
    if(price == undefined || unit == undefined) return res.status(403).send({message:"wrong data"});
