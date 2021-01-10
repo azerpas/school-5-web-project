@@ -27,6 +27,22 @@
                         Anything related to you, your website 🌍, your hobbies 🏌️‍
                     </c-form-helper-text>
                 </c-form-control>
+                <CBox>
+                    <c-tag
+                        v-for="platform in platforms"
+                        size="md"
+                        :key="platform.id"
+                        :ref="'platform-'+platform.id"
+                        variant="solid"
+                        variant-color="cyan"
+                    >
+                        <c-tag-label>{{platform.name}}</c-tag-label>
+                        <c-tag-close-button @click="removePlatformTag(platform.id)" />
+                        <CButton @click="addPlatformTag(platform)">
+                            <c-tag-icon icon="add"/>
+                        </CButton>
+                    </c-tag>
+                </CBox>
                 <CButton bg="black" color="gray.50" type="submit">Save your informations</CButton>
             </c-stack>
         </form>
@@ -34,16 +50,26 @@
 </template>
 
 <script>
-import { CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider } from "@chakra-ui/vue";
+import { 
+    CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider,
+    CTag, CTagIcon, CTagLabel, CTagCloseButton
+} from "@chakra-ui/vue";
 export default {
-    components: { CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider },
+    components: { 
+        CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider,
+        CTag, CTagIcon, CTagLabel, CTagCloseButton
+    },
     props:{
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},
-        modifyUser: Function
+        modifyUser: Function,
+        getPlatforms: Function,
+        addPlatform: Function,
+        removePlatform: Function
     },
     data(){
         return {
-            file: null
+            file: null,
+            platforms: null
         }
     },
     methods: {
@@ -65,7 +91,19 @@ export default {
                     duration: 5000
                 });
             }
+        },
+        async addPlatformTag(platform){
+            const res = await this.addPlatform(platform);
+            console.log(res);
+        },
+        async removePlatformTag(id){
+            const res = await this.removePlatform(id);
+            console.log(res);
         }
-    }
+    },
+    async mounted(){
+        const res = await this.getPlatforms();
+        this.platforms = res.data;
+    },
 }
 </script>

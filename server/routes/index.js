@@ -75,6 +75,44 @@ router.get("/user/:identifier/work", async (req, res) => {
     }
 })
 
+router.put("/user/platform", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const {platform} = req.body;
+    try {
+        const result = await prisma.user.update({
+            where: {
+                id: req.session.user.id
+            },
+            data: {
+                Platform: { connect: { id: platform.id }}
+            }
+        });
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);   
+    }
+})
+
+router.delete("/user/platform/:identifier", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const id = parseInt(req.params.identifier);
+    try {
+        const result = await prisma.user.update({
+            where: {
+                id: req.session.user.id
+            },
+            data: {
+                Platform: { disconnect: { id }}
+            }
+        });
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);   
+    }
+})
+
 /**
  * Route enregistrant un nouvel utilisateur
  */
