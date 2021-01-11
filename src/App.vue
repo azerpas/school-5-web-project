@@ -5,6 +5,7 @@
             <router-view
                 :user="user"
                 @login="login"
+                :register="register"
                 :addWork="addWork"
                 :modifyWork="modifyWork"
                 :getWorks="getWorks"
@@ -12,6 +13,8 @@
                 :getOffer="getOffer"
                 :getUser="getUser"
                 :createProposal="createProposal"
+                :getUsers="getUsers"
+                :modifyUser="modifyUser"
             />
         </CBox>
     </div>
@@ -22,6 +25,7 @@
     import { CBox } from '@chakra-ui/vue';
     import AppNavbar from "./components/layout/AppNavbar";
     import axios from 'axios';
+    import * as ROUTES from "./constants/index";
     require('dotenv').config()
     export default {
         components: {
@@ -62,14 +66,21 @@
                 const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password}, { withCredentials: true });
                 if(res.status === 200){
                     this.user = res.data;
-                    if(this.user.roles === "ROLE_BRAND") window.location.href = "/influencers";
-                    if(this.user.roles === "ROLE_INFLUENCER") window.location.href = "/brands";
+                    if(this.user.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
+                    if(this.user.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
                 }
             },
             async logout(){
                 const res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/logout`, { withCredentials: true });
                 if(res.status === 200){
                     this.user = null;
+                }
+                return res;
+            },
+            async register(email, username, password, role){
+                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/user`, {email, username, password, role}, { withCredentials: true });
+                if(res.status === 200){
+                    this.user = res.data;
                 }
                 return res;
             },
@@ -101,6 +112,21 @@
               if(res.status == 200){
                 window.location.href = "/valid"
               }
+            async getUsers(platform, category){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search${platform || category ? '?' : ''}${platform && platform !== 'all' ? '&platform='+platform : ''}${category && category !== 'all' ? '&category='+category : ''}`, { withCredentials: true });
+            },
+            async modifyUser(file, username, bio){
+                let formData = new FormData();
+                if(file) formData.append('file', file);
+                if(bio) formData.append('bio', bio);
+                if(username) formData.append('name', username);
+                const res = await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user`, formData, {
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'multipart/form-data' }, withCredentials: true
+                });
+                return res;
+            },
+            async getUserWorks(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}/work`, { withCredentials: true })
             }
 
         }

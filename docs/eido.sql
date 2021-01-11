@@ -79,6 +79,8 @@ CREATE UNIQUE INDEX "_PlatformToUser_AB_unique" ON "_PlatformToUser"("A" int4_op
 CREATE INDEX "_PlatformToUser_B_index" ON "_PlatformToUser"("B" int4_ops);
 
 INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('influenceur','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','influenceur@influenceur.fr','influenceur','ROLE_INFLUENCER') ,
+                                                                         ('Mcfly & Carlito','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','mc@mc.fr','Pas très marrant','ROLE_INFLUENCER') ,
+                                                                         ('World Of Tanks','Charles','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','wof@wof.com','Le meilleur jeu de tank au monde','ROLE_BRAND') ,
                                                                          ('marque','marque','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','marque@marque.fr','marque','ROLE_BRAND');
 INSERT INTO "Platform" (name) VALUES ('youtube'),
                                      ('instagram'),
