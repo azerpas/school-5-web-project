@@ -89,7 +89,7 @@ INSERT INTO "User" (name, firstName, password, email, bio, roles, url) VALUES ('
                                                                          ('Hollyh','h','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','hollyh@hollyh.fr','tiktokeuse','ROLE_INFLUENCER','https://storage.googleapis.com/eido-school/661cf40d-632e-4341-98ec-ab939b4575ee.jpg'),
                                                                          ('Hugo Décrypte','hugo','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','hugo@hugo.fr','Résumé actualité','ROLE_INFLUENCER','https://storage.googleapis.com/eido-school/hugo.jpg'),
                                                                          ('Dr Nozman','hugo','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','nozman@nozman.fr','vulgarisation scientifique','ROLE_INFLUENCER','https://storage.googleapis.com/eido-school/meme-s-il-compte-dans-ses-fans-des-grands-ados-le-public_3871013_1000x526.jpg'),
-                                                                         ('Nota Bene','bene','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','notabene@notabene.fr','chaine sur l histoire','ROLE_INFLUENCER');;
+                                                                         ('Nota Bene','bene','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','notabene@notabene.fr','chaine sur l histoire','ROLE_INFLUENCER',null);
 
 INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (1200, 'minute', FALSE, 1);
 INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (9300, 'video', FALSE, 1);
@@ -112,7 +112,7 @@ INSERT INTO "Work" (url, name, id_User, thumbnail) VALUES ('https://www.youtube.
                                                             ('https://www.youtube.com/watch?v=zuDtOgAWADI','POURQUOI GOOGLE EST DOWN ? (explications)',1, 'https://i.ytimg.com/vi/zuDtOgAWADI/hq720.jpg'),
                                                             ('https://www.instagram.com/p/CI8rUbqpkYN/','INSTA #1',6, 'https://storage.googleapis.com/eido-school/131895322_211884247111020_6146310298298481972_n.jpg'),
                                                             ('https://www.youtube.com/watch?v=OUCRbQHriSQ','Trump censuré des réseaux',7, 'https://i.ytimg.com/vi/OUCRbQHriSQ/hq720.jpg'),
-                                                            ('https://www.youtube.com/watch?v=NtGlbC_Atdw','Pourquoi les médias parlent aussi peu des Ouïghours',7, 'https://i.ytimg.com/vi/NtGlbC_Atdw/hq720.jpg'),
+                                                            ('https://www.youtube.com/watch?v=NtGlbC_Atdw','Pourquoi les médias parlent aussi peu des Ouïghours',7, 'https://i.ytimg.com/vi/NtGlbC_Atdw/hq720.jpg');
 
 INSERT INTO "Platform" (name) VALUES ('youtube'),
                                      ('instagram'),
