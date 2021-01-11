@@ -23,18 +23,20 @@
                 :addKeyword="addKeyword"
                 :removeKeyword="removeKeyword"
                 :getAllPlatforms="getAllPlatforms"
+                :getAllKeywords="getAllKeywords"
             />
         </CBox>
     </div>
 </template>
 
 <script>
-    import './assets/css/main.css'
-    import { CBox } from '@chakra-ui/vue';
-    import AppNavbar from "./components/layout/AppNavbar";
-    import axios from 'axios';
-    import * as ROUTES from "./constants/index";
-    require('dotenv').config()
+import './assets/css/main.css'
+import {CBox} from '@chakra-ui/vue';
+import AppNavbar from "./components/layout/AppNavbar";
+import axios from 'axios';
+import * as ROUTES from "./constants/index";
+
+require('dotenv').config()
     export default {
         components: {
             CBox,
@@ -169,9 +171,12 @@
           },
           async getAllPlatforms() {
             var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/platform`, {withCredentials: true});
-            var test = res.data.platforms.related.concat(res.data.platforms.unrelated);
-            console.log(test);
-            res.data = test;
+            res.data = res.data.platforms.related.concat(res.data.platforms.unrelated);
+            return res;
+          },
+          async getAllKeywords() {
+            var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {withCredentials: true});
+            res.data = res.data.keywords.related.concat(res.data.keywords.unrelated);
             return res;
           }
         }
