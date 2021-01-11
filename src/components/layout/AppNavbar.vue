@@ -17,6 +17,7 @@
                     <button type="button" @click="logout">Logout</button>
                 </template>
                 <template v-else>
+                    <router-link to="/">Search</router-link>
                     <router-link to="/register">Get Started</router-link>  
                     <router-link to="/login">Log In</router-link>
                 </template>
@@ -57,6 +58,9 @@
         display: inline;
         padding-left: 0.7rem;
         vertical-align: baseline;
+    }
+    #nav h1 a.router-link-exact-active{
+        color: black !important;
     }
     #nav h1 i{
         font-style: initial;
