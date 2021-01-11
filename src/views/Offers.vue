@@ -2,10 +2,10 @@
   <div>
     <c-breadcrumb separator="›" m="3" fontWeight="bold" fontSize="lg">
       <c-breadcrumb-item v-if="user.roles=='ROLE_BRAND'">
-        <c-breadcrumb-link href="/">Our influencers</c-breadcrumb-link>
+        <c-breadcrumb-link href="/search">Our influencers</c-breadcrumb-link>
       </c-breadcrumb-item>
-      <c-breadcrumb-item v-else-if="user.roles=='ROLE_influencer'" >
-        <c-breadcrumb-link href="/">Our partners</c-breadcrumb-link>
+      <c-breadcrumb-item v-else-if="user.roles=='ROLE_INFLUENCER'" >
+        <c-breadcrumb-link href="/search">Our partners</c-breadcrumb-link>
       </c-breadcrumb-item>
 
       <c-breadcrumb-item isCurrentPage>

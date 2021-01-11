@@ -6,13 +6,13 @@
       <c-text fontSize="2xl">
         The other party has been contacted. <br>In the meantime, checkout our best influencers.
       </c-text>
-        <CButton width="80%" my="3" bg="#7425F3" color="white"><a href="/">Find your influencer</a></CButton>
+        <CButton width="80%" my="3" bg="#7425F3" color="white"><a href="/search">Find your influencer</a></CButton>
       </c-box>
       <c-box v-else-if="user.roles=='ROLE_INFLUENCER'">
         <c-text fontSize="2xl">
           The other party has been contacted. <br>In the meantime, checkout our best partners.
         </c-text>
-        <CButton width="80%" my="3" bg="#7425F3" color="white"><a href="/">Find your partner</a></CButton>
+        <CButton width="80%" my="3" bg="#7425F3" color="white"><a href="/search">Find your partner</a></CButton>
       </c-box>
     </c-box>
   </c-box>
