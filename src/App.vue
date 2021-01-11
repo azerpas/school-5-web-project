@@ -35,6 +35,7 @@ import {CBox} from '@chakra-ui/vue';
 import AppNavbar from "./components/layout/AppNavbar";
 import axios from 'axios';
 import * as ROUTES from "./constants/index";
+import router from "@/router";
 
 require('dotenv').config()
     export default {
@@ -137,7 +138,7 @@ require('dotenv').config()
                 expiration_date: expiration_date
               }, {withCredentials: true})
               if (res.status == 200) {
-                window.location.href = "/valid"
+                await router.push({name: "Valid"});
               }
             },
             async getUsers(platform, category){

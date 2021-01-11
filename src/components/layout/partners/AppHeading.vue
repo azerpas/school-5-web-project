@@ -21,7 +21,7 @@ export default {
       keywords:Array
     },
     data(){
-        return{ 
+        return{
             category: "all"
         }
     },
