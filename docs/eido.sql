@@ -87,6 +87,22 @@ INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('Micod
                                                                          ('Hugo Décrypte','hugo','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','hugo@hugo.fr','Résumé actualité','ROLE_INFLUENCER'),
                                                                          ('Dr Nozman','hugo','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','nozman@nozman.fr','vulgarisation scientifique','ROLE_INFLUENCER'),
                                                                          ('Nota Bene','bene','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','notabene@notabene.fr','chaine sur l histoire','ROLE_INFLUENCER');;
+
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (1200, 'minute', FALSE, 1);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (9300, 'video', FALSE, 1);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (5000, 'video', FALSE, 3);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (6000, 'video', FALSE, 4);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (7000, 'video', FALSE, 5);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (5000, 'publication', FALSE, 3);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (6000, 'publication', FALSE, 4);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (9000, 'publication', FALSE, 5);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (3400, 'minute', FALSE, 7);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (15000, 'photo', FALSE, 6);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (30000, 'video', FALSE, 6);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (8000, 'photo', FALSE, 7);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (2000, 'minute', FALSE, 8);
+INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (10000, 'video', FALSE, 8);
+
 INSERT INTO "Platform" (name) VALUES ('youtube'),
                                      ('instagram'),
                                      ('tiktok'),
@@ -96,6 +112,10 @@ INSERT INTO "Platform" (name) VALUES ('youtube'),
 INSERT INTO "_PlatformToUser" VALUES (1,1),
                                      (2,1),
                                      (5,1),
+                                     (5,2),
+                                     (5,6),
+                                     (5,7),
+                                     (5,8),
                                      (3,2),
                                      (4,1),
                                      (1,2),

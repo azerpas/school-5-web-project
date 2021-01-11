@@ -19,7 +19,8 @@
           <CHeading :key="platform.name" size="md" as="h4" textTransform="capitalize" textAlign="center">
             {{ platform.name }}
             <template v-if="['youtube'].includes(platform.name)"> 📹</template>
-            <template v-if="['tiktok', 'instagram'].includes(platform.name)"> 📱</template>
+            <template v-if="['tiktok', 'facebook'].includes(platform.name)"> 📱</template>
+            <template v-if="['instagram'].includes(platform.name)"> 📸</template>
           </CHeading>
         </template>
         <c-text></c-text>
