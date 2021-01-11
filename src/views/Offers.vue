@@ -71,68 +71,75 @@
 <script>
 import {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink, //CGrid
 } from "@chakra-ui/vue";
-
 export default {
-  components: {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink, //CGrid
-  },
-  data() {
-    return {
-      offers: [],
-      userP: null,
-      offerSelected: "null",
-      price: null,
-      date: "dd/mm/yyyy",
-      unit: null,
-      description: "",
-      disableCustom: true,
-      error:false
-    }
-  },
-  props: {
-    user: Object,
-    getOffer: Function,
-    getUser: Function,
-    createProposal: Function
-  },
-  async mounted() {
-    if(!this.user.id)window.location.href="/";
-    var idUser = this.$route.params.identifier;
-    const resO = await this.getOffer(idUser);
-    console.log(resO);
-    const resU = await this.getUser(idUser);
-    this.offers = resO.data;
-    this.userP = resU.data;
-  },
-  methods: {
-    sendRequest() {
-      if (this.offerSelected == "custom") {
-        if (this.price == null || this.unit == null) this.error = true;
-        else {
-          this.createProposal(this.user.id, {
-            price: this.price,
-            unit: this.unit,
-          }, this.description, this.date);
-        }
-      } else {
-        this.createProposal(this.user.id, this.offerSelected, this.description, this.date)
-      }
-
+    components: {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink, //CGrid
     },
-    changeOffer(e) {
-      this.offerSelected = e;
-      if (e == "custom") {
-        document.getElementById("price").disabled = false;
-        document.getElementById("select_unit").children[0].disabled = false;
-        document.getElementById("price").setAttribute("aria-disabled", false);
-        document.getElementById("select_unit").children[0].setAttribute("aria-disabled", false);
-      } else {
-        document.getElementById("price").disabled = true;
-        document.getElementById("select_unit").children[0].disabled = true;
-        document.getElementById("price").setAttribute("aria-disabled", true);
-        document.getElementById("select_unit").children[0].setAttribute("aria-disabled", true);
-      }
+    data() {
+        return {
+            offers: [],
+            userP: null,
+            offerSelected: "null",
+            price: null,
+            date: "dd/mm/yyyy",
+            unit: null,
+            description: "",
+            disableCustom: true,
+            error:false
+        }
+    },
+    props: {
+        user: Object,
+        getOffer: Function,
+        getUser: Function,
+        createProposal: Function
+    },
+    watch:{
+        user:{
+            handler(newValue){
+                if(!newValue.id) window.location.href="/";
+            },
+            deep: true,
+            immediate: true
+        }
+    },
+    async mounted() {
+        var idUser = this.$route.params.identifier;
+        const resO = await this.getOffer(idUser);
+        console.log(resO);
+        const resU = await this.getUser(idUser);
+        this.offers = resO.data;
+        this.userP = resU.data;
+    },
+    methods: {
+        sendRequest() {
+        if (this.offerSelected == "custom") {
+            if (this.price == null || this.unit == null) this.error = true;
+            else {
+            this.createProposal(this.user.id, {
+                price: this.price,
+                unit: this.unit,
+            }, this.description, this.date);
+            }
+        } else {
+            this.createProposal(this.user.id, this.offerSelected, this.description, this.date)
+        }
+
+        },
+        changeOffer(e) {
+        this.offerSelected = e;
+        if (e == "custom") {
+            document.getElementById("price").disabled = false;
+            document.getElementById("select_unit").children[0].disabled = false;
+            document.getElementById("price").setAttribute("aria-disabled", false);
+            document.getElementById("select_unit").children[0].setAttribute("aria-disabled", false);
+        } else {
+            document.getElementById("price").disabled = true;
+            document.getElementById("select_unit").children[0].disabled = true;
+            document.getElementById("price").setAttribute("aria-disabled", true);
+            document.getElementById("select_unit").children[0].setAttribute("aria-disabled", true);
+        }
+        }
     }
-  }
 }
 </script>
 <style>
