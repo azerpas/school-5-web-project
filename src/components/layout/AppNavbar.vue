@@ -71,6 +71,8 @@
         vertical-align: middle;
     }
     .links a, .links button{
-        margin-left: 0.4rem;
+        margin-left: 1.4rem;
+        text-transform: uppercase;
+        font-weight: 800;
     }
 </style>
