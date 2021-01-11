@@ -58,7 +58,7 @@ export default {
         this.works = res.data;
     },
     props:{
-        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
+        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},
         getWorks: Function,
         deleteWork: Function, 
         addWork: Function,

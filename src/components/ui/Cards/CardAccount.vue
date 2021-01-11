@@ -1,7 +1,7 @@
 <template>
     <CBox bg="#7425F3" textAlign="center" borderRadius="lg" boxShadow="1px 1px 6px 0px" py="3">
         <template v-if="user.url">
-            <CAvatar :src="user.url" :alt="user.firstname+' profile picture'" size="2xl"/>
+            <CAvatar :src="user.url" :alt="user.name+' profile picture'" size="2xl"/>
         </template>
         <template v-else>
             <CAvatar size="2xl" />
@@ -72,7 +72,7 @@
                             :key="r.id"
                             :ref="'platform-'+r.id"
                             variant="solid"
-                            variant-color="blue"
+                            variant-color="indigo"
                         >
                             <c-tag-label>{{r.name}}</c-tag-label>
                             <c-tag-close-button @click="removeKeywordTag(r.id)" size="md" />
@@ -83,7 +83,7 @@
                             :key="u.id"
                             :ref="'platform-'+u.id"
                             variant="solid"
-                            variant-color="cyan"   
+                            variant-color="pink"   
                         >
                             <c-tag-label>{{u.name}}</c-tag-label>
                             <CButton size="xs" variant="unstyled" v-on:click="addKeywordTag(u.id)">

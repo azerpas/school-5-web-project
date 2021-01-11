@@ -40,7 +40,14 @@
             AppNavbar
         },
         inject: ['$chakraColorMode', '$toggleColorMode'],
+        /*
         async mounted(){
+            const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
+            if(user.status === 200) this.user = user.data;
+            else this.user = null;
+        },
+        */
+        async beforeMount(){
             const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
             if(user.status === 200) this.user = user.data;
             else this.user = null;
