@@ -3,16 +3,18 @@
 ## Bugs & Todo
 
 **/account**
+
 - La photo de profil ne s'affiche pas (refresh page)
 - Modification de la bio et du pseudo ne marche pas (sauf après déco??)
 - Bouton modifier ne marche pas
 - Pas de possibilité d'ajouter ses offres
-- Pas de possibilité d'ajouter ses keywords
-- Cacher les platforms pour les marque    
+- [x] Pas de possibilité d'ajouter ses keywords
+- [x] Cacher les platforms pour les marque    
 
 **/offers**
-- Offre custom disable le price & unit
+- ~~Offre custom disable le price & unit~~
 - Bouton retour     
+- Détails graphique (€...)
 
 **/search**
 - Tester les select   
