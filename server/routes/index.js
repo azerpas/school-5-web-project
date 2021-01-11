@@ -312,7 +312,7 @@ router.get("/platform",async (req,res)=>{
  */
 router.get("/proposal",async (req,res)=>{
     if(!req.session.user)return  res.status(403).send({message: "Please login first"})
-    var idUser = req.session.user;
+    var idUser = req.session.user.id;
     var result;
     if(req.session.user.roles == "ROLE_BRAND"){
         result = await prisma.user.findUnique({

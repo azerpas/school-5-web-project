@@ -24,6 +24,7 @@
                 :removeKeyword="removeKeyword"
                 :getAllPlatforms="getAllPlatforms"
                 :getAllKeywords="getAllKeywords"
+                :getProposals="getProposals"
             />
         </CBox>
     </div>
@@ -139,6 +140,9 @@ require('dotenv').config()
               if (res.status == 200) {
                 window.location.href = "/valid"
               }
+            },
+            async getProposals(){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/proposal/`, {withCredentials: true})
             },
             async getUsers(platform, category){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search${platform || category ? '?' : ''}${platform && platform !== 'all' ? '&platform='+platform : ''}${category && category !== 'all' ? '&category='+category : ''}`, { withCredentials: true });

@@ -33,6 +33,21 @@
                     </CGrid>
                 </CBox>
             </template>
+            <CBox>
+                <CHeading fontWeight="900">MY PROPOSALS ⬇️</CHeading>
+                <CGrid 
+                    :template-columns="{base: 'repeat(1, 1fr)'}" 
+                    :gap="{base: '5', sm: '3'}"
+                    mt="1"
+                >   
+                    <template v-for="p in proposals">
+                        <CHeading as="h4" size="xs" :key="p.id">
+                            From user {{p.id_brand}}. Offer {{p.id_offer}}.<br/>
+                            More details to come. 🤖
+                        </CHeading>
+                    </template>
+                </CGrid>
+            </CBox>
         </CGrid>
         
     </main>
@@ -50,13 +65,15 @@ export default {
     },
     data(){
         return{
-            works: null
+            works: null,
+            proposals: null
         }
     },
     watch:{
         user:{
             handler(newValue){
                 if(!newValue.id) window.location.href="/";
+                console.log(newValue)
             },
             deep: true,
             immediate: true
@@ -65,6 +82,8 @@ export default {
     async mounted(){
         const res = await this.getWorks();
         this.works = res.data;
+        const propos = await this.getProposals();
+        this.proposals = propos.data;
     },
     props:{
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},
@@ -78,7 +97,8 @@ export default {
         removePlatform: Function,
         getKeywords: Function,
         addKeyword: Function,
-        removeKeyword: Function
+        removeKeyword: Function,
+        getProposals: Function
     },
     methods: {
         async deleteAWork(id){
