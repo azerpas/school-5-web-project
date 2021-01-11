@@ -114,6 +114,56 @@ router.delete("/user/platform/:identifier", async (req, res) => {
 })
 
 /**
+ * Route recuperant les mots-clefs d'un utilisateur (donné en parametre)
+ * Si il n'y a pas d'utilisateur : renvoi tous les mots clefs
+ */
+router.get("/user/keywords", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const idUser = req.query.userId;
+    if(idUser){
+        let result = await prisma.user.findUnique({
+            where:{
+                id: parseInt(idUser)
+            }
+        }).Keyword();
+        res.status(200).send({keywords: result});
+    }else{
+        try {
+            const result = await prisma.keyword.findMany();
+            const keywords = await prisma.user.findUnique({ where: { id: req.session.user.id } }).Keyword();
+            let difference = result.filter(compare(keywords));
+            return res.status(200).send({keywords: {related: keywords, unrelated: difference}});
+        } catch (error) {
+            return res.status(500).send(error);   
+        }
+    }
+})
+
+router.put("/user/keywords", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const id = parseInt(req.body.id);
+    try {
+        const result = await prisma.user.update({ where: { id: req.session.user.id }, data: { Keyword: { connect: { id }} } });
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);   
+    }
+})
+
+router.delete("/user/keywords/:identifier", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const id = parseInt(req.params.identifier);
+    try {
+        const result = await prisma.user.update({ where: { id: req.session.user.id }, data: { Keyword: { disconnect: { id }} } });
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);   
+    }
+})
+
+/**
  * Récupere l'utilisateur connecté
  */
 router.get("/user/:identifier", async (req, res) => {
@@ -331,25 +381,6 @@ router.post("/proposal",async(req,res)=>{
         console.log(error);
     }
 
-});
-
-
-/**
- * Route recuperant les mots-clefs d'un utilisateur (donné en parametre)
- * Si il n'y a pas d'utilisateur : renvoi tous les mots clefs
- */
-router.get("/keyword",async (req,res)=>{
-    var idUser = req.query.userId;
-    if(idUser != undefined){
-        var result = await prisma.user.findUnique({
-            where:{
-                id:parseInt(idUser)
-            }
-        }).Keyword();
-    }else{
-        result = await prisma.keyword.findMany({});
-    }
-    res.status(200).send(result);
 });
 
 /**

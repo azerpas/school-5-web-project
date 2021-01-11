@@ -29,35 +29,68 @@
                         Anything related to you, your website 🌍, your hobbies 🏌️‍
                     </c-form-helper-text>
                 </c-form-control>
+                <template v-if="user.roles === 'ROLE_INFLUENCER'">
+                    <CHeading as="h5" textAlign="center" color="gray.100" size="sm" fontWeight="500">Your platforms</CHeading>
+                    <CGrid 
+                        :template-columns="{base: 'repeat(6, 1fr)', sm: 'repeat(4, 1fr)'}" 
+                        :gap="{base: '5', sm: '3'}"
+                    >
+                        <c-tag
+                            v-for="rplatform in relatedPlatforms"
+                            size="md"
+                            :key="rplatform.id"
+                            :ref="'platform-'+rplatform.id"
+                            variant="solid"
+                            variant-color="blue"
+                        >
+                            <c-tag-label>{{rplatform.name}}</c-tag-label>
+                            <c-tag-close-button @click="removePlatformTag(rplatform.id)" size="md" />
+                        </c-tag>
+                        <c-tag
+                            v-for="uplatform in unrelatedPlatforms"
+                            size="md"
+                            :key="uplatform.id"
+                            :ref="'platform-'+uplatform.id"
+                            variant="solid"
+                            variant-color="cyan"   
+                        >
+                            <c-tag-label>{{uplatform.name}}</c-tag-label>
+                            <CButton size="xs" variant="unstyled" v-on:click="addPlatformTag(uplatform)">
+                                <c-tag-icon icon="add" />
+                            </CButton>
+                        </c-tag>
+                    </CGrid>
+                </template>
+                <CHeading as="h5" textAlign="center" color="gray.100" size="sm" fontWeight="500">Your categories</CHeading>
                 <CGrid 
-                    :template-columns="{base: 'repeat(6, 1fr)'}" 
-                    :gap="{base: '5', sm: '3'}"
-                >
-                    <c-tag
-                        v-for="rplatform in relatedPlatforms"
-                        size="md"
-                        :key="rplatform.id"
-                        :ref="'platform-'+rplatform.id"
-                        variant="solid"
-                        variant-color="blue"
+                        :template-columns="{base: 'repeat(6, 1fr)', sm: 'repeat(4, 1fr)'}" 
+                        :gap="{base: '5', sm: '3'}"
                     >
-                        <c-tag-label>{{rplatform.name}}</c-tag-label>
-                        <c-tag-close-button @click="removePlatformTag(rplatform.id)" size="md" />
-                    </c-tag>
-                    <c-tag
-                        v-for="uplatform in unrelatedPlatforms"
-                        size="md"
-                        :key="uplatform.id"
-                        :ref="'platform-'+uplatform.id"
-                        variant="solid"
-                        variant-color="cyan"   
-                    >
-                        <c-tag-label>{{uplatform.name}}</c-tag-label>
-                        <CButton size="xs" variant="unstyled" v-on:click="addPlatformTag(uplatform)">
-                            <c-tag-icon icon="add" />
-                        </CButton>
-                    </c-tag>
-                </CGrid>
+                        <c-tag
+                            v-for="r in relatedKeywords"
+                            size="md"
+                            :key="r.id"
+                            :ref="'platform-'+r.id"
+                            variant="solid"
+                            variant-color="blue"
+                        >
+                            <c-tag-label>{{r.name}}</c-tag-label>
+                            <c-tag-close-button @click="removeKeywordTag(r.id)" size="md" />
+                        </c-tag>
+                        <c-tag
+                            v-for="u in unrelatedKeywords"
+                            size="md"
+                            :key="u.id"
+                            :ref="'platform-'+u.id"
+                            variant="solid"
+                            variant-color="cyan"   
+                        >
+                            <c-tag-label>{{u.name}}</c-tag-label>
+                            <CButton size="xs" variant="unstyled" v-on:click="addKeywordTag(u.id)">
+                                <c-tag-icon icon="add" />
+                            </CButton>
+                        </c-tag>
+                    </CGrid>
                 <CButton bg="black" color="gray.50" type="submit">Save your informations</CButton>
             </c-stack>
         </form>
@@ -79,13 +112,18 @@ export default {
         modifyUser: Function,
         getPlatforms: Function,
         addPlatform: Function,
-        removePlatform: Function
+        removePlatform: Function,
+        getKeywords: Function,
+        addKeyword: Function,
+        removeKeyword: Function
     },
     data(){
         return {
             file: null,
             unrelatedPlatforms: null,
-            relatedPlatforms: null
+            relatedPlatforms: null,
+            unrelatedKeywords: null,
+            relatedKeywords: null
         }
     },
     methods: {
@@ -109,7 +147,6 @@ export default {
             }
         },
         async addPlatformTag(platform){
-            console.log("HERE")
             const res = await this.addPlatform(platform);
             console.log(res);
             await this.updatePlatforms();
@@ -123,10 +160,27 @@ export default {
             const res = await this.getPlatforms();
             this.unrelatedPlatforms = res.data.platforms.unrelated;
             this.relatedPlatforms = res.data.platforms.related;
-        }
+        }, 
+        async updateKeywords(){
+            const res = await this.getKeywords()
+            this.unrelatedKeywords = res.data.keywords.unrelated;
+            this.relatedKeywords = res.data.keywords.related;
+        },
+        async addKeywordTag(id){
+            const res = await this.addKeyword(id);
+            console.log(res);
+            await this.updateKeywords();
+        },
+        async removeKeywordTag(id){
+            const res = await this.removeKeyword(id);
+            console.log(res);
+            await this.updateKeywords();
+        },
+
     },
     async mounted(){
         await this.updatePlatforms();
+        await this.updateKeywords();
     },
 }
 </script>

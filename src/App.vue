@@ -19,6 +19,9 @@
                 :getPlatforms="getPlatforms"
                 :addPlatform="addPlatform"
                 :removePlatform="removePlatform"
+                :getKeywords="getKeywords"
+                :addKeyword="addKeyword"
+                :removeKeyword="removeKeyword"
             />
         </CBox>
     </div>
@@ -146,6 +149,15 @@
             },
             async removePlatform(id){
                 return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/platform/${id}`, { withCredentials: true })
+            },
+            async getKeywords(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords${id && id !== '' ? '?userId='+id : ''}`, { withCredentials: true })
+            },
+            async addKeyword(id){
+                return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {id}, { withCredentials: true })
+            },
+            async removeKeyword(id){
+                return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/keywords/${id}`, { withCredentials: true })
             }
 
         }
