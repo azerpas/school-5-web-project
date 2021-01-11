@@ -11,14 +11,14 @@
                                 <CInputLeftElement>
                                 <CIcon name="email" color="gray"/>
                                 </CInputLeftElement>
-                                <CInput v-model="username" type="email" placeholder="youremail@gmail.com" id="username" @change="() => { bad = false }"/>
+                                <CInput v-model="username" type="email" placeholder="youremail@gmail.com" id="username" @change="setBad(false)"/>
                             </CInputGroup>
                         </CFormControl>
                         <CFormControl is-required>
                             <CFormLabel for="password">Password</CFormLabel>
-                            <CInput v-model="password" type="password" id="password" @change="() => { bad = false }"/>
+                            <CInput v-model="password" type="password" id="password" @change="setBad(false)"/>
                         </CFormControl>
-                        <c-text color="#C42231" fontWeight="bold" align="center" v-bind:display="(bad ? 'block' : 'none')">Bad email or password</c-text>
+                        <c-text color="#C42231" fontWeight="bold" align="center" v-bind:display="(bad ? 'block' : 'none')">Wrong email or password</c-text>
                         <c-button variantColor="indigo" variant="solid" type="submit" width="100%">Login</c-button>
                         <p>Don't have an account yet?
                             <router-link to="/register">Register here!</router-link>
@@ -57,6 +57,9 @@ export default {
                 this.bad = true;
             }
             console.log(res)
+        },
+        setBad(bool){
+            this.bad = bool;
         }
     }
 }
