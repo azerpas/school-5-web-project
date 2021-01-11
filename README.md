@@ -49,10 +49,10 @@ Utilisez: `npx prisma generate` pour regénérer l'API client ~_**à chaque fois
 - `\c eido` & `\i ./docs/eido.sql`      
 
 ## Bugs connus
-- [] La photo de profil ne s'affiche pas lors d'un refresh (problème au niveau de CAvatar)
-- [] Modification de la bio et du pseudo ne marche pas sauf après déconnexion
-- [] Bouton work modifier ne marche pas
-- [] Pas de possibilité d'ajouter ses offres
+- [ ] La photo de profil ne s'affiche pas lors d'un refresh (problème au niveau de CAvatar)
+- [ ] Modification de la bio et du pseudo ne marche pas sauf après déconnexion
+- [ ] Bouton work modifier ne marche pas
+- [ ] Pas de possibilité d'ajouter ses offres
 
 ## Todo
 

@@ -1,3 +1,6 @@
+CREATE DATABASE  eido;
+\c eido
+
 CREATE TYPE t_role AS ENUM ('ROLE_ADMIN','ROLE_USER','ROLE_INFLUENCER','ROLE_BRAND');
 CREATE TYPE t_unite AS ENUM ('video','minute','hour','photo','month','publication');
 CREATE TYPE t_status AS ENUM ('proposed','done','canceled','refused','accepted');

@@ -21,12 +21,12 @@
                 <template v-if="userP.roles !== 'ROLE_BRAND'">
                     <CImage
                         src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/pleading-face_1f97a.png"
-                        alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
+                        alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" maxH="20vh" objectFit="cover" class="profile-picture"/>
                 </template>
                 <template v-else>
                     <CImage
                         src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/office-building_1f3e2.png"
-                        alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
+                        alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" maxH="20vh" objectFit="cover" class="profile-picture"/>
                 </template>
                 </template>
                 <div style="margin:1rem">
