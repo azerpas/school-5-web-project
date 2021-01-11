@@ -11,8 +11,9 @@
 - Cacher les platforms pour les marque    
 
 **/offers**
-- Offre custom disable le price & unit
+- ~~Offre custom disable le price & unit~~
 - Bouton retour     
+- Détails graphique (€...)
 
 **/search**
 - Tester les select   
