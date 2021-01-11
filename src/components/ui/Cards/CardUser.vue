@@ -27,7 +27,9 @@
             mt="3"
             mx="2"
             >
-            <CButton my="3" bg="#32057B" color="white">CONTACT</CButton>
+            <CLink as="router-link" :to="'/user/'+user.id+'/offers'">
+                <CButton my="3" bg="#32057B" color="white">CONTACT</CButton>
+            </CLink>
             <template v-if="user.roles !== 'ROLE_BRAND'">
                 <CButton my="3" bg="#5D11D8" color="white" @click="discover()">DISCOVER</CButton>
             </template>
@@ -36,9 +38,9 @@
 </template>
 
 <script>
-import { CBox, CImage, CHeading, /*CText,*/ CButton, CGrid } from "@chakra-ui/vue";
+import { CBox, CImage, CHeading, /*CText,*/ CButton, CGrid, CLink } from "@chakra-ui/vue";
 export default {
-    components: { CBox, CImage, CHeading, /*CText,*/ CButton, CGrid },
+    components: { CBox, CImage, CHeading, /*CText,*/ CButton, CGrid, CLink },
     data(){
         return {
             keywrds: this.keywords

@@ -1,5 +1,13 @@
 # school-5-web-project
 
+## Bugs & Todo
+
+/account
+- La photo de profil ne s'affiche pas (refresh page)
+- Modification de la bio et du pseudo ne marche pas (sauf après déco??)
+/offers
+- Offre custom disable le price & unit
+
 ## Stack
 - NodeJS
 - ExpressJS

@@ -22,8 +22,8 @@
 </template>
 
 <script>
-import AppHeadingPartners from '../components/layout/influencers/AppHeading.vue'
-import AppHeadingInfluencers from '../components/layout/partners/AppHeading.vue'
+import AppHeadingInfluencers from '../components/layout/influencers/AppHeading.vue'
+import AppHeadingPartners from '../components/layout/partners/AppHeading.vue'
 import { CBox, CGrid } from "@chakra-ui/vue"
 import CardUser from '../components/ui/Cards/CardUser.vue'
 import ModalUser from '../components/ui/Modals/ModalUser.vue'
