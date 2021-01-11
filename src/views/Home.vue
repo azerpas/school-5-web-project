@@ -14,20 +14,27 @@
                         <c-box :maxW="{base: 'xs', sm: 'full'}" :m="{base: 'auto', sm: '1'}">
                             <c-select v-model="platform" placeholder="Choose your platform">
                                 <option value="all">All</option>
-                                <option value="instagram">Instagram</option>
-                                <option value="youtube">YouTube</option>
+                                <option 
+                                    v-for="p in platforms"
+                                    :key="p.id"
+                                    :value="p.name"
+                                    >{{p.name}}</option>
                             </c-select>
                         </c-box>
                         <c-box :maxW="{base: 'xs', sm: 'full'}" :m="{base: 'auto', sm: '1'}">
                             <c-select v-model="category" placeholder="Choose your category">
                                 <option value="all">All</option>
-                                <option value="general">General</option>
-                                <option value="tech">Tech</option>
-                                <option value="sport">Sport</option>
+                                <option 
+                                    v-for="p in keywords"
+                                    :key="p.id"
+                                    :value="p.name"
+                                    >{{p.name}}</option>
                             </c-select>
                         </c-box>
                         <c-box :maxW="{base: 'xs', sm: 'full'}" :m="{base: 'auto', sm: '1'}">
-                            <CButton variantColor="indigo" :click="()=>{}" width="100%">FIND YOUR INFLUENCER</CButton>
+                            <CLink as="router-link" :to="'/search?category='+category">
+                                <CButton variantColor="indigo" width="100%">FIND YOUR INFLUENCER</CButton>
+                            </CLink>
                         </c-box>
                     </c-grid>
                     
@@ -39,7 +46,7 @@
 
 <script>
 // @ is an alias to /src
-import { CHeading, CBox, CSelect, CGrid, CButton, CImage } from '@chakra-ui/vue';
+import { CHeading, CBox, CSelect, CGrid, CButton, CImage, CLink } from '@chakra-ui/vue';
 
 export default {
     name: 'Home',
@@ -49,12 +56,25 @@ export default {
         CSelect,
         CGrid, 
         CButton,
-        CImage
+        CImage,
+        CLink
+    },
+    props:{
+        getAllPlatforms: Function,
+        getAllKeywords: Function
+    },
+    async mounted(){
+        const platforms = await this.getAllPlatforms();
+        const keywords = await this.getAllKeywords()
+        this.platforms = platforms.data;
+        this.keywords = keywords.data;
     },
     data(){
         return {
             platform: "all",
-            category: "general"
+            category: "all",
+            platforms: null,
+            keywords: null
         }
     }
 }

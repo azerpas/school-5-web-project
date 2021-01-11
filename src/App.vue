@@ -164,25 +164,25 @@ require('dotenv').config()
             async removePlatform(id){
                 return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/platform/${id}`, { withCredentials: true })
             },
-          async getKeywords(id){
-            return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords${id && id !== '' ? '?userId='+id : ''}`, { withCredentials: true })
-          },
-          async addKeyword(id){
-            return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {id}, { withCredentials: true })
-          },
-          async removeKeyword(id){
-            return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/keywords/${id}`, { withCredentials: true })
-          },
-          async getAllPlatforms() {
-            var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/platform`, {withCredentials: true});
-            res.data = res.data.platforms.related.concat(res.data.platforms.unrelated);
-            return res;
-          },
-          async getAllKeywords() {
-            var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {withCredentials: true});
-            res.data = res.data.keywords.related.concat(res.data.keywords.unrelated);
-            return res;
-          }
+            async getKeywords(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords${id && id !== '' ? '?userId='+id : ''}`, { withCredentials: true })
+            },
+            async addKeyword(id){
+                return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {id}, { withCredentials: true })
+            },
+            async removeKeyword(id){
+                return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/keywords/${id}`, { withCredentials: true })
+            },
+            async getAllPlatforms() {
+                var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/platform`, {withCredentials: true});
+                res.data = res.data.platforms.related.concat(res.data.platforms.unrelated);
+                return res;
+            },
+            async getAllKeywords() {
+                var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {withCredentials: true});
+                res.data = res.data.keywords.related.concat(res.data.keywords.unrelated);
+                return res;
+            }
         }
     }
 </script>
