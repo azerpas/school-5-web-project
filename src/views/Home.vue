@@ -3,10 +3,11 @@
         <div class="home">
             <c-box :mx="{base: 2}">
                 <c-stack :spacing="3">
+                    <CImage src="../assets/svg/networks.svg"/>
                     <c-box :mx="{ base: 3, sm: 0 }">
-                        <c-heading as="h1" size="xl">The best audience for your needs</c-heading>
+                        <c-heading as="h1" size="xl" :textAlign="{base: 'center', md: 'initial'}">The best audience for your needs</c-heading>
                     </c-box>
-                    <c-box :mx="{ base: 3, sm: 0 }" :my="{base: 1, sm: 0}">
+                    <c-box :mx="{ base: 3, sm: 0 }" :my="{base: 1, sm: 0}" :textAlign="{base: 'center', md: 'initial'}">
                         <c-heading as="h2" size="md" color="gray">Find the influencer for you branded content</c-heading>
                     </c-box>
                     <c-grid :template-columns="{base: 'repeat(1, 1fr)', md: 'repeat(3, 1fr)'}" :gap="{base: '5', sm: '1'}">
@@ -38,7 +39,7 @@
 
 <script>
 // @ is an alias to /src
-import { CHeading, CBox, CSelect, CGrid, CButton } from '@chakra-ui/vue';
+import { CHeading, CBox, CSelect, CGrid, CButton, CImage } from '@chakra-ui/vue';
 
 export default {
     name: 'Home',
@@ -47,7 +48,8 @@ export default {
         CBox,
         CSelect,
         CGrid, 
-        CButton
+        CButton,
+        CImage
     },
     data(){
         return {
