@@ -1,66 +1,78 @@
 <template>
-  <div>
-    <c-breadcrumb separator="›" m="3" fontWeight="bold" fontSize="lg">
-      <c-breadcrumb-item v-if="user.roles=='ROLE_BRAND'">
-        <c-breadcrumb-link href="/search">Our influencers</c-breadcrumb-link>
-      </c-breadcrumb-item>
-      <c-breadcrumb-item v-else-if="user.roles=='ROLE_INFLUENCER'">
-        <c-breadcrumb-link href="/search">Our partners</c-breadcrumb-link>
-      </c-breadcrumb-item>
+    <div>
+        <c-breadcrumb separator="›" m="3" fontWeight="bold" fontSize="lg">
+        <c-breadcrumb-item v-if="user.roles=='ROLE_BRAND'">
+            <c-breadcrumb-link href="/search">Our influencers</c-breadcrumb-link>
+        </c-breadcrumb-item>
+        <c-breadcrumb-item v-else-if="user.roles=='ROLE_INFLUENCER'">
+            <c-breadcrumb-link href="/search">Our partners</c-breadcrumb-link>
+        </c-breadcrumb-item>
 
-      <c-breadcrumb-item isCurrentPage>
-        <c-breadcrumb-link>Offers</c-breadcrumb-link>
-      </c-breadcrumb-item>
-    </c-breadcrumb>
-    <div class="container" style="color: white">
-      <CBox bg="#7425F3" textAlign="center" borderRadius="lg" boxShadow="1px 1px 6px 0px" class="card">
-        <CImage :src="userP.url" :alt="userP.name+' profile picture'" m="auto" width="100%" roundedTop="lg"/>
-        <div style="margin:1rem">
-          <CHeading as="h3" textAlign="center" color="white">{{ userP.name }}</CHeading>
-          <hr style="margin: 0 1rem 0 1rem">
-          <span style="padding: 0.5rem;color: black">{{ offers.length }} offer(s) available </span>
-          <c-radio-group align="left" m="5" id="test" @change="changeOffer">
-            <c-radio :value="item.id" v-for="item in offers" :key="item.id">{{ item.price }} € / {{
-                item.unit
-              }}
-            </c-radio>
-            <c-radio value="custom">Custom</c-radio>
-          </c-radio-group>
-          <div class="custom_div">
-            <label for="price" class="d-inline-block">Price :</label>
-            <c-input placeholder="price" mt="2" id="price" type="number" v-model="price" v-bind:isDisabled="disableCustom"
-                     class="d-inline-block" color="black"/>
-          </div>
-          <div class="custom_div">
-            <label for="price" class="d-inline-block">Unit :</label>
-            <c-select v-model="unit" class="d-inline-block" id="select_unit" v-bind:isDisabled="disableCustom"
-                      color="black">
-              <option value="video">video</option>
-              <option value="minute">minute</option>
-              <option value="hour">hour</option>
-              <option value="photo">photo</option>
-              <option value="month">month</option>
-              <option value="publication">publication</option>
-            </c-select>
-          </div>
-          <c-text color="#C42231" fontWeight="bold" align="center" v-bind:display="(error ? 'block' : 'none')">Input a price and an unit</c-text>
-          <hr style="margin: 1rem 1rem 1rem 1rem">
-          <label for="date">Expiration date :</label>
-          <c-input mt="2" id="date" v-model="date" type="date" color="black"/>
-          <label for="desc">Description :</label>
-          <c-textarea v-model="description" id="desc" mt="2" placeholder="Description" color="black"></c-textarea>
-          <CButton width="80%" my="3" bg="#32057B" color="white" v-on:click="this.sendRequest">Send Request</CButton>
+        <c-breadcrumb-item isCurrentPage>
+            <c-breadcrumb-link>Offers</c-breadcrumb-link>
+        </c-breadcrumb-item>
+        </c-breadcrumb>
+        <div class="container" style="color: white">
+            <CBox bg="#7425F3" textAlign="center" height="100%" borderRadius="lg" boxShadow="1px 1px 6px 0px" class="card" :width="{base: '70%', sm: '85%', md: '60%'}">
+                <template v-if="userP.url">
+                <CImage :src="userP.url" :alt="userP.name+' profile picture'" m="auto" width="100%" roundedTop="lg" maxH="20vh" objectFit="cover"/>
+                </template>
+                <template v-else>
+                <template v-if="userP.roles !== 'ROLE_BRAND'">
+                    <CImage
+                        src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/pleading-face_1f97a.png"
+                        alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
+                </template>
+                <template v-else>
+                    <CImage
+                        src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/office-building_1f3e2.png"
+                        alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
+                </template>
+                </template>
+                <div style="margin:1rem">
+                <CHeading as="h3" textAlign="center" color="white">{{ userP.name }}</CHeading>
+                <hr style="margin: 0 1rem 0 1rem">
+                <span style="padding: 0.5rem;color: black">{{ offers.length }} offer(s) available </span>
+                <c-radio-group align="left" m="5" id="test" @change="changeOffer">
+                    <c-radio :value="item.id" v-for="item in offers" :key="item.id">{{ item.price }} € / {{ item.unit }}
+                    </c-radio>
+                    <c-radio value="custom">Custom</c-radio>
+                </c-radio-group>
+                <div class="custom_div">
+                    <label for="price" class="d-inline-block">Price :</label>
+                    <c-input placeholder="price" mt="2" id="price" type="number" v-model="price" v-bind:isDisabled="disableCustom"
+                            class="d-inline-block" color="black"/>
+                </div>
+                <div class="custom_div">
+                    <label for="price" class="d-inline-block">Unit :</label>
+                    <c-select v-model="unit" class="d-inline-block" id="select_unit" v-bind:isDisabled="disableCustom"
+                            color="black">
+                    <option value="video">video</option>
+                    <option value="minute">minute</option>
+                    <option value="hour">hour</option>
+                    <option value="photo">photo</option>
+                    <option value="month">month</option>
+                    <option value="publication">publication</option>
+                    </c-select>
+                </div>
+                <c-text color="#C42231" fontWeight="bold" align="center" v-bind:display="(error ? 'block' : 'none')">Input a price and an unit</c-text>
+                <hr style="margin: 1rem 1rem 1rem 1rem">
+                <label for="date">Expiration date :</label>
+                <c-input mt="2" id="date" v-model="date" type="date" color="black"/>
+                <label for="desc">Description :</label>
+                <c-textarea v-model="description" id="desc" mt="2" placeholder="Description" color="black"></c-textarea>
+                <CButton width="80%" my="3" bg="#32057B" color="white" v-on:click="this.sendRequest">Send Request</CButton>
+                </div>
+            </CBox>
         </div>
-      </CBox>
     </div>
-  </div>
 </template>
 <script>
-import {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink
+import {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink, //CGrid
 } from "@chakra-ui/vue";
 
 export default {
-  components: {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink
+  components: {CText,CBox, CImage, CHeading, CButton, CRadio, CRadioGroup, CInput, CSelect, CTextarea, CBreadcrumb, CBreadcrumbItem, CBreadcrumbLink, //CGrid
   },
   data() {
     return {
