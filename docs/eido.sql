@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS "Offer"(
 CREATE TABLE IF NOT EXISTS "Proposal"(
     id serial,
     release_date DATE,
+    expiration_date DATE,
+    description text,
     statut t_status,
     id_Influencer INT NOT NULL,
     id_Offer INT NOT NULL,

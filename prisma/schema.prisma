@@ -32,6 +32,8 @@ model Platform {
 model Proposal {
   id                                Int       @id @default(autoincrement())
   release_date                      DateTime?
+  expiration_date                   DateTime?
+  description                       String?
   statut                            t_status?
   id_influencer                     Int
   id_offer                          Int       @unique

@@ -42,9 +42,21 @@ const routes = [
     props: (route) => ({ type: route.query.type })
   },
   {
+    path: '/user/:identifier/offers',
+    name: 'Offer',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Offers.vue'),
+    props: (route) => ({ type: route.query.type })
+  },
+  {
+    path: '/valid',
+    name: 'Valid',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Valid.vue'),
+  },
+  {
     path: '/search',
     name: 'Search',
     component: () => import(/* webpackChunkName: "about" */ '../views/Search.vue'),
+
     props: (route) => ({ type: route.query.type })
   },
   {

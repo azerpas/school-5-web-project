@@ -10,6 +10,9 @@
                 :modifyWork="modifyWork"
                 :getWorks="getWorks"
                 :deleteWork="deleteWork"
+                :getOffer="getOffer"
+                :getUser="getUser"
+                :createProposal="createProposal"
                 :getUsers="getUsers"
                 :modifyUser="modifyUser"
             />
@@ -98,6 +101,23 @@
             async modifyWork(id, url, title){
                 return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/work/${id}`, {url, name: title}, { withCredentials: true });
             },
+            async getOffer(userId){
+              return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/offer?userId=${userId}`, { withCredentials: true })
+            },
+            async getUser(id){
+              return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}`, { withCredentials: true })
+            },
+            async createProposal(userId,offer,description,expiration_date) {
+              const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/proposal/`, {
+                userId: userId,
+                offer: offer,
+                description: description,
+                expiration_date: expiration_date
+              }, {withCredentials: true})
+              if (res.status == 200) {
+                window.location.href = "/valid"
+              }
+            },
             async getUsers(platform, category){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/search${platform || category ? '?' : ''}${platform && platform !== 'all' ? '&platform='+platform : ''}${category && category !== 'all' ? '&category='+category : ''}`, { withCredentials: true });
             },
@@ -114,6 +134,7 @@
             async getUserWorks(id){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}/work`, { withCredentials: true })
             }
+
         }
     }
 </script>
