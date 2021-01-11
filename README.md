@@ -17,9 +17,9 @@
 - Détails graphique (€...)
 
 **/search**
-- Tester les select   
-- Récup keywords    
-- Affichage bio      
+- [x] Tester les select   
+- [x] Récup keywords    
+- [x] Affichage bio      
 - z-index       
 
 **Navbar**
