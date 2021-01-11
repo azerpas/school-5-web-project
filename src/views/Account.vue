@@ -5,7 +5,12 @@
             :gap="{base: '5', sm: '3'}"
             mt="3"
         >
-            <CardAccount :user="user" :modifyUser="modifyUser" :getPlatforms="getPlatforms" :addPlatform="addPlatform" :removePlatform="removePlatform"/>
+            <CardAccount :user="user" :modifyUser="modifyUser" 
+                :getPlatforms="getPlatforms" :addPlatform="addPlatform" :removePlatform="removePlatform"
+                :getKeywords="getKeywords"
+                :addKeyword="addKeyword"
+                :removeKeyword="removeKeyword"
+            />
             <template v-if="user.roles === 'ROLE_INFLUENCER'">
                 <CBox>
                     <CHeading fontWeight="900">MY WORK ⬇️</CHeading>
@@ -53,7 +58,7 @@ export default {
         this.works = res.data;
     },
     props:{
-        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null},
+        user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},
         getWorks: Function,
         deleteWork: Function, 
         addWork: Function,
@@ -61,7 +66,10 @@ export default {
         modifyUser: Function,
         getPlatforms: Function,
         addPlatform: Function,
-        removePlatform: Function
+        removePlatform: Function,
+        getKeywords: Function,
+        addKeyword: Function,
+        removeKeyword: Function
     },
     methods: {
         async deleteAWork(id){

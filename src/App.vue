@@ -19,6 +19,10 @@
                 :getPlatforms="getPlatforms"
                 :addPlatform="addPlatform"
                 :removePlatform="removePlatform"
+                :getKeywords="getKeywords"
+                :addKeyword="addKeyword"
+                :removeKeyword="removeKeyword"
+                :getAllPlatforms="getAllPlatforms"
             />
         </CBox>
     </div>
@@ -37,11 +41,18 @@
             AppNavbar
         },
         inject: ['$chakraColorMode', '$toggleColorMode'],
-        async mounted(){
-            const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
-            if(user.status === 200) this.user = user.data;
-            else this.user = null;
-        },
+      /*
+      async mounted(){
+          const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
+          if(user.status === 200) this.user = user.data;
+          else this.user = null;
+      },
+      */
+      async beforeMount(){
+        const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
+        if(user.status === 200) this.user = user.data;
+        else this.user = null;
+      },
         computed: {
             colorMode () {
                 return this.$chakraColorMode()
@@ -146,8 +157,23 @@
             },
             async removePlatform(id){
                 return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/platform/${id}`, { withCredentials: true })
-            }
-
+            },
+          async getKeywords(id){
+            return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/keywords${id && id !== '' ? '?userId='+id : ''}`, { withCredentials: true })
+          },
+          async addKeyword(id){
+            return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user/keywords`, {id}, { withCredentials: true })
+          },
+          async removeKeyword(id){
+            return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/keywords/${id}`, { withCredentials: true })
+          },
+          async getAllPlatforms() {
+            var res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/platform`, {withCredentials: true});
+            var test = res.data.platforms.related.concat(res.data.platforms.unrelated);
+            console.log(test);
+            res.data = test;
+            return res;
+          }
         }
     }
 </script>

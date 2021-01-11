@@ -5,24 +5,25 @@
         </template>
         <template v-else>
             <template v-if="user.roles !== 'ROLE_BRAND'">
-                <CImage 
-                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/pleading-face_1f97a.png" 
+                <CImage
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/pleading-face_1f97a.png"
                     alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
             </template>
             <template v-else>
-                <CImage 
-                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/office-building_1f3e2.png" 
+                <CImage
+                    src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/office-building_1f3e2.png"
                     alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
             </template>
         </template>
         <CHeading as="h3" textAlign="center" color="white">{{ user.name }}</CHeading>
+      <c-text> {{user.bio}} </c-text>
         <!--
         <span v-for="keyword in keywords" :key="keyword">
             <CText fontSize="xl" color="gray.200">{{ keyword }}</CText>
         </span>
         -->
-        <c-grid 
-            :template-columns="{base: 'repeat(1, 1fr)', sm: user.roles !== 'ROLE_BRAND' ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)' }" 
+        <c-grid
+            :template-columns="{base: 'repeat(1, 1fr)', sm: user.roles !== 'ROLE_BRAND' ? 'repeat(2, 1fr)' : 'repeat(1, 1fr)' }"
             :gap="{base: '1', md: '3'}"
             mt="3"
             mx="2"
@@ -38,13 +39,13 @@
 </template>
 
 <script>
-import { CBox, CImage, CHeading, /*CText,*/ CButton, CGrid, CLink } from "@chakra-ui/vue";
+import { CBox, CImage, CHeading, CText, CButton, CGrid, CLink } from "@chakra-ui/vue";
 export default {
-    components: { CBox, CImage, CHeading, /*CText,*/ CButton, CGrid, CLink },
+    components: { CBox, CImage, CHeading, CText, CButton, CGrid, CLink },
     data(){
         return {
             keywrds: this.keywords
-        } 
+        }
     },
     props:{
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},

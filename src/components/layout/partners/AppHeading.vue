@@ -4,10 +4,8 @@
         <CHeading as="h4" textAlign="center" size="4" fontWeight="300">Choose from a wide range of world renowed companies</CHeading>
         <CBox mt="3">
             <CSelect v-model="category" placeholder="Category" @change="filter()">
+              <option v-for="k in keywords" :value="k.name" :key="k.id">{{ k.name }}</option>
                 <option value="all">All</option>
-                <option value="general">General</option>
-                <option value="tech">Tech</option>
-                <option value="sport">Sport</option>
             </CSelect>
         </CBox>
     </CBox>
@@ -18,7 +16,10 @@ import { CBox, CHeading, CSelect } from "@chakra-ui/vue";
 export default {
     components:{
         CBox, CHeading, CSelect
-    }, 
+    },
+    props:{
+      keywords:Array
+    },
     data(){
         return{ 
             category: "all"
