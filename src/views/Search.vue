@@ -35,8 +35,8 @@ export default {
     getUserWorks: Function,
     getPlatforms: Function,
     getKeywords: Function,
-    getAllKeywords: Function,
-    getAllPlatforms:Function
+    getAllPlatforms:Function,
+    getAllKeywords:Function
   },
   data() {
     return {
@@ -73,7 +73,7 @@ export default {
       const res_k = await this.getKeywords(user.id);
       this.focusedUser.works = res.data;
       this.focusedUser.platforms = res_p.data.platforms;
-      this.focusedUser.keywords = res_k.data;
+      this.focusedUser.keywords = res_k.data.keywords;
       console.log(this.focusedUser)
       this.$refs.discoverModal.isOpen = true;
     }
