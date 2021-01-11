@@ -33,7 +33,7 @@
                 <CHeading as="h3" textAlign="center" color="white">{{ userP.name }}</CHeading>
                 <hr style="margin: 0 1rem 0 1rem">
                 <span style="padding: 0.5rem;color: black">{{ offers.length }} offer(s) available </span>
-                <c-radio-group align="left" m="5" id="test" @change="changeOffer">
+                <c-radio-group align="left" m="5" id="test" @change="changeOffer" v-model="offerSelected">
                     <c-radio :value="item.id" v-for="item in offers" :key="item.id">
                       {{ item.price }} € / {{ item.unit }}
                     </c-radio>
@@ -153,5 +153,7 @@ export default {
   width: 75%;
   display: inline-block;
 }
-
+input[type=radio]+div[data-chakra-component="CControlBox"]{
+  background-color: white;
+}
 </style>
