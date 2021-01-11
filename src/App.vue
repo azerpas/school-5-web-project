@@ -95,6 +95,7 @@ require('dotenv').config()
                 const res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/logout`, { withCredentials: true });
                 if(res.status === 200){
                     this.user = null;
+                    window.location.href="/";
                 }
                 return res;
             },
