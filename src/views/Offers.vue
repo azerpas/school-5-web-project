@@ -13,16 +13,28 @@
       </c-breadcrumb-item>
     </c-breadcrumb>
     <div class="container" style="color: white">
-      <CBox bg="#7425F3" textAlign="center" borderRadius="lg" boxShadow="1px 1px 6px 0px" class="card">
-        <CImage :src="userP.url" :alt="userP.name+' profile picture'" m="auto" width="100%" roundedTop="lg"/>
+      <CBox bg="#7425F3" textAlign="center" height="100%" borderRadius="lg" boxShadow="1px 1px 6px 0px" class="card">
+        <template v-if="userP.url">
+          <CImage :src="userP.url" :alt="userP.name+' profile picture'" m="auto" width="100%" roundedTop="lg" maxH="20vh" objectFit="scale-down"/>
+        </template>
+        <template v-else>
+          <template v-if="userP.roles !== 'ROLE_BRAND'">
+            <CImage
+                src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/pleading-face_1f97a.png"
+                alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
+          </template>
+          <template v-else>
+            <CImage
+                src="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/271/office-building_1f3e2.png"
+                alt="no profile picture, so just an emoji" m="auto" width="100%" roundedTop="lg" class="profile-picture"/>
+          </template>
+        </template>
         <div style="margin:1rem">
           <CHeading as="h3" textAlign="center" color="white">{{ userP.name }}</CHeading>
           <hr style="margin: 0 1rem 0 1rem">
           <span style="padding: 0.5rem;color: black">{{ offers.length }} offer(s) available </span>
           <c-radio-group align="left" m="5" id="test" @change="changeOffer">
-            <c-radio :value="item.id" v-for="item in offers" :key="item.id">{{ item.price }} € / {{
-                item.unit
-              }}
+            <c-radio :value="item.id" v-for="item in offers" :key="item.id">{{ item.price }} € / {{ item.unit }}
             </c-radio>
             <c-radio value="custom">Custom</c-radio>
           </c-radio-group>
