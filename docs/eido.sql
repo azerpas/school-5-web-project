@@ -106,6 +106,14 @@ INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (8000, 'photo', FALSE,
 INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (2000, 'minute', FALSE, 8);
 INSERT INTO "Offer" (price, unit, custom, id_User) VALUES (10000, 'video', FALSE, 8);
 
+INSERT INTO "Work" (url, name, id_User, thumbnail) VALUES ('https://www.youtube.com/watch?v=kc1_lr-KwAs', 'Des larmes de rires avec Jonathan Cohen', 2, 'https://i.ytimg.com/vi/kc1_lr-KwAs/hq720.jpg'),
+                                                            ('https://www.youtube.com/watch?v=hxp07UVZs7o','On appelle des gens au hasard avec Pierre Niney',2, 'https://i.ytimg.com/vi/hxp07UVZs7o/hq720.jpg'),
+                                                            ('https://www.youtube.com/watch?v=xR7R2MAgfyE','LES ANTIVIRUS GRATUITS VOUS MENTENT ?',1, 'https://i.ytimg.com/vi/xR7R2MAgfyE/hq720.jpg'),
+                                                            ('https://www.youtube.com/watch?v=zuDtOgAWADI','POURQUOI GOOGLE EST DOWN ? (explications)',1, 'https://i.ytimg.com/vi/zuDtOgAWADI/hq720.jpg'),
+                                                            ('https://www.instagram.com/p/CI8rUbqpkYN/','INSTA #1',6, 'https://storage.googleapis.com/eido-school/131895322_211884247111020_6146310298298481972_n.jpg'),
+                                                            ('https://www.youtube.com/watch?v=OUCRbQHriSQ','Trump censuré des réseaux',7, 'https://i.ytimg.com/vi/OUCRbQHriSQ/hq720.jpg'),
+                                                            ('https://www.youtube.com/watch?v=NtGlbC_Atdw','Pourquoi les médias parlent aussi peu des Ouïghours',7, 'https://i.ytimg.com/vi/NtGlbC_Atdw/hq720.jpg'),
+
 INSERT INTO "Platform" (name) VALUES ('youtube'),
                                      ('instagram'),
                                      ('tiktok'),
