@@ -34,13 +34,14 @@
                 <hr style="margin: 0 1rem 0 1rem">
                 <span style="padding: 0.5rem;color: black">{{ offers.length }} offer(s) available </span>
                 <c-radio-group align="left" m="5" id="test" @change="changeOffer">
-                    <c-radio :value="item.id" v-for="item in offers" :key="item.id">{{ item.price }} € / {{ item.unit }}
+                    <c-radio :value="item.id" v-for="item in offers" :key="item.id">
+                      {{ item.price }} € / {{ item.unit }}
                     </c-radio>
-                    <c-radio value="custom">Custom</c-radio>
+                    <c-radio value="custom" default-is-checked>Custom</c-radio>
                 </c-radio-group>
                 <div class="custom_div">
-                    <label for="price" class="d-inline-block">Price :</label>
-                    <c-input placeholder="price" mt="2" id="price" type="number" v-model="price" v-bind:isDisabled="disableCustom"
+                      <label for="price" class="d-inline-block">Price (€):</label>
+                      <c-input placeholder="price" mt="2" id="price" type="number" v-model="price" v-bind:isDisabled="disableCustom"
                             class="d-inline-block" color="black"/>
                 </div>
                 <div class="custom_div">
@@ -78,7 +79,7 @@ export default {
     return {
       offers: [],
       userP: null,
-      offerSelected: null,
+      offerSelected: "null",
       price: null,
       date: "dd/mm/yyyy",
       unit: null,

@@ -6,13 +6,13 @@
     </CHeading>
     <CBox mt="3">
       <CGrid template-columns="repeat(2, 1fr)" :gap="{base: '5', sm: '1'}">
-        <CBox :maxW="{base: 'xs', sm: 'full'}" :m="{base: '0', sm: '1'}">
+        <CBox :maxW="{base: 'xs', sm: 'full'}" :m="{base: '0', sm: '1'}" zIndex="0">
           <CSelect v-model="platform" placeholder="Platform" @change="filter()">
             <option value="all">All</option>
             <option v-for="p in platforms" :value="p.name" :key="p.id">{{ p.name }}</option>
           </CSelect>
         </CBox>
-        <CBox :maxW="{base: 'xs', sm: 'full'}" :m="{base: '0', sm: '1'}">
+        <CBox :maxW="{base: 'xs', sm: 'full'}" :m="{base: '0', sm: '1'}" zIndex="0">
           <CSelect v-model="category" placeholder="Category" @change="filter()">
             <option value="all">All</option>
             <option v-for="k in keywords" :value="k.name" :key="k.id">{{ k.name }}</option>
