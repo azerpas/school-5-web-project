@@ -78,18 +78,48 @@ CREATE TABLE IF NOT EXISTS "_PlatformToUser"(
 CREATE UNIQUE INDEX "_PlatformToUser_AB_unique" ON "_PlatformToUser"("A" int4_ops,"B" int4_ops);
 CREATE INDEX "_PlatformToUser_B_index" ON "_PlatformToUser"("B" int4_ops);
 
-INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('influenceur','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','influenceur@influenceur.fr','influenceur','ROLE_INFLUENCER') ,
-                                                                         ('Mcfly & Carlito','influenceur','$2b$10$NpBnI/r2vTyk2MeyrzViKuASZKksp1dggBvjkhNxbmsO6ft/IB54G','mc@mc.fr','Pas très marrant','ROLE_INFLUENCER') ,
-                                                                         ('World Of Tanks','Charles','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','wof@wof.com','Le meilleur jeu de tank au monde','ROLE_BRAND') ,
-                                                                         ('marque','marque','$2b$10$83klk0/aq7/PzjXRa8KhBuc/n.BJOna/A.KTZdbHoxmic3cgeWcBu','marque@marque.fr','marque','ROLE_BRAND');
+INSERT INTO "User" (name, firstName, password, email, bio, roles) VALUES ('Micode','micode','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','micode@micode.fr','vulgarisation informatique','ROLE_INFLUENCER') ,
+                                                                         ('Mcfly & Carlito','influenceur','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','mc@mc.fr','Pas très marrant','ROLE_INFLUENCER') ,
+                                                                         ('World Of Tanks','Charles','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','wof@wof.com','Le meilleur jeu de tank au monde','ROLE_BRAND') ,
+                                                                         ('Nord VPN','vpn','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','nordvpn@nordvpn.fr','vpn qui vous rend "anonyme" ','ROLE_BRAND'),
+                                                                         ('Rhinoshield', 'rhino','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO' ,'rhino@rhino.fr','ùarque de coque de téléphone','ROLE_BRAND'),
+                                                                         ('Hollyh','h','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','hollyh@hollyh.fr','tiktokeuse','ROLE_INFLUENCER'),
+                                                                         ('Hugo Décrypte','hugo','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','hugo@hugo.fr','Résumé actualité','ROLE_INFLUENCER'),
+                                                                         ('Dr Nozman','hugo','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','nozman@nozman.fr','vulgarisation scientifique','ROLE_INFLUENCER'),
+                                                                         ('Nota Bene','bene','$2b$10$MbFlMzR.IzTV5bDb9m.veu.dtCaFYi9l6c41PljLAHC3uJHxLDDjO','notabene@notabene.fr','chaine sur l histoire','ROLE_INFLUENCER');;
 INSERT INTO "Platform" (name) VALUES ('youtube'),
                                      ('instagram'),
-                                     ('tiktok');
+                                     ('tiktok'),
+                                     ('twitter'),
+                                     ('facebook'),
+                                     ('dailymotion');
 INSERT INTO "_PlatformToUser" VALUES (1,1),
-                                     (2,1);
+                                     (2,1),
+                                     (5,1),
+                                     (3,2),
+                                     (4,1),
+                                     (1,2),
+                                     (3,6),
+                                     (1,7),
+                                     (2,7),
+                                     (1,8),
+                                     (1,9);
+
 INSERT INTO "Keyword" (name) VALUES ('Actu'),
                                     ('Tech'),
                                     ('Dance'),
-                                    ('Lifestyle');
+                                    ('Lifestyle'),
+                                    ('Sport'),
+                                    ('Humour'),
+                                    ('Gaming'),
+                                    ('Science'),
+                                    ('Histoire');
 INSERT INTO "_KeywordToUser" VALUES (1,1),
-                                    (2,1);
+                                    (2,1),
+                                    (3,2),
+                                    (7,2),
+                                    (3,6),
+                                    (4,6),
+                                    (1,7),
+                                    (8,8),
+                                    (9,9);
