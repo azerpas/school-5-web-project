@@ -76,7 +76,6 @@ export default {
     var idUser = this.$route.params.identifier;
     const resO = await this.getOffer(idUser);
     const resU = await this.getUser(idUser);
-    console.log(resU);
     this.offers = resO.data;
     this.userP = resU.data;
   },
@@ -88,10 +87,11 @@ export default {
           price: this.price,
           unit: this.unit,
         }
-      } else offer=this.offerSelected;
+      } else offer = this.offerSelected;
       this.createProposal(this.user.id,offer,this.description,this.date)
     },
     changeOffer(e){
+      this.offerSelected = e;
       if(e == "custom"){
         document.getElementById("price").disabled = false;
         document.getElementById("select_unit").children[0].disabled = false;
