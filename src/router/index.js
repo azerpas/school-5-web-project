@@ -49,9 +49,10 @@ const routes = [
   },
   {
     path: '/valid',
-    name:'Valid',
+    name: 'Valid',
     component: () => import(/* webpackChunkName: "about" */ '../views/Valid.vue'),
-
+  },
+  {
     path: '/search',
     name: 'Search',
     component: () => import(/* webpackChunkName: "about" */ '../views/Search.vue'),
