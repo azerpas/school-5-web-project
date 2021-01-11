@@ -8,9 +8,11 @@
             <input type="file" id="file" ref="file" @change="changePicture()"/>
         </template>
         <CHeading as="h3" textAlign="center" color="white">{{ user.name }}</CHeading>
+        <!--
         <span v-for="keyword in keywords" :key="keyword">
             <CText fontSize="xl" color="gray.200">{{ keyword }}</CText>
         </span>
+        -->
         <CBox mx="2"><CDivider/></CBox>
         <form class="form-account" @submit="modify($event)">
             <c-stack spacing="3" mx="2" mb="3">
@@ -27,22 +29,35 @@
                         Anything related to you, your website 🌍, your hobbies 🏌️‍
                     </c-form-helper-text>
                 </c-form-control>
-                <CBox>
+                <CGrid 
+                    :template-columns="{base: 'repeat(6, 1fr)'}" 
+                    :gap="{base: '5', sm: '3'}"
+                >
                     <c-tag
-                        v-for="platform in platforms"
+                        v-for="rplatform in relatedPlatforms"
                         size="md"
-                        :key="platform.id"
-                        :ref="'platform-'+platform.id"
+                        :key="rplatform.id"
+                        :ref="'platform-'+rplatform.id"
                         variant="solid"
-                        variant-color="cyan"
+                        variant-color="blue"
                     >
-                        <c-tag-label>{{platform.name}}</c-tag-label>
-                        <c-tag-close-button @click="removePlatformTag(platform.id)" />
-                        <CButton @click="addPlatformTag(platform)">
-                            <c-tag-icon icon="add"/>
+                        <c-tag-label>{{rplatform.name}}</c-tag-label>
+                        <c-tag-close-button @click="removePlatformTag(rplatform.id)" size="md" />
+                    </c-tag>
+                    <c-tag
+                        v-for="uplatform in unrelatedPlatforms"
+                        size="md"
+                        :key="uplatform.id"
+                        :ref="'platform-'+uplatform.id"
+                        variant="solid"
+                        variant-color="cyan"   
+                    >
+                        <c-tag-label>{{uplatform.name}}</c-tag-label>
+                        <CButton size="xs" variant="unstyled" v-on:click="addPlatformTag(uplatform)">
+                            <c-tag-icon icon="add" />
                         </CButton>
                     </c-tag>
-                </CBox>
+                </CGrid>
                 <CButton bg="black" color="gray.50" type="submit">Save your informations</CButton>
             </c-stack>
         </form>
@@ -51,13 +66,13 @@
 
 <script>
 import { 
-    CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider,
-    CTag, CTagIcon, CTagLabel, CTagCloseButton
+    CBox, CHeading, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider,
+    CTag, CTagIcon, CTagLabel, CTagCloseButton, CGrid
 } from "@chakra-ui/vue";
 export default {
     components: { 
-        CBox, CHeading, CText, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider,
-        CTag, CTagIcon, CTagLabel, CTagCloseButton
+        CBox, CHeading, CAvatar, CInput, CFormControl, CFormLabel, CFormHelperText, CStack, CButton, CDivider,
+        CTag, CTagIcon, CTagLabel, CTagCloseButton, CGrid
     },
     props:{
         user: {id: null, email: null, bio: null, firstname: null, name: null, roles: null, url: null},
@@ -69,7 +84,8 @@ export default {
     data(){
         return {
             file: null,
-            platforms: null
+            unrelatedPlatforms: null,
+            relatedPlatforms: null
         }
     },
     methods: {
@@ -93,17 +109,34 @@ export default {
             }
         },
         async addPlatformTag(platform){
+            console.log("HERE")
             const res = await this.addPlatform(platform);
             console.log(res);
+            await this.updatePlatforms();
         },
         async removePlatformTag(id){
             const res = await this.removePlatform(id);
             console.log(res);
+            await this.updatePlatforms();
+        },
+        async updatePlatforms(){
+            const res = await this.getPlatforms();
+            this.unrelatedPlatforms = res.data.platforms.unrelated;
+            this.relatedPlatforms = res.data.platforms.related;
         }
     },
     async mounted(){
-        const res = await this.getPlatforms();
-        this.platforms = res.data.platforms.unrelated;
+        await this.updatePlatforms();
     },
 }
 </script>
+
+<style scoped>
+button[data-chakra-component="CTagCloseButton"], div[data-chakra-component="CTag"] button{
+    margin-left: auto;
+}
+svg[data-chakra-component="CTagIcon"]:hover{
+    cursor: pointer;
+    opacity: 0.8;
+}
+</style>

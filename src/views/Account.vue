@@ -20,8 +20,10 @@
                                 @deleteAWork="deleteAWork"
                                 />
                         </template>
-                        <template v-if="works.length < 3">
-                            <ModalWork :addWork="addWork" @addCard="addCard" :modifying="false"/>
+                        <template v-if="works">
+                            <template v-if="works.length < 3">
+                                <ModalWork :addWork="addWork" @addCard="addCard" :modifying="false"/>
+                            </template>
                         </template>
                     </CGrid>
                 </CBox>

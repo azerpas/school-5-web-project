@@ -207,6 +207,14 @@ router.delete("/user",async (req,res)=>{
     res.status(200).send(result);
 });
 
+const compare = (arr2) => {
+    return (current) => {
+        return arr2.filter((other) => {
+            return other.id == current.id
+        }).length == 0;
+    }
+}
+
 /**
  * Route recuperant les platformes d'un utilisateur (donné en parametre)
  * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
@@ -228,10 +236,9 @@ router.get("/platform",async (req,res)=>{
                 id: req.session.user.id
             }
         }).Platform();
-        let difference = result.filter(x => !platforms.includes(x));
+        let difference = result.filter(compare(platforms));
         res.status(200).send({platforms: {related: platforms, unrelated: difference}});
     }
-    
 });
 
 /**
