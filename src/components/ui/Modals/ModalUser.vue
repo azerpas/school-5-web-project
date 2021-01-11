@@ -10,7 +10,11 @@
             <c-modal-close-button />
             <c-modal-body>
                 <template v-for="platform in user.platforms">
-                    <CHeading :key="platform.name" size="md" as="h4">{{platform.name}}</CHeading>
+                    <CHeading :key="platform.name" size="md" as="h4" textTransform="capitalize" textAlign="center">
+                        {{platform.name}}
+                        <template v-if="['youtube'].includes(platform.name)"> 📹 </template>
+                        <template v-if="['tiktok', 'instagram'].includes(platform.name)"> 📱 </template>
+                    </CHeading>
                 </template>
                 <CBox mx="2"><CDivider/></CBox>
                 <c-stack spacing="3">
