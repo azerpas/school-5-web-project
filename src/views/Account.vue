@@ -5,7 +5,7 @@
             :gap="{base: '5', sm: '3'}"
             mt="3"
         >
-            <CardAccount :user="user" :modifyUser="modifyUser"/>
+            <CardAccount :user="user" :modifyUser="modifyUser" :getPlatforms="getPlatforms" :addPlatform="addPlatform" :removePlatform="removePlatform"/>
             <template v-if="user.roles === 'ROLE_INFLUENCER'">
                 <CBox>
                     <CHeading fontWeight="900">MY WORK ⬇️</CHeading>
@@ -20,8 +20,10 @@
                                 @deleteAWork="deleteAWork"
                                 />
                         </template>
-                        <template v-if="works.length < 3">
-                            <ModalWork :addWork="addWork" @addCard="addCard"/>
+                        <template v-if="works">
+                            <template v-if="works.length < 3">
+                                <ModalWork :addWork="addWork" @addCard="addCard" :modifying="false"/>
+                            </template>
                         </template>
                     </CGrid>
                 </CBox>
@@ -56,7 +58,10 @@ export default {
         deleteWork: Function, 
         addWork: Function,
         modifyWork: Function,
-        modifyUser: Function
+        modifyUser: Function,
+        getPlatforms: Function,
+        addPlatform: Function,
+        removePlatform: Function
     },
     methods: {
         async deleteAWork(id){

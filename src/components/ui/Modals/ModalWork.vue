@@ -18,7 +18,7 @@
                                         It will be shared on your profile
                                     </c-form-helper-text>
                                 </c-form-control>
-                                <template v-if="modifying">
+                                <template v-if="!modifying">
                                     <c-form-control>
                                         <c-form-label for="thumbnail">A thumbnail for your work</c-form-label>
                                         <input required type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>

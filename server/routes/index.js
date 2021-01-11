@@ -75,6 +75,44 @@ router.get("/user/:identifier/work", async (req, res) => {
     }
 })
 
+router.put("/user/platform", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const {platform} = req.body;
+    try {
+        const result = await prisma.user.update({
+            where: {
+                id: req.session.user.id
+            },
+            data: {
+                Platform: { connect: { id: platform.id }}
+            }
+        });
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);   
+    }
+})
+
+router.delete("/user/platform/:identifier", async (req, res) => {
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
+    const id = parseInt(req.params.identifier);
+    try {
+        const result = await prisma.user.update({
+            where: {
+                id: req.session.user.id
+            },
+            data: {
+                Platform: { disconnect: { id }}
+            }
+        });
+        return res.status(200).send(result);
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send(error);   
+    }
+})
+
 /**
  * Récupere l'utilisateur connecté
  */
@@ -162,7 +200,7 @@ router.put("/user",async (req,res,next)=>{
         where:{
             id:parseInt(id)
         },
-        data:params
+        data: params
     });
     delete result.password;
     message.result = result;
@@ -183,23 +221,38 @@ router.delete("/user",async (req,res)=>{
     res.status(200).send(result);
 });
 
+const compare = (arr2) => {
+    return (current) => {
+        return arr2.filter((other) => {
+            return other.id == current.id
+        }).length == 0;
+    }
+}
+
 /**
  * Route recuperant les platformes d'un utilisateur (donné en parametre)
  * Si il n'y a pas d'utilisateur : renvoi de toutes les platformes
  */
 router.get("/platform",async (req,res)=>{
+    if(req.session.user == undefined)return res.status(403).send({message: "Please login first"});
     var idUser = req.query.userId;
     if(idUser != undefined){
-        var result = await prisma.user.findUnique({
+        let result = await prisma.user.findUnique({
             where:{
                 id:parseInt(idUser)
             }
         }).Platform();
-        console.log(result);
+        res.status(200).send({platforms: result});
     }else{
-        result = await prisma.platform.findMany({});
+        let result = await prisma.platform.findMany({});
+        let platforms = await prisma.user.findUnique({
+            where:{
+                id: req.session.user.id
+            }
+        }).Platform();
+        let difference = result.filter(compare(platforms));
+        res.status(200).send({platforms: {related: platforms, unrelated: difference}});
     }
-    res.send(result);
 });
 
 /**

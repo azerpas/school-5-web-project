@@ -15,6 +15,10 @@
                 :createProposal="createProposal"
                 :getUsers="getUsers"
                 :modifyUser="modifyUser"
+                :getUserWorks="getUserWorks"
+                :getPlatforms="getPlatforms"
+                :addPlatform="addPlatform"
+                :removePlatform="removePlatform"
             />
         </CBox>
     </div>
@@ -133,6 +137,15 @@
             },
             async getUserWorks(id){
                 return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}/work`, { withCredentials: true })
+            },
+            async getPlatforms(id){
+                return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/platform${id && id !== '' ? '?userId='+id : ''}`, { withCredentials: true })
+            },
+            async addPlatform(platform){
+                return await axios.put(`http://${process.env.VUE_APP_API_URL}/api/user/platform`, {platform}, { withCredentials: true })
+            },
+            async removePlatform(id){
+                return await axios.delete(`http://${process.env.VUE_APP_API_URL}/api/user/platform/${id}`, { withCredentials: true })
             }
 
         }
