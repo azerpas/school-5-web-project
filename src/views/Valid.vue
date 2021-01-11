@@ -22,12 +22,18 @@
 import {CButton,CBox,CIcon,CText} from "@chakra-ui/vue";
 
 export default {
-  components: {CButton,CBox,CIcon,CText},
-  props:{
-    user:Object
-  },
-  async mounted() {
-    if(!this.user.id)window.location.href="/";
-  },
+    components: {CButton,CBox,CIcon,CText},
+    props:{
+        user:Object
+    },
+    watch:{
+        user:{
+            handler(newValue){
+                if(!newValue.id) window.location.href="/";
+            },
+            deep: true,
+            immediate: true
+        }
+    }
 }
 </script>

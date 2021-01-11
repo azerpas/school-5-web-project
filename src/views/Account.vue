@@ -53,6 +53,15 @@ export default {
             works: null
         }
     },
+    watch:{
+        user:{
+            handler(newValue){
+                if(!newValue.id) window.location.href="/";
+            },
+            deep: true,
+            immediate: true
+        }
+    },
     async mounted(){
         const res = await this.getWorks();
         this.works = res.data;

@@ -50,7 +50,7 @@ require('dotenv').config()
           else this.user = null;
       },
       */
-      async beforeMount(){
+      async beforeCreate(){
         const user = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user`, { withCredentials: true })
         if(user.status === 200) this.user = user.data;
         else this.user = null;
