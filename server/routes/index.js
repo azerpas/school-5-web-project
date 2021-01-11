@@ -226,8 +226,12 @@ router.get("/proposal",async (req,res)=>{
 router.post("/proposal",async(req,res)=>{
     if(!req.session.user)return  res.status(403).send({message: "Please login first"})
     var currentUser = req.session.user;
-    var {userId,offer} = req.body;
+    var {userId,offer,description,expiration_date} = req.body;
     var data = {};
+    if(description != undefined)data.description=description;
+    if(expiration_date != undefined)data.expiration_date=new Date(expiration_date);
+    data.release_date = new Date();
+    data.statut = 'proposed';
     var currentUserId = parseInt(currentUser.id);
     userId = parseInt(userId);
     if(currentUser.roles == "ROLE_BRAND"){
@@ -243,11 +247,13 @@ router.post("/proposal",async(req,res)=>{
                 price:parseInt(offer.price),
                 unit:offer.unit,
                 custom:true,
-                id_user:userId
+                User:{
+                    connect:{id:userId}
+                }
             }
         };
     }else{
-        data.Offer = {connect : {id:offer}};
+        data.Offer = {connect : {id:parseInt(offer)}};
     }
     try{
         var result =  await prisma.proposal.create({

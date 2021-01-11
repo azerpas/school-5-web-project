@@ -11,6 +11,7 @@
                 :deleteWork="deleteWork"
                 :getOffer="getOffer"
                 :getUser="getUser"
+                :createProposal="createProposal"
             />
         </CBox>
     </div>
@@ -94,7 +95,14 @@
             },
             async getUser(id){
               return await axios.get(`http://${process.env.VUE_APP_API_URL}/api/user/${id}`, { withCredentials: true })
+            },
+            async createProposal(userId,offer,description,expiration_date){
+              const res =  await axios.post(`http://${process.env.VUE_APP_API_URL}/api/proposal/`, {userId:userId,offer:offer,description:description,expiration_date:expiration_date},{ withCredentials: true })
+              if(res.status == 200){
+                window.location.href = "/valid"
+              }
             }
+
         }
     }
 </script>
