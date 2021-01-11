@@ -4,7 +4,7 @@
             <AppNavbar :user="user" @logout="logout"/>
             <router-view
                 :user="user"
-                @login="login"
+                :login="login"
                 :register="register"
                 :addWork="addWork"
                 :modifyWork="modifyWork"
@@ -67,12 +67,16 @@
         },
         methods:{
             async login(username,password){
-                const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password}, { withCredentials: true });
-                if(res.status === 200){
-                    this.user = res.data;
-                    if(this.user.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
-                    if(this.user.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
-                }
+                  try{
+                    const res = await axios.post(`http://${process.env.VUE_APP_API_URL}/api/login`, {username, password}, { withCredentials: true });
+                    if(res.status === 200){
+                      this.user = res.data;
+                      if(this.user.roles === "ROLE_BRAND") window.location.href = ROUTES.SEARCH;
+                      if(this.user.roles === "ROLE_INFLUENCER") window.location.href = ROUTES.SEARCH;
+                    }
+                  }catch(error){
+                    return {message:"bad"}
+                  }
             },
             async logout(){
                 const res = await axios.get(`http://${process.env.VUE_APP_API_URL}/api/logout`, { withCredentials: true });
