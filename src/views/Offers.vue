@@ -19,17 +19,17 @@
         <CHeading as="h3" textAlign="center" color="white">{{ userP.name }}</CHeading>
         <hr style="margin: 0 1rem 0 1rem">
         <span style="padding: 0.5rem;color: black">{{ offers.length }} offer(s) available </span>
-        <c-radio-group align="left" m="5" id="test" @change="e=>{offerSelected=e}">
+        <c-radio-group align="left" m="5" id="test" @change="changeOffer">
           <c-radio :value="item.id" v-for="item in offers" :key="item.id">{{ item.price }} € / {{ item.unit }}</c-radio>
-          <c-radio value="custom" v-bind:aria-checked="disableCustom" >Custom</c-radio>
+          <c-radio value="custom"  >Custom</c-radio>
         </c-radio-group>
         <div class="custom_div">
           <label for="price" class="d-inline-block">Price :</label>
-          <c-input placeholder="price" mt="2" id="price" v-model="price"  v-bind:aria-disabled="disableCustom" class="d-inline-block" color="black"/>
+          <c-input placeholder="price" mt="2" id="price" v-model="price"  v-bind:isDisabled="disableCustom" class="d-inline-block" color="black"/>
         </div>
         <div class="custom_div">
           <label for="price" class="d-inline-block" >Unit :</label>
-          <c-select v-model="unit" class="d-inline-block"  v-bind:disabled="disableCustom" color="black">
+          <c-select v-model="unit" class="d-inline-block"  id="select_unit"  v-bind:isDisabled="disableCustom" color="black">
             <option value="video">video</option>
             <option value="minute">minute</option>
             <option value="hour">hour</option>
@@ -63,7 +63,7 @@ export default {
       date: "dd/mm/yyyy",
       unit: null,
       description: "",
-      disableCustom:false
+      disableCustom:true
     }
   },
   props: {
@@ -90,6 +90,19 @@ export default {
         }
       } else offer=this.offerSelected;
       this.createProposal(this.user.id,offer,this.description,this.date)
+    },
+    changeOffer(e){
+      if(e == "custom"){
+        document.getElementById("price").disabled = false;
+        document.getElementById("select_unit").children[0].disabled = false;
+        document.getElementById("price").setAttribute("aria-disabled",false);
+        document.getElementById("select_unit").children[0].setAttribute("aria-disabled",false);
+      }else{
+        document.getElementById("price").disabled = true;
+        document.getElementById("select_unit").children[0].disabled = true;
+        document.getElementById("price").setAttribute("aria-disabled",true);
+        document.getElementById("select_unit").children[0].setAttribute("aria-disabled",true);
+      }
     }
   }
 }
