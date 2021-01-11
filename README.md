@@ -2,17 +2,33 @@
 
 ## Bugs & Todo
 
-/account
+**/account**
 - La photo de profil ne s'affiche pas (refresh page)
 - Modification de la bio et du pseudo ne marche pas (sauf après déco??)
-/offers
+- Bouton modifier ne marche pas
+- Pas de possibilité d'ajouter ses offres
+- Pas de possibilité d'ajouter ses keywords
+- Cacher les platforms pour les marque    
+
+**/offers**
 - Offre custom disable le price & unit
+- Bouton retour     
+
+**/search**
+- Tester les select   
+- Récup keywords    
+- Affichage bio      
+- z-index       
+
+**Navbar**
+- Responsive - easy
+- Surlignage de la route actuelle
 
 ## Stack
 - NodeJS
 - ExpressJS
 - Postgresql 🐘
-- Prisma ⧩ ~~TypeOrm~~
+- Prisma ⧩
 - VueJS 2 💚
 - [Chakra UI](https://vue.chakra-ui.com/box)
 - Vercel ▲ & Heroku ? 
@@ -45,9 +61,6 @@ Plus simple d'utilisation avec Vanilla JS que TypeORM.
 **OR**
 - Modifier `./prisma/schema.prisma` manuellement    
 Utilisez: `npx prisma generate` pour regénérer l'API client ~_**à chaque fois**_~ qu'il y a une modification sur le schéma de la BD
-- ~~TypeORM doc~~
-- ~~TypeORM sur Vanilla JavaScript~~
-- ~~Exemple avec Express~~
 
 ## VUE
 - [Vue-Cli](https://cli.vuejs.org/guide/)
