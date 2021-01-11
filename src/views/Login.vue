@@ -2,22 +2,27 @@
     <main>
         <div class="login">
             <CFlex align="center" justify="center">
-                <form class="form-auth" @submit="login($event)">
+                <form class="form-auth" @submit="loginVue($event)">
                     <CStack spacing="5">
                         <CHeading class="form-head">LOG IN</CHeading>
                         <CFormControl is-required>
                             <CFormLabel for="username">Email</CFormLabel>
                             <CInputGroup>
-                                <CInputLeftElement><CIcon name="email" color="gray"/></CInputLeftElement>
-                                <CInput v-model="username" type="email" placeholder="youremail@gmail.com" id="username"/>
+                                <CInputLeftElement>
+                                <CIcon name="email" color="gray"/>
+                                </CInputLeftElement>
+                                <CInput v-model="username" type="email" placeholder="youremail@gmail.com" id="username" @change="() => { bad = false }"/>
                             </CInputGroup>
                         </CFormControl>
                         <CFormControl is-required>
                             <CFormLabel for="password">Password</CFormLabel>
-                            <CInput v-model="password" type="password" id="password"/>
+                            <CInput v-model="password" type="password" id="password" @change="() => { bad = false }"/>
                         </CFormControl>
+                        <c-text color="#C42231" fontWeight="bold" align="center" v-bind:display="(bad ? 'block' : 'none')">Bad email or password</c-text>
                         <c-button variantColor="indigo" variant="solid" type="submit" width="100%">Login</c-button>
-                        <p>Don't have an account yet? <router-link to="/register">Register here!</router-link></p>
+                        <p>Don't have an account yet?
+                            <router-link to="/register">Register here!</router-link>
+                        </p>
                     </CStack>
                 </form>
             </CFlex>
@@ -27,26 +32,36 @@
 
 <script>
 import '../assets/css/auth.css';
-import { CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading } from "@chakra-ui/vue"
+import {CFlex, CStack, CText, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading} from "@chakra-ui/vue"
+
 export default {
-    components:{
-        CFlex, CStack, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading
+    components: {
+        CFlex, CStack,CText, CInput, CInputGroup, CInputLeftElement, CIcon, CFormControl, CFormLabel, CButton, CHeading
     },
-    data (){
+    props: {
+        login: Function
+    },
+    data() {
         return {
             username: "",
-            password: ""
+            password: "",
+            bad:false
         }
     },
     methods: {
-        login(event){
+        async loginVue(event) {
             event.preventDefault();
-            this.$emit('login', this.username, this.password);
+            const res = await this.login(this.username, this.password);
+            if(res.message == "bad"){
+                this.password=""
+                this.bad = true;
+            }
+            console.log(res)
         }
     }
 }
 </script>
 
 <style>
-    
+
 </style>
