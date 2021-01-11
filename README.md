@@ -45,8 +45,7 @@ Utilisez: `npx prisma generate` pour regénérer l'API client ~_**à chaque fois
 ### Set-up: Database
 - [Install Postgresql](https://www.postgresqltutorial.com/install-postgresql/) if it's not installed     
 - Once Postgresql is running and set-up, `cd` to the this repository in your terminal and type `psql`      
-- `CREATE DATABASE eido;`
-- `\c eido` & `\i ./docs/eido.sql`      
+- `\i ./docs/eido.sql`      
 
 ## Bugs connus
 - [ ] La photo de profil ne s'affiche pas lors d'un refresh (problème au niveau de CAvatar)
