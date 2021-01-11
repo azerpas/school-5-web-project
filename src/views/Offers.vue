@@ -82,6 +82,7 @@ export default {
     createProposal: Function
   },
   async mounted() {
+    if(!this.user.id)window.location.href="/";
     var idUser = this.$route.params.identifier;
     const resO = await this.getOffer(idUser);
     console.log(resO);

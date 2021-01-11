@@ -25,6 +25,9 @@ export default {
   components: {CButton,CBox,CIcon,CText},
   props:{
     user:Object
-  }
+  },
+  async mounted() {
+    if(!this.user.id)window.location.href="/";
+  },
 }
 </script>
