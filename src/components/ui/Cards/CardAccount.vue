@@ -32,7 +32,7 @@
                 <template v-if="user.roles === 'ROLE_INFLUENCER'">
                     <CHeading as="h5" textAlign="center" color="gray.100" size="sm" fontWeight="500">Your platforms</CHeading>
                     <CGrid 
-                        :template-columns="{base: 'repeat(6, 1fr)', sm: 'repeat(4, 1fr)'}" 
+                        :template-columns="{base: 'repeat(2, 1fr)', sm: 'repeat(4, 1fr)'}" 
                         :gap="{base: '5', sm: '3'}"
                     >
                         <c-tag
@@ -63,7 +63,7 @@
                 </template>
                 <CHeading as="h5" textAlign="center" color="gray.100" size="sm" fontWeight="500">Your categories</CHeading>
                 <CGrid 
-                        :template-columns="{base: 'repeat(6, 1fr)', sm: 'repeat(4, 1fr)'}" 
+                        :template-columns="{base: 'repeat(3, 1fr)', sm: 'repeat(4, 1fr)'}" 
                         :gap="{base: '5', sm: '3'}"
                     >
                         <c-tag
